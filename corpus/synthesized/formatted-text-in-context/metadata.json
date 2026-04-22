@@ -1,0 +1,51 @@
+{
+  "id": "formatted-text-in-context",
+  "kind": "synthesized",
+  "schema_version": "0.1",
+  "title": "Formatted Text in Context",
+  "rendering": {
+    "engine": "pdflatex (TeX Live 2026)",
+    "class": "article",
+    "packages": ["geometry"],
+    "options": "12pt, margin=1in"
+  },
+  "pages": 1,
+  "purpose": "Diagnostic for italic/bold/monospace preservation across three document positions: body paragraph, table cell, footnote body. 9 (format × position) cells let us determine whether converter behavior is uniform or position-dependent.",
+  "structure": {
+    "body": {
+      "italic": "nimbus",
+      "bold": "stratus",
+      "monospace": "cumulus"
+    },
+    "table_cell": {
+      "italic": "beta",
+      "bold": "delta",
+      "monospace": "zeta",
+      "control_plain": ["alpha", "gamma", "epsilon"]
+    },
+    "footnote": {
+      "italic": "altocumulus",
+      "bold": "cirrus",
+      "monospace": "stratocumulus"
+    },
+    "glossary_anchor": "Section 4 lists all 9 tokens in plain text — content-presence anchor that does not leak format information"
+  },
+  "catalog_cells_exercised": [
+    "Layer 1 / italic / body / correctly_used",
+    "Layer 1 / italic / table cell / correctly_used",
+    "Layer 1 / italic / footnote / correctly_used",
+    "Layer 1 / bold / body / correctly_used",
+    "Layer 1 / bold / table cell / correctly_used",
+    "Layer 1 / bold / footnote / correctly_used",
+    "Layer 1 / inline_code / body / correctly_used",
+    "Layer 1 / inline_code / table cell / correctly_used",
+    "Layer 1 / inline_code / footnote / correctly_used"
+  ],
+  "ground_truth_basis": "source.tex (deterministic) + visual spot-check of source.pdf (verified 2026-04-22). Body text deliberately written as cloud/Greek-letter prose with no self-referential formatting hints; the Glossary section lists tokens plain to anchor content-presence without leaking format.",
+  "files": {
+    "source.tex": "Authored source",
+    "source.pdf": "Rendered output",
+    "probes.json": "20 probes: 9 paired content+format probes (one per cell), 1 cross-cell hallucination, 1 false-format hallucination (epsilon)",
+    "metadata.json": "this file"
+  }
+}
