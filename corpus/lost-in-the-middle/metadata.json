@@ -1,0 +1,25 @@
+{
+  "corpus_item_id": "lost-in-the-middle",
+  "title": "Lost in the Middle: How Language Models Use Long Contexts",
+  "authors": [
+    "Nelson F. Liu",
+    "Kevin Lin",
+    "John Hewitt",
+    "Ashwin Paranjape",
+    "Michele Bevilacqua",
+    "Fabio Petroni",
+    "Percy Liang"
+  ],
+  "venue": "TACL 2024",
+  "arxiv_id": "2307.03172",
+  "arxiv_url": "https://arxiv.org/abs/2307.03172",
+  "pages": 18,
+  "files": {
+    "pdf": "paper.pdf",
+    "source_archive": "arxiv-eprint",
+    "source_dir": "source/",
+    "main_tex": "source/tacl2021v1-template.tex"
+  },
+  "ground_truth_basis": "LaTeX source downloaded from arXiv e-print endpoint. Probes are grounded in source content; PDF is the converter's input.",
+  "added": "2026-04-22"
+}

@@ -1,0 +1,238 @@
+\begin{thebibliography}{47}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{Arampatzis et~al.(2009)Arampatzis, Kamps, and Robertson}]{arampatzis2009stop}
+Avi Arampatzis, Jaap Kamps, and Stephen Robertson. 2009.
+\newblock Where to stop reading a ranked list? threshold optimization using truncated score distributions.
+\newblock In \emph{Proc. of SIGIR}.
+
+\bibitem[{Beltagy et~al.(2020)Beltagy, Peters, and Cohan}]{beltagy2020longformer}
+Iz~Beltagy, Matthew~E. Peters, and Arman Cohan. 2020.
+\newblock Longformer: The long-document transformer.
+\newblock ArXiv:2004.05150.
+
+\bibitem[{Chung et~al.(2022)Chung, Hou, Longpre, Zoph, Tay, Fedus, Li, Wang, Dehghani, Brahma, Webson, Gu, Dai, Suzgun, Chen, Chowdhery, Castro-Ros, Pellat, Robinson, Valter, Narang, Mishra, Yu, Zhao, Huang, Dai, Yu, Petrov, Chi, Dean, Devlin, Roberts, Zhou, Le, and Wei}]{chung2022scaling}
+Hyung~Won Chung, Le~Hou, Shayne Longpre, Barret Zoph, Yi~Tay, William Fedus, Yunxuan Li, Xuezhi Wang, Mostafa Dehghani, Siddhartha Brahma, Albert Webson, Shixiang~Shane Gu, Zhuyun Dai, Mirac Suzgun, Xinyun Chen, Aakanksha Chowdhery, Alex Castro-Ros, Marie Pellat, Kevin Robinson, Dasha Valter, Sharan Narang, Gaurav Mishra, Adams Yu, Vincent Zhao, Yanping Huang, Andrew Dai, Hongkun Yu, Slav Petrov, Ed~H. Chi, Jeff Dean, Jacob Devlin, Adam Roberts, Denny Zhou, Quoc~V. Le, and Jason Wei. 2022.
+\newblock Scaling instruction-finetuned language models.
+\newblock ArXiv:2210.11416.
+
+\bibitem[{Dai et~al.(2019)Dai, Yang, Yang, Carbonell, Le, and Salakhutdinov}]{dai-etal-2019-transformer}
+Zihang Dai, Zhilin Yang, Yiming Yang, Jaime Carbonell, Quoc Le, and Ruslan Salakhutdinov. 2019.
+\newblock Transformer-{XL}: Attentive language models beyond a fixed-length context.
+\newblock In \emph{Proc. of ACL}.
+
+\bibitem[{Daniluk et~al.(2017)Daniluk, Rockt{\"a}schel, Welbl, and Riedel}]{daniluk2017frustratingly}
+Micha{\l} Daniluk, Tim Rockt{\"a}schel, Johannes Welbl, and Sebastian Riedel. 2017.
+\newblock Frustratingly short attention spans in neural language modeling.
+\newblock In \emph{Proc. of ICLR}.
+
+\bibitem[{Dao et~al.(2022)Dao, Fu, Ermon, Rudra, and Ré}]{dao2022flashattention}
+Tri Dao, Daniel~Y. Fu, Stefano Ermon, Atri Rudra, and Christopher Ré. 2022.
+\newblock {FlashAttention}: Fast and memory-efficient exact attention with {IO}-awareness.
+\newblock ArXiv:2205.14135.
+
+\bibitem[{Ebbinghaus(1913)}]{ebbinghaus1913memory}
+Hermann Ebbinghaus. 1913.
+\newblock Memory: A contribution to experimental psychology.
+\newblock \emph{H. A. Ruger \& C. E. Bussenius, Trans.}
+
+\bibitem[{Gu et~al.(2022)Gu, Goel, and Ré}]{gu2022efficiently}
+Albert Gu, Karan Goel, and Christopher Ré. 2022.
+\newblock Efficiently modeling long sequences with structured state spaces.
+\newblock In \emph{Proc. of ICLR}.
+
+\bibitem[{Ivgi et~al.(2023)Ivgi, Shaham, and Berant}]{ivgi-etal-2023-efficient}
+Maor Ivgi, Uri Shaham, and Jonathan Berant. 2023.
+\newblock Efficient long-text understanding with short-text models.
+\newblock \emph{Transactions of the Association for Computational Linguistics}, 11:284--299.
+
+\bibitem[{Izacard et~al.(2021)Izacard, Caron, Hosseini, Riedel, Bojanowski, Joulin, and Grave}]{izacard2021contriever}
+Gautier Izacard, Mathilde Caron, Lucas Hosseini, Sebastian Riedel, Piotr Bojanowski, Armand Joulin, and Edouard Grave. 2021.
+\newblock Unsupervised dense information retrieval with contrastive learning.
+\newblock ArXiv:2112.09118.
+
+\bibitem[{Izacard and Grave(2021)}]{izacard-grave-2021-leveraging}
+Gautier Izacard and Edouard Grave. 2021.
+\newblock Leveraging passage retrieval with generative models for open domain question answering.
+\newblock In \emph{Proc. of EACL}.
+
+\bibitem[{Kandpal et~al.(2022)Kandpal, Deng, Roberts, Wallace, and Raffel}]{kandpal2022large}
+Nikhil Kandpal, Haikang Deng, Adam Roberts, Eric Wallace, and Colin Raffel. 2022.
+\newblock Large language models struggle to learn long-tail knowledge.
+\newblock ArXiv:2211.08411.
+
+\bibitem[{Khandelwal et~al.(2018)Khandelwal, He, Qi, and Jurafsky}]{khandelwal-etal-2018-sharp}
+Urvashi Khandelwal, He~He, Peng Qi, and Dan Jurafsky. 2018.
+\newblock Sharp nearby, fuzzy far away: How neural language models use context.
+\newblock In \emph{Proc. of ACL}.
+
+\bibitem[{Krishna et~al.(2022)Krishna, Chang, Wieting, and Iyyer}]{krishna2022rankgen}
+Kalpesh Krishna, Yapei Chang, John Wieting, and Mohit Iyyer. 2022.
+\newblock {R}ank{G}en: Improving text generation with large ranking models.
+\newblock In \emph{Proc. of EMNLP}.
+
+\bibitem[{Kwiatkowski et~al.(2019)Kwiatkowski, Palomaki, Redfield, Collins, Parikh, Alberti, Epstein, Polosukhin, Devlin, Lee, Toutanova, Jones, Kelcey, Chang, Dai, Uszkoreit, Le, and Petrov}]{kwiatkowski-etal-2019-natural}
+Tom Kwiatkowski, Jennimaria Palomaki, Olivia Redfield, Michael Collins, Ankur Parikh, Chris Alberti, Danielle Epstein, Illia Polosukhin, Jacob Devlin, Kenton Lee, Kristina Toutanova, Llion Jones, Matthew Kelcey, Ming-Wei Chang, Andrew~M. Dai, Jakob Uszkoreit, Quoc Le, and Slav Petrov. 2019.
+\newblock {Natural Questions}: A benchmark for question answering research.
+\newblock \emph{Transactions of the Association for Computational Linguistics}, 7:452--466.
+
+\bibitem[{Lee et~al.(2019)Lee, Chang, and Toutanova}]{lee-etal-2019-latent}
+Kenton Lee, Ming-Wei Chang, and Kristina Toutanova. 2019.
+\newblock Latent retrieval for weakly supervised open domain question answering.
+\newblock In \emph{Proc. of ACL}.
+
+\bibitem[{Lee et~al.(2022)Lee, Liang, and Yang}]{lee2022coauthor}
+Mina Lee, Percy Liang, and Qian Yang. 2022.
+\newblock {CoAuthor}: Designing a human-{AI} collaborative writing dataset for exploring language model capabilities.
+\newblock In \emph{Proc. of CHI}.
+
+\bibitem[{Li et~al.(2023)Li, Shao, Xie, Sheng, Zheng, Gonzalez, Stoica, Ma, , and Zhang}]{longchat2023}
+Dacheng Li, Rulin Shao, Anze Xie, Ying Sheng, Lianmin Zheng, Joseph~E. Gonzalez, Ion Stoica, Xuezhe Ma, , and Hao Zhang. 2023.
+\newblock \href {https://lmsys.org/blog/2023-06-29-longchat} {How long can open-source {LLM}s truly promise on context length?}
+
+\bibitem[{Mallen et~al.(2023)Mallen, Asai, Zhong, Das, Khashabi, and Hajishirzi}]{mallen2023trust}
+Alex Mallen, Akari Asai, Victor Zhong, Rajarshi Das, Daniel Khashabi, and Hannaneh Hajishirzi. 2023.
+\newblock When not to trust language models: Investigating effectiveness of parametric and non-parametric memories.
+\newblock In \emph{Proc. of ACL}.
+
+\bibitem[{Min et~al.(2020)Min, Michael, Hajishirzi, and Zettlemoyer}]{min-etal-2020-ambigqa}
+Sewon Min, Julian Michael, Hannaneh Hajishirzi, and Luke Zettlemoyer. 2020.
+\newblock {A}mbig{QA}: Answering ambiguous open-domain questions.
+\newblock In \emph{Proc. of EMNLP}.
+
+\bibitem[{Murdock~Jr(1962)}]{murdock1962serial}
+Bennet~B. Murdock~Jr. 1962.
+\newblock The serial position effect of free recall.
+\newblock \emph{Journal of experimental psychology}, 64(5):482.
+
+\bibitem[{O{'}Connor and Andreas(2021)}]{oconnor-andreas-2021-context}
+Joe O{'}Connor and Jacob Andreas. 2021.
+\newblock What context features can {T}ransformer language models use?
+\newblock In \emph{Proc. of ACL}.
+
+\bibitem[{Papailiopoulos et~al.(2023)Papailiopoulos, Lee, and Sohn}]{littleretrievaltest}
+Dimitris Papailiopoulos, Kangwook Lee, and Jy-yong Sohn. 2023.
+\newblock A little retrieval test for large language models.
+\newblock \url{https://github.com/anadim/the-little-retrieval-test}.
+
+\bibitem[{Peng(2023)}]{PENG_RWKV-LM_2021}
+Bo~Peng. 2023.
+\newblock {RWKV-LM}.
+\newblock \url{https://github.com/BlinkDL/RWKV-LM}.
+
+\bibitem[{Peng et~al.(2021)Peng, Pappas, Yogatama, Schwartz, Smith, and Kong}]{peng2021random}
+Hao Peng, Nikolaos Pappas, Dani Yogatama, Roy Schwartz, Noah Smith, and Lingpeng Kong. 2021.
+\newblock Random feature attention.
+\newblock In \emph{Proc. of ICLR}.
+
+\bibitem[{Petroni et~al.(2020)Petroni, Lewis, Piktus, Rockt{\"a}schel, Wu, Miller, and Riedel}]{petroni2020context}
+Fabio Petroni, Patrick Lewis, Aleksandra Piktus, Tim Rockt{\"a}schel, Yuxiang Wu, Alexander~H Miller, and Sebastian Riedel. 2020.
+\newblock How context affects language models' factual predictions.
+\newblock In \emph{Proc. of AKBC}.
+
+\bibitem[{Poli et~al.(2023)Poli, Massaroli, Nguyen, Fu, Dao, Baccus, Bengio, Ermon, and R{\'e}}]{poli2023hyena}
+Michael Poli, Stefano Massaroli, Eric Nguyen, Daniel~Y. Fu, Tri Dao, Stephen Baccus, Yoshua Bengio, Stefano Ermon, and Christopher R{\'e}. 2023.
+\newblock Hyena hierarchy: Towards larger convolutional language models.
+\newblock In \emph{Proc. of ICML}.
+
+\bibitem[{Press et~al.(2021)Press, Smith, and Lewis}]{press-etal-2021-shortformer}
+Ofir Press, Noah~A. Smith, and Mike Lewis. 2021.
+\newblock Shortformer: Better language modeling using shorter inputs.
+\newblock In \emph{Proc. of ACL}.
+
+\bibitem[{Press et~al.(2022)Press, Smith, and Lewis}]{press2022train}
+Ofir Press, Noah~A. Smith, and Mike Lewis. 2022.
+\newblock Train short, test long: Attention with linear biases enables input length extrapolation.
+\newblock In \emph{Proc. of ICLR}.
+
+\bibitem[{Qin et~al.(2023)Qin, Feng, and Van~Durme}]{qin-etal-2023-nlp}
+Guanghui Qin, Yukun Feng, and Benjamin Van~Durme. 2023.
+\newblock The {NLP} task effectiveness of long-range transformers.
+\newblock In \emph{Proc. of EACL}.
+
+\bibitem[{Raffel et~al.(2020)Raffel, Shazeer, Roberts, Lee, Narang, Matena, Zhou, Li, and Liu}]{JMLR:v21:20-074}
+Colin Raffel, Noam Shazeer, Adam Roberts, Katherine Lee, Sharan Narang, Michael Matena, Yanqi Zhou, Wei Li, and Peter~J. Liu. 2020.
+\newblock Exploring the limits of transfer learning with a unified text-to-text {T}ransformer.
+\newblock \emph{Journal of Machine Learning Research}, 21(140):1--67.
+
+\bibitem[{Ram et~al.(2023)Ram, Levine, Dalmedigos, Muhlgay, Shashua, Leyton-Brown, and Shoham}]{ram2023incontext}
+Ori Ram, Yoav Levine, Itay Dalmedigos, Dor Muhlgay, Amnon Shashua, Kevin Leyton-Brown, and Yoav Shoham. 2023.
+\newblock In-context retrieval-augmented language models.
+\newblock ArXiv:2302.00083.
+
+\bibitem[{Rubin and Berant(2023)}]{rubin2023longrange}
+Ohad Rubin and Jonathan Berant. 2023.
+\newblock Long-range language modeling with self-retrieval.
+\newblock ArXiv:2306.13421.
+
+\bibitem[{Sankar et~al.(2019)Sankar, Subramanian, Pal, Chandar, and Bengio}]{sankar2019neural}
+Chinnadhurai Sankar, Sandeep Subramanian, Chris Pal, Sarath Chandar, and Yoshua Bengio. 2019.
+\newblock Do neural dialog systems use the conversation history effectively? an empirical study.
+\newblock In \emph{Proc. of ACL}.
+
+\bibitem[{Schick et~al.(2023)Schick, Dwivedi-Yu, Dessì, Raileanu, Lomeli, Zettlemoyer, Cancedda, and Scialom}]{schick2023toolformer}
+Timo Schick, Jane Dwivedi-Yu, Roberto Dessì, Roberta Raileanu, Maria Lomeli, Luke Zettlemoyer, Nicola Cancedda, and Thomas Scialom. 2023.
+\newblock Toolformer: Language models can teach themselves to use tools.
+
+\bibitem[{Shaham et~al.(2023)Shaham, Ivgi, Efrat, Berant, and Levy}]{shaham2023zeroscrolls}
+Uri Shaham, Maor Ivgi, Avia Efrat, Jonathan Berant, and Omer Levy. 2023.
+\newblock {ZeroSCROLLS}: A zero-shot benchmark for long text understanding.
+\newblock ArXiv:2305.14196.
+
+\bibitem[{Sharan et~al.(2018)Sharan, Kakade, Liang, and Valiant}]{sharan2018prediction}
+Vatsal Sharan, Sham Kakade, Percy Liang, and Gregory Valiant. 2018.
+\newblock Prediction with a short memory.
+\newblock In \emph{Proc. of STOC}.
+
+\bibitem[{Shi et~al.(2023)Shi, Min, Yasunaga, Seo, James, Lewis, Zettlemoyer, and tau Yih}]{shi2023replug}
+Weijia Shi, Sewon Min, Michihiro Yasunaga, Minjoon Seo, Rich James, Mike Lewis, Luke Zettlemoyer, and Wen tau Yih. 2023.
+\newblock {REPLUG}: Retrieval-augmented black-box language models.
+\newblock ArXiv:2301.12652.
+
+\bibitem[{Shuster et~al.(2022)Shuster, Xu, Komeili, Ju, Smith, Roller, Ung, Chen, Arora, Lane, Behrooz, Ngan, Poff, Goyal, Szlam, Boureau, Kambadur, and Weston}]{shuster2022blenderbot}
+Kurt Shuster, Jing Xu, Mojtaba Komeili, Da~Ju, Eric~Michael Smith, Stephen Roller, Megan Ung, Moya Chen, Kushal Arora, Joshua Lane, Morteza Behrooz, William Ngan, Spencer Poff, Naman Goyal, Arthur Szlam, Y-Lan Boureau, Melanie Kambadur, and Jason Weston. 2022.
+\newblock {BlenderBot 3}: a deployed conversational agent that continually learns to responsibly engage.
+\newblock ArXiv:2208.03188.
+
+\bibitem[{Sun et~al.(2021)Sun, Krishna, Mattarella-Micke, and Iyyer}]{sun-etal-2021-long}
+Simeng Sun, Kalpesh Krishna, Andrew Mattarella-Micke, and Mohit Iyyer. 2021.
+\newblock Do long-range language models actually use long-range context?
+\newblock In \emph{Proc. of EMNLP}.
+
+\bibitem[{Tay et~al.(2023)Tay, Dehghani, Tran, Garcia, Wei, Wang, Chung, Shakeri, Bahri, Schuster, Zheng, Zhou, Houlsby, and Metzler}]{tay2023ul2}
+Yi~Tay, Mostafa Dehghani, Vinh~Q. Tran, Xavier Garcia, Jason Wei, Xuezhi Wang, Hyung~Won Chung, Siamak Shakeri, Dara Bahri, Tal Schuster, Huaixiu~Steven Zheng, Denny Zhou, Neil Houlsby, and Donald Metzler. 2023.
+\newblock {UL2}: Unifying language learning paradigms.
+\newblock ArXiv:2205.05131.
+
+\bibitem[{Thoppilan et~al.(2022)Thoppilan, Freitas, Hall, Shazeer, Kulshreshtha, Cheng, Jin, Bos, Baker, Du, Li, Lee, Zheng, Ghafouri, Menegali, Huang, Krikun, Lepikhin, Qin, Chen, Xu, Chen, Roberts, Bosma, Zhao, Zhou, Chang, Krivokon, Rusch, Pickett, Srinivasan, Man, Meier-Hellstern, Morris, Doshi, Santos, Duke, Soraker, Zevenbergen, Prabhakaran, Diaz, Hutchinson, Olson, Molina, Hoffman-John, Lee, Aroyo, Rajakumar, Butryna, Lamm, Kuzmina, Fenton, Cohen, Bernstein, Kurzweil, Aguera-Arcas, Cui, Croak, Chi, and Le}]{thoppilan2022lamda}
+Romal Thoppilan, Daniel~De Freitas, Jamie Hall, Noam Shazeer, Apoorv Kulshreshtha, Heng-Tze Cheng, Alicia Jin, Taylor Bos, Leslie Baker, Yu~Du, YaGuang Li, Hongrae Lee, Huaixiu~Steven Zheng, Amin Ghafouri, Marcelo Menegali, Yanping Huang, Maxim Krikun, Dmitry Lepikhin, James Qin, Dehao Chen, Yuanzhong Xu, Zhifeng Chen, Adam Roberts, Maarten Bosma, Vincent Zhao, Yanqi Zhou, Chung-Ching Chang, Igor Krivokon, Will Rusch, Marc Pickett, Pranesh Srinivasan, Laichee Man, Kathleen Meier-Hellstern, Meredith~Ringel Morris, Tulsee Doshi, Renelito~Delos Santos, Toju Duke, Johnny Soraker, Ben Zevenbergen, Vinodkumar Prabhakaran, Mark Diaz, Ben Hutchinson, Kristen Olson, Alejandra Molina, Erin Hoffman-John, Josh Lee, Lora Aroyo, Ravi Rajakumar, Alena Butryna, Matthew Lamm, Viktoriya Kuzmina, Joe Fenton, Aaron Cohen, Rachel Bernstein, Ray Kurzweil, Blaise Aguera-Arcas, Claire Cui, Marian Croak, Ed~Chi, and Quoc Le. 2022.
+\newblock {LaMDA}: Language models for dialog applications.
+\newblock ArXiv:2201.08239.
+
+\bibitem[{Touvron et~al.(2023{\natexlab{a}})Touvron, Lavril, Izacard, Martinet, Lachaux, Lacroix, Rozière, Goyal, Hambro, Azhar, Rodriguez, Joulin, Grave, and Lample}]{touvron2023llama}
+Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timothée Lacroix, Baptiste Rozière, Naman Goyal, Eric Hambro, Faisal Azhar, Aurelien Rodriguez, Armand Joulin, Edouard Grave, and Guillaume Lample. 2023{\natexlab{a}}.
+\newblock {LLaMA}: Open and efficient foundation language models.
+\newblock ArXiv:2302.13971.
+
+\bibitem[{Touvron et~al.(2023{\natexlab{b}})Touvron, Martin, Stone, Albert, Almahairi, Babaei, Bashlykov, Batra, Bhargava, Bhosale, Bikel, Blecher, Ferrer, Chen, Cucurull, Esiobu, Fernandes, Fu, Fu, Fuller, Gao, Goswami, Goyal, Hartshorn, Hosseini, Hou, Inan, Kardas, Kerkez, Khabsa, Kloumann, Korenev, Koura, Lachaux, Lavril, Lee, Liskovich, Lu, Mao, Martinet, Mihaylov, Mishra, Molybog, Nie, Poulton, Reizenstein, Rungta, Saladi, Schelten, Silva, Smith, Subramanian, Tan, Tang, Taylor, Williams, Kuan, Xu, Yan, Zarov, Zhang, Fan, Kambadur, Narang, Rodriguez, Stojnic, Edunov, and Scialom}]{touvron2023llama2}
+Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert, Amjad Almahairi, Yasmine Babaei, Nikolay Bashlykov, Soumya Batra, Prajjwal Bhargava, Shruti Bhosale, Dan Bikel, Lukas Blecher, Cristian~Canton Ferrer, Moya Chen, Guillem Cucurull, David Esiobu, Jude Fernandes, Jeremy Fu, Wenyin Fu, Brian Fuller, Cynthia Gao, Vedanuj Goswami, Naman Goyal, Anthony Hartshorn, Saghar Hosseini, Rui Hou, Hakan Inan, Marcin Kardas, Viktor Kerkez, Madian Khabsa, Isabel Kloumann, Artem Korenev, Punit~Singh Koura, Marie-Anne Lachaux, Thibaut Lavril, Jenya Lee, Diana Liskovich, Yinghai Lu, Yuning Mao, Xavier Martinet, Todor Mihaylov, Pushkar Mishra, Igor Molybog, Yixin Nie, Andrew Poulton, Jeremy Reizenstein, Rashi Rungta, Kalyan Saladi, Alan Schelten, Ruan Silva, Eric~Michael Smith, Ranjan Subramanian, Xiaoqing~Ellen Tan, Binh Tang, Ross Taylor, Adina Williams, Jian~Xiang Kuan, Puxin Xu, Zheng Yan, Iliyan Zarov, Yuchen Zhang, Angela Fan, Melanie Kambadur, Sharan Narang, Aurelien Rodriguez, Robert Stojnic, Sergey Edunov, and Thomas
+  Scialom. 2023{\natexlab{b}}.
+\newblock Llama 2: Open foundation and fine-tuned chat models.
+\newblock ArXiv:2307.09288.
+
+\bibitem[{Vaswani et~al.(2017)Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez, Kaiser, and Polosukhin}]{10.5555/3295222.3295349}
+Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan~N. Gomez, \L{}ukasz Kaiser, and Illia Polosukhin. 2017.
+\newblock Attention is all you need.
+\newblock In \emph{Proc. of NeurIPS}.
+
+\bibitem[{Wang et~al.(2020)Wang, Li, Khabsa, Fang, and Ma}]{Wang2020LinformerSW}
+Sinong Wang, Belinda~Z. Li, Madian Khabsa, Han Fang, and Hao Ma. 2020.
+\newblock Linformer: Self-attention with linear complexity.
+\newblock ArXiv:2006.04768.
+
+\bibitem[{Zaheer et~al.(2020)Zaheer, Guruganesh, Dubey, Ainslie, Alberti, Ontanon, Pham, Ravula, Wang, Yang, and Ahmed}]{zaheer2020big}
+Manzil Zaheer, Guru Guruganesh, Kumar~Avinava Dubey, Joshua Ainslie, Chris Alberti, Santiago Ontanon, Philip Pham, Anirudh Ravula, Qifan Wang, Li~Yang, and Amr Ahmed. 2020.
+\newblock {Big Bird}: {T}ransformers for longer sequences.
+\newblock In \emph{Proc. of NeurIPS}.
+
+\end{thebibliography}

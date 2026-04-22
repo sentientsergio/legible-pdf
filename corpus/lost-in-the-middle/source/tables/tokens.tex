@@ -1,0 +1,50 @@
+\begin{table*}[h]
+    \centering
+    \begin{tabular}{@{}lcccc@{}}
+\toprule
+&  \multicolumn{2}{c}{Closed-Book} &  \multicolumn{2}{c}{Oracle}\\
+\cmidrule(l){2-3} \cmidrule(l){4-5}
+& avg $\pm$ stdev & max & avg $\pm$ stdev & max\\
+\midrule
+    \longchat & 55.6 $\pm$ 2.7 & 70 & 219.7 $\pm$ 48.5 & 588 \\
+    \mpt & 43.5 $\pm$ 2.2 & 58 & 187.9 $\pm$ 41.8 & 482 \\
+    \gptturbo & 15.3 $\pm$ 2.2 & 29 & 156.0 $\pm$ 41.8 & 449 \\
+    \claude & 15.3 $\pm$ 2.2 & 29 & 156.0 $\pm$ 41.8 & 449 \\
+    \bottomrule
+    \end{tabular}
+    \caption{Token count statistics for each of the evaluated models on the closed-book and oracle multi-document question answering settings.}\label{tab:qa_oracle_closedbook_tokens}
+\end{table*}
+
+\begin{table*}[h]
+    \centering
+    \begin{tabular}{@{}lcccccc@{}}
+\toprule
+&  \multicolumn{2}{c}{10 docs} &  \multicolumn{2}{c}{20 docs} &  \multicolumn{2}{c}{30 docs}\\
+\cmidrule(l){2-3} \cmidrule(l){4-5} \cmidrule(l){6-7}
+& avg $\pm$ stdev & max & avg $\pm$ stdev & max & avg $\pm$ stdev & max \\
+\midrule
+    \longchat & 1749.9 $\pm$ 112.4 & 2511 & 3464.6 $\pm$ 202.3 & 4955 & 5181.9 $\pm$ 294.7 & 7729 \\
+    \mpt & 1499.7 $\pm$ 88.5 & 1907 & 2962.4 $\pm$ 158.4 & 3730 & 4426.9 $\pm$ 230.5 & 5475 \\
+    \gptturbo & 1475.6 $\pm$ 86.5 & 1960 & 2946.2 $\pm$ 155.1 & 3920 & 4419.2 $\pm$ 226.5 & 6101\\
+    \claude & 1475.6 $\pm$ 86.5 & 1960 & 2946.2 $\pm$ 155.1 & 3920 & 4419.2 $\pm$ 226.5 & 6101\\
+    \bottomrule
+    \end{tabular}
+    \caption{Token count statistics for each of the evaluated models on each of the document question answering settings.}\label{tab:qa_tokens}
+\end{table*}
+
+\begin{table*}[h]
+    \centering
+    \begin{tabular}{@{}lcccccc@{}}
+\toprule
+&  \multicolumn{2}{c}{75 KV pairs} &  \multicolumn{2}{c}{140 KV pairs} &  \multicolumn{2}{c}{300 KV pairs}\\
+\cmidrule(l){2-3} \cmidrule(l){4-5} \cmidrule(l){6-7}
+& avg $\pm$ stdev & max & avg $\pm$ stdev & max & avg $\pm$ stdev & max \\
+\midrule
+    \longchat & 5444.5 $\pm$ 19.1 & 5500 & 10072.4 $\pm$ 24.1 & 10139 & 21467.3 $\pm$ 35.9 & 21582 \\
+    \mpt & 4110.5 $\pm$ 23.8 & 4187 & 7600.9 $\pm$ 31.1 & 7687 & 16192.4 $\pm$ 46.6 & 16319 \\
+    \gptturbo & 3768.7 $\pm$ 25.6 & 3844 & 6992.8 $\pm$ 34.1 & 7088 & 14929.4 $\pm$ 50.7 & 15048\\
+    \claude & 3768.7 $\pm$ 25.6 & 3844 & 6992.8 $\pm$ 34.1 & 7088 & 14929.4 $\pm$ 50.7 & 15048\\
+    \bottomrule
+    \end{tabular}
+    \caption{Token count statistics for each of the evaluated models on each of the key-value (KV) retrieval settings.}\label{tab:kv_tokens}
+\end{table*}
