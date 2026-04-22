@@ -48,3 +48,6 @@ out/
 results/
 .cache/
 *.log
+
+# Agent infrastructure (per-clone, not project policy)
+CLAUDE.md
