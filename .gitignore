@@ -43,6 +43,10 @@ htmlcov/
 *~
 .DS_Store
 
+# Secrets
+.env
+.env.*
+
 # Project-specific
 out/
 results/
@@ -54,3 +58,22 @@ CLAUDE.md
 
 # Corpus raw downloads (redundant with extracted source/)
 corpus/*/arxiv-eprint
+
+# MinerU intermediate artifacts (keep paper.md, honesty_profile.json, images/)
+corpus/*/output/*/paper/auto/paper_origin.pdf
+corpus/*/output/*/paper/auto/paper_layout.pdf
+corpus/*/output/*/paper/auto/paper_span.pdf
+corpus/*/output/*/paper/auto/paper_content_list*.json
+corpus/*/output/*/paper/auto/paper_middle.json
+corpus/*/output/*/paper/auto/paper_model.json
+
+# LaTeX byproducts
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz

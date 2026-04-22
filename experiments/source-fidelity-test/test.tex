@@ -1,0 +1,87 @@
+\documentclass{article}
+
+\title{Source-Fidelity Test: Stock article.cls}
+\author{legible-pdf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Heading-One Section}
+
+This paragraph tests basic body text. The next sentence has the word \textit{italic} marked
+with \texttt{\textbackslash textit\{\}}, which should render in italic. The phrase
+``\emph{emphatic}'' is marked with \texttt{\textbackslash emph\{\}}, which in stock
+article.cls also renders italic. The word \textbf{bold} is marked with
+\texttt{\textbackslash textbf\{\}}, which should render in bold.
+
+The OpenAI model identifier \texttt{0613} is marked with \texttt{\textbackslash texttt\{\}},
+which should render in monospace.
+
+\subsection{Heading-Two Subsection}
+
+This subsection is nested under the section above.
+
+\subsubsection{Heading-Three Subsubsection}
+
+This subsubsection is nested under the subsection above.
+
+\section{Lists}
+
+A bulleted list of three items follows:
+
+\begin{itemize}
+    \item First bullet item.
+    \item Second bullet item.
+    \item Third bullet item.
+\end{itemize}
+
+A numbered list of three items follows:
+
+\begin{enumerate}
+    \item First numbered item.
+    \item Second numbered item.
+    \item Third numbered item.
+\end{enumerate}
+
+\section{Code Block}
+
+A verbatim block follows:
+
+\begin{verbatim}
+def hello(name):
+    print(f"Hello, {name}")
+\end{verbatim}
+
+\section{Table}
+
+A table with two columns and two data rows follows:
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|r|}
+        \hline
+        \textbf{Model} & \textbf{Accuracy} \\
+        \hline
+        GPT-3.5-Turbo & 56.1\% \\
+        Claude-1.3 & 73.4\% \\
+        \hline
+    \end{tabular}
+    \caption{Sample accuracy table.}
+\end{table}
+
+\section{Quote}
+
+A block quote follows:
+
+\begin{quote}
+    This is a block quotation. It should render with a left margin offset
+    and possibly italic, depending on the class.
+\end{quote}
+
+\section{Footnote}
+
+This sentence has a footnote.\footnote{This is the footnote content. It should appear at
+the bottom of the page in the rendered PDF.}
+
+\end{document}
