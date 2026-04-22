@@ -1,0 +1,31 @@
+{
+  "id": "nested-headings-unnumbered",
+  "kind": "synthesized",
+  "schema_version": "0.1",
+  "title": "Nested Headings Unnumbered: Hierarchy Test (No Numbering)",
+  "rendering": {
+    "engine": "pdflatex (TeX Live 2026)",
+    "class": "article",
+    "packages": ["geometry"],
+    "options": "12pt, margin=1in, secnumdepth=-2"
+  },
+  "pages": 2,
+  "purpose": "Diagnostic counterpart to nested-headings-deep. Same hierarchical structure (9 headings across 3 depth levels) but with all numbering suppressed (secnumdepth=-2). The visual font-size difference is the SOLE signal of nesting. A converter that flattens heading depth loses hierarchy entirely here because there is no numbering to recover from. Together with nested-headings-deep, this enables the precise finding: 'MinerU's flatten strategy is honest when source carries numbering, lossy when it does not.'",
+  "structure": {
+    "depth_1": ["Apple", "Grape"],
+    "depth_2": ["Banana (under Apple)", "Elderberry (under Apple)", "Honeydew (under Grape)"],
+    "depth_3": ["Cherry (under Banana)", "Date (under Banana)", "Fig (under Elderberry)", "Iceberg (under Honeydew)"]
+  },
+  "catalog_cells_exercised": [
+    "Layer 1 / heading / depth-only signal (no numbering) / correctly_used",
+    "Layer 1 / heading / nested-hierarchy / correctly_used",
+    "Layer 1 / heading / sibling-relationship / correctly_used"
+  ],
+  "ground_truth_basis": "source.tex (authored deterministically) + visual spot-check of source.pdf (verified 2026-04-22). Body text deliberately neutral fruit-encyclopedia content with no self-referential hierarchy hints — the LLM judge cannot answer hierarchy probes from body text leakage; it must read the markdown structure.",
+  "files": {
+    "source.tex": "Authored source (secnumdepth=-2)",
+    "source.pdf": "Rendered output — visual heading sizes only, no numbers",
+    "probes.json": "10 probes by construction, paired with nested-headings-deep",
+    "metadata.json": "this file"
+  }
+}

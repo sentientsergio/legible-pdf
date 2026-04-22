@@ -1,0 +1,43 @@
+{
+  "id": "nested-headings-deep",
+  "kind": "synthesized",
+  "schema_version": "0.1",
+  "title": "Nested Headings Deep: Hierarchy Test",
+  "rendering": {
+    "engine": "pdflatex (TeX Live 2026)",
+    "class": "article",
+    "packages": ["geometry"],
+    "options": "12pt, margin=1in, secnumdepth=3"
+  },
+  "pages": 2,
+  "purpose": "Exercise heading hierarchy preservation across three depth levels (\\section / \\subsection / \\subsubsection). Directly tests Sprint 2's MinerU-flattens-headings hypothesis by providing a deliberately authored hierarchy with 9 headings at known depths.",
+  "structure": {
+    "depth_1": ["Apple", "Grape"],
+    "depth_2": {
+      "Banana (under Apple)": "depth 2",
+      "Elderberry (under Apple)": "depth 2",
+      "Honeydew (under Grape)": "depth 2"
+    },
+    "depth_3": {
+      "Cherry (under Banana)": "depth 3",
+      "Date (under Banana)": "depth 3",
+      "Fig (under Elderberry)": "depth 3",
+      "Iceberg (under Honeydew)": "depth 3"
+    }
+  },
+  "catalog_cells_exercised": [
+    "Layer 1 / heading / depth-1 / correctly_used",
+    "Layer 1 / heading / depth-2 / correctly_used",
+    "Layer 1 / heading / depth-3 / correctly_used",
+    "Layer 1 / heading / nested-hierarchy / correctly_used",
+    "Layer 1 / heading / sibling-relationship / correctly_used"
+  ],
+  "ground_truth_basis": "source.tex (authored deterministically) + visual spot-check of source.pdf (verified 2026-04-22). Source-anchored ground truth reliable here because rendering pipeline is stock article.cls.",
+  "files": {
+    "source.tex": "Authored source",
+    "source.pdf": "Rendered output",
+    "probes.json": "10 probes by construction (3 content presence, 4 hierarchy, 1 absolute depth, 2 hallucination)",
+    "metadata.json": "this file",
+    "output/<converter>/...": "Per-converter results"
+  }
+}

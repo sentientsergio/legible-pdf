@@ -1,0 +1,198 @@
+{
+  "corpus_item_id": "nested-headings-deep",
+  "schema_version": "0.2",
+  "markdown_path": "corpus/synthesized/nested-headings-deep/output/mineru/source/auto/source.md",
+  "probes_path": "corpus/synthesized/nested-headings-deep/probes.json",
+  "model": "claude-haiku-4-5-20251001",
+  "runs_per_probe": 3,
+  "scoring_rule": "Unanimous-agreement: a probe matches only if all runs agree AND the agreed answer matches expected. Disputed probes (runs disagree) are not counted as matches and are reported as a probe-quality signal.",
+  "summary": {
+    "total_probes": 10,
+    "matches": 10,
+    "disputed": 0,
+    "overall_rate": 1.0,
+    "capture": {
+      "n": 8,
+      "matches": 8,
+      "rate": 1.0
+    },
+    "hallucination": {
+      "n": 2,
+      "matches": 2,
+      "rate": 1.0
+    }
+  },
+  "disputed_probes": [],
+  "probe_results": [
+    {
+      "id": "hd-c01",
+      "kind": "capture",
+      "feature": "heading_presence",
+      "mode": "correctly_used",
+      "question": "Does the document contain a heading whose text is exactly 'Apple'?",
+      "expected": "yes",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "ground_truth_basis": "Source: \\section{Apple} renders as a top-level numbered heading in the PDF. Verified visually."
+    },
+    {
+      "id": "hd-c02",
+      "kind": "capture",
+      "feature": "heading_presence",
+      "mode": "correctly_used",
+      "question": "Does the document contain a heading whose text is exactly 'Cherry'?",
+      "expected": "yes",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "ground_truth_basis": "Source: \\subsubsection{Cherry} renders as a third-level numbered heading (1.1.1) in the PDF. Verified visually."
+    },
+    {
+      "id": "hd-c03",
+      "kind": "capture",
+      "feature": "heading_presence",
+      "mode": "correctly_used",
+      "question": "Does the document contain a heading whose text is exactly 'Iceberg'?",
+      "expected": "yes",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "ground_truth_basis": "Source: \\subsubsection{Iceberg} renders as a third-level numbered heading (2.1.1) on page 2. Verified visually."
+    },
+    {
+      "id": "hd-h01",
+      "kind": "capture",
+      "feature": "heading_hierarchy",
+      "mode": "correctly_used",
+      "question": "Based on the document, is the heading 'Banana' presented as nested under (a child of) the heading 'Apple', whether by markdown heading depth, by numbering convention, or by any other clear signal?",
+      "expected": "yes",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "ground_truth_basis": "Source: Banana is \\subsection nested under Apple's \\section. Rendered PDF shows Banana below Apple with smaller heading font and numbering 1.1 vs 1. Either markdown depth (### vs ##) OR preserved numbering (1.1 vs 1) is an honest encoding of nesting; this probe accepts any preserved signal."
+    },
+    {
+      "id": "hd-h02",
+      "kind": "capture",
+      "feature": "heading_hierarchy",
+      "mode": "correctly_used",
+      "question": "Based on the document, is the heading 'Cherry' presented as nested under (a child of) the heading 'Banana', whether by markdown heading depth, by numbering convention, or by any other clear signal?",
+      "expected": "yes",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "ground_truth_basis": "Source: Cherry is \\subsubsection nested under Banana's \\subsection. PDF shows Cherry under Banana with smaller heading and numbering 1.1.1 vs 1.1. Either markdown depth or numbering is honest preservation."
+    },
+    {
+      "id": "hd-h03",
+      "kind": "capture",
+      "feature": "heading_hierarchy",
+      "mode": "correctly_used",
+      "question": "Based on the document, are the headings 'Cherry' and 'Date' presented as siblings (at the same nesting level under the same parent), whether the signal comes from markdown heading depth, numbering convention, or any other clear cue?",
+      "expected": "yes",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "ground_truth_basis": "Source: Both Cherry and Date are \\subsubsection under the same \\subsection (Banana). PDF shows them at same heading size with numbering 1.1.1 and 1.1.2."
+    },
+    {
+      "id": "hd-h04",
+      "kind": "capture",
+      "feature": "heading_hierarchy",
+      "mode": "correctly_used",
+      "question": "Based on the document, are the headings 'Apple' and 'Grape' presented as siblings (at the same nesting level), whether the signal comes from markdown heading depth, numbering convention, or any other clear cue?",
+      "expected": "yes",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "ground_truth_basis": "Source: Both are \\section. PDF shows both at top-level heading size with numbering 1 and 2."
+    },
+    {
+      "id": "hd-d01",
+      "kind": "capture",
+      "feature": "heading_depth_signal",
+      "mode": "correctly_used",
+      "question": "Based on the document, can a reader determine that 'Cherry' is at the third level of nesting (not the first or second), whether the signal comes from markdown heading depth, numbering convention (e.g., 1.1.1), or any other clear cue?",
+      "expected": "yes",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "ground_truth_basis": "Source: Cherry is \\subsubsection \u2014 third nesting level. Numbering 1.1.1 in the rendered PDF directly conveys this. A converter that flattens depth but preserves '1.1.1' in the heading text passes; a converter that drops both depth AND numbering would fail."
+    },
+    {
+      "id": "hd-x01",
+      "kind": "hallucination",
+      "feature": "heading",
+      "mode": "hallucinated",
+      "question": "Does the document contain a heading whose text is exactly 'Jackfruit'?",
+      "expected": "no",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true,
+      "ground_truth_basis": "Source contains no \\section, \\subsection, or \\subsubsection with text 'Jackfruit'. The fruit names in the source are: Apple, Banana, Cherry, Date, Elderberry, Fig, Grape, Honeydew, Iceberg."
+    },
+    {
+      "id": "hd-x02",
+      "kind": "hallucination",
+      "feature": "heading_depth",
+      "mode": "hallucinated",
+      "question": "In the markdown, does any heading line start with five or more '#' characters?",
+      "expected": "no",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true,
+      "ground_truth_basis": "Source uses only \\section, \\subsection, \\subsubsection (three depth levels). The deepest legitimate emission, even with title-shift convention (title at #, sections at ##, subsections at ###, subsubsections at ####), is four '#' characters. Five or more would be hallucinated extra depth that no source heading justifies."
+    }
+  ]
+}
