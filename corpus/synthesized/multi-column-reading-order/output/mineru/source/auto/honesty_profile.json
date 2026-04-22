@@ -1,0 +1,198 @@
+{
+  "corpus_item_id": "multi-column-reading-order",
+  "schema_version": "0.2",
+  "markdown_path": "corpus/synthesized/multi-column-reading-order/output/mineru/source/auto/source.md",
+  "probes_path": "corpus/synthesized/multi-column-reading-order/probes.json",
+  "model": "claude-haiku-4-5-20251001",
+  "runs_per_probe": 3,
+  "scoring_rule": "Unanimous-agreement: a probe matches only if all runs agree AND the agreed answer matches expected. Disputed probes (runs disagree) are not counted as matches and are reported as a probe-quality signal.",
+  "summary": {
+    "total_probes": 10,
+    "matches": 10,
+    "disputed": 0,
+    "overall_rate": 1.0,
+    "capture": {
+      "n": 8,
+      "matches": 8,
+      "rate": 1.0
+    },
+    "hallucination": {
+      "n": 2,
+      "matches": 2,
+      "rate": 1.0
+    }
+  },
+  "disputed_probes": [],
+  "probe_results": [
+    {
+      "id": "rd-01",
+      "kind": "capture",
+      "feature": "reading_order",
+      "mode": "correctly_used",
+      "question": "In the document, does the text 'Marker 01' appear before the text 'Marker 02'?",
+      "expected": "yes",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "ground_truth_basis": "Source authored with Markers 01-20 in numerical order. Rendered PDF (visually verified) confirms Marker 01 is the first marker in column 1 of page 1, Marker 02 immediately follows. Same column, no boundary crossing."
+    },
+    {
+      "id": "rd-02",
+      "kind": "capture",
+      "feature": "reading_order",
+      "mode": "correctly_used",
+      "question": "In the document, does the text 'Marker 05' appear before the text 'Marker 06'?",
+      "expected": "yes",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "ground_truth_basis": "Rendered PDF confirms Marker 05 is the last marker in column 1 of page 1; Marker 06 is the first marker in column 2 of page 1. This probe tests column-boundary reading order on a single page. A converter that streams columns as separate sequences may emit Marker 06 before Marker 05."
+    },
+    {
+      "id": "rd-03",
+      "kind": "capture",
+      "feature": "reading_order",
+      "mode": "correctly_used",
+      "question": "In the document, does the text 'Marker 10' appear before the text 'Marker 11'?",
+      "expected": "yes",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "ground_truth_basis": "Rendered PDF confirms Marker 10 is the last marker on page 1 (column 2); Marker 11 is the first marker on page 2 (column 1). This probe tests page-boundary reading order. A converter that streams page-1-col-1 then page-2-col-1 then page-1-col-2 then page-2-col-2 will fail this."
+    },
+    {
+      "id": "rd-04",
+      "kind": "capture",
+      "feature": "reading_order",
+      "mode": "correctly_used",
+      "question": "In the document, does the text 'Marker 15' appear before the text 'Marker 16'?",
+      "expected": "yes",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "ground_truth_basis": "Rendered PDF confirms Marker 15 is the last marker in column 1 of page 2; Marker 16 is the first marker in column 2 of page 2. Tests column-boundary reading order on the second page."
+    },
+    {
+      "id": "rd-05",
+      "kind": "capture",
+      "feature": "reading_order",
+      "mode": "correctly_used",
+      "question": "In the document, does the text 'Marker 20' appear after the text 'Marker 19'?",
+      "expected": "yes",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "ground_truth_basis": "Rendered PDF confirms Marker 20 is the final marker in the body section, immediately following Marker 19 in column 2 of page 2. Reverse phrasing (does X appear after Y) tests the same property as 'before' from the opposite direction."
+    },
+    {
+      "id": "rd-06",
+      "kind": "capture",
+      "feature": "reading_order",
+      "mode": "correctly_used",
+      "question": "In the document, does the sentence mentioning a 'telescope' appear before the sentence mentioning a 'kettle'?",
+      "expected": "yes",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "ground_truth_basis": "Source: Marker 03 mentions telescope; Marker 04 mentions kettle. Rendered PDF places Marker 03 in column 1 of page 1, Marker 04 immediately following. Probe tests whether reading order is preserved using content references rather than marker numbers (some converters may strip or reformat the explicit 'Marker NN' labels)."
+    },
+    {
+      "id": "rd-07",
+      "kind": "capture",
+      "feature": "reading_order",
+      "mode": "correctly_used",
+      "question": "In the document, does the sentence mentioning a 'compass' appear before the sentence mentioning a 'lantern'?",
+      "expected": "yes",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "ground_truth_basis": "Source: Marker 07 mentions compass (column 2 of page 1); Marker 11 mentions lantern (column 1 of page 2). Probe tests content-order across both column AND page boundaries."
+    },
+    {
+      "id": "rd-08",
+      "kind": "capture",
+      "feature": "content_presence",
+      "mode": "correctly_used",
+      "question": "Does the document mention all twenty sequential markers, from 'Marker 01' through 'Marker 20'?",
+      "expected": "yes",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "ground_truth_basis": "Source contains 20 markers numbered 01 through 20 in the multicols body. Paired with reading-order probes \u2014 if reading order is wrong but content-presence is intact, this probe passes while order probes fail. If content is dropped, this probe fails too. Distinguishes 'scrambled' from 'truncated' converter behavior."
+    },
+    {
+      "id": "rd-09",
+      "kind": "hallucination",
+      "feature": "reading_order",
+      "mode": "hallucinated",
+      "question": "Does the document contain a 'Marker 21' or any marker numbered higher than 20?",
+      "expected": "no",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true,
+      "ground_truth_basis": "Source contains exactly 20 markers (01 through 20). No Marker 21. Tests whether converter invents content beyond what is present in the PDF."
+    },
+    {
+      "id": "rd-10",
+      "kind": "hallucination",
+      "feature": "content_presence",
+      "mode": "hallucinated",
+      "question": "Does the document mention a microscope?",
+      "expected": "no",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true,
+      "ground_truth_basis": "Source's seven distinct topical nouns are: telescope, kettle, compass, lantern, harpoon, anchor, sextant. Microscope is deliberately excluded as a hallucination distractor \u2014 testing whether the converter (or the LLM judge) hallucinates content thematically related to the actual content."
+    }
+  ]
+}

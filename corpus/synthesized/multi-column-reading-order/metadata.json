@@ -1,0 +1,27 @@
+{
+  "id": "multi-column-reading-order",
+  "kind": "synthesized",
+  "schema_version": "0.1",
+  "title": "Reading Order Test: Two Columns Across Pages",
+  "rendering": {
+    "engine": "pdflatex (TeX Live 2026)",
+    "class": "article",
+    "packages": ["multicol", "geometry"],
+    "options": "12pt, margin=1.25in, columnsep=0.4in"
+  },
+  "pages": 2,
+  "purpose": "Exercise Layer 0 reading-order preservation across two-column layouts and page boundaries. Markers 01-20 are explicit sequential anchors; topical nouns (telescope, kettle, compass, lantern, harpoon, anchor, sextant) provide content-based order references.",
+  "catalog_cells_exercised": [
+    "Layer 0 / reading order / multi-column / correctly_used",
+    "Layer 0 / reading order / page-boundary / correctly_used",
+    "Layer 0 / content presence / sequential markers / correctly_used",
+    "Layer 1 / italic / topical nouns via \\emph / correctly_used"
+  ],
+  "ground_truth_basis": "source.tex (authored deterministically) + visual spot-check of source.pdf (verified 2026-04-22). Source-anchored ground truth is reliable here because the rendering pipeline is stock article.cls + pdflatex, which the source-fidelity-test experiment confirmed faithful for catalog features.",
+  "files": {
+    "source.tex": "Authored source",
+    "source.pdf": "Rendered output (this is the PDF converters consume)",
+    "probes.json": "Probes authored by construction",
+    "output/<converter>/...": "Per-converter results"
+  }
+}
