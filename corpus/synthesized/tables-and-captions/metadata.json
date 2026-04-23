@@ -1,0 +1,54 @@
+{
+  "id": "tables-and-captions",
+  "kind": "synthesized",
+  "schema_version": "0.1",
+  "title": "Reference Tables in Body Text (tables-and-captions diagnostic)",
+  "rendering": {
+    "engine": "pdflatex (TeX Live 2026)",
+    "class": "article",
+    "packages": ["geometry", "booktabs"],
+    "options": "12pt, margin=1in"
+  },
+  "pages": 2,
+  "purpose": "Diagnostic for table-presentation preservation across two tables with mixed-content cells (text, bold headers, integers, decimal numbers, inline math), captions, and inline cross-references. Builds on Sprint 3's formatted-text-in-context finding (MinerU emits HTML <table> rather than markdown table syntax) by adding caption preservation and cross-reference resolution. Source uses topical, leak-free section titles (First Three Elements, Astronomical Distances, Glossary) and content-bearing prose that frames the tables without describing their structure.",
+  "structure": {
+    "table_1": {
+      "caption": "Atomic properties of the first three elements.",
+      "label": "tab:elements",
+      "headers": ["Element", "Symbol", "Atomic Number", "Atomic Mass (u)"],
+      "rows": [
+        ["Hydrogen", "H", "1", "1.008"],
+        ["Helium", "He", "2", "4.0026"],
+        ["Lithium", "Li", "3", "6.94"]
+      ]
+    },
+    "table_2": {
+      "caption": "Approximate distances of selected solar-system objects.",
+      "label": "tab:distances",
+      "headers": ["Object", "Distance (AU)"],
+      "rows": [
+        ["Moon", "0.0026"],
+        ["Mars", "1.524"],
+        ["Jupiter", "5.203"],
+        ["Saturn", "9.539"]
+      ]
+    },
+    "inline_math": "$Z = 1$ in body text after Table 1",
+    "cross_references": "Table~\\ref{tab:elements} appears twice; Table~\\ref{tab:distances} appears twice",
+    "glossary_anchor": "Section 3 lists all element names, symbols, numbers, planet names, and AU distances in plain prose; also notes that two captioned tables appear"
+  },
+  "catalog_cells_exercised": [
+    "Layer 1 / table / correctly_used",
+    "Layer 1 / bold / table_header_cell / correctly_used",
+    "Layer 1 / inline_math / body / correctly_used",
+    "Layer 1 / caption / correctly_used",
+    "Layer 1 / cross_reference / correctly_used"
+  ],
+  "ground_truth_basis": "source.tex (deterministic) + visual spot-check of source.pdf (verified 2026-04-22). Body prose names the topic ('lightest three elements... appear at the top of the first row') without describing tabular structure; the Glossary section anchors content-presence by listing all values plain.",
+  "files": {
+    "source.tex": "Authored source",
+    "source.pdf": "Rendered output",
+    "probes.json": "12 probes: 2 paired content/format tables + bold + numeric + math + 2 captions + 1 cross-ref + 2 hallucination",
+    "metadata.json": "this file"
+  }
+}

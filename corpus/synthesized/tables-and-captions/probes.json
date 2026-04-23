@@ -1,0 +1,115 @@
+{
+  "corpus_item_id": "tables-and-captions",
+  "schema_version": "0.2",
+  "schema_notes": "v0.2 probe shape (Sprint 3): paired content/format probes, 'any clear signal' wording, N=3 unanimous-agreement. Tests two-table document with mixed-content cells (text, bold, numbers, math), captions, and inline cross-references. Each table has a paired content-presence probe and a structural-presentation probe ('is this presented AS a table by any clear encoding'). Bold-in-cell, math-in-cell, caption preservation, and table-reference resolution each have their own probes. Glossary section serves as content-presence anchor.",
+  "probes": [
+    {
+      "id": "tc-t1-c",
+      "kind": "capture",
+      "feature": "content_presence",
+      "mode": "correctly_used",
+      "question": "Does the document mention all three of: Hydrogen, Helium, and Lithium?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source Section 1 table rows and Section 3 Glossary."
+    },
+    {
+      "id": "tc-t1-f",
+      "kind": "capture",
+      "feature": "table",
+      "mode": "correctly_used",
+      "question": "In the document, are 'Hydrogen', 'Helium', and 'Lithium' presented together with their atomic numbers and atomic masses in a tabular structure (markdown table syntax with pipes, HTML <table> tags, aligned-column plain text, or any other clear table-presentation signal)?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source Section 1 has \\begin{tabular}{lccc} with header row Element/Symbol/Atomic Number/Atomic Mass and three data rows. Rendered PDF shows a four-column ruled table. Probe accepts any clear table encoding."
+    },
+    {
+      "id": "tc-t2-c",
+      "kind": "capture",
+      "feature": "content_presence",
+      "mode": "correctly_used",
+      "question": "Does the document mention all four of: Moon, Mars, Jupiter, and Saturn?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source Section 2 table rows and Section 3 Glossary."
+    },
+    {
+      "id": "tc-t2-f",
+      "kind": "capture",
+      "feature": "table",
+      "mode": "correctly_used",
+      "question": "In the document, are 'Moon', 'Mars', 'Jupiter', and 'Saturn' presented together with their AU distances in a tabular structure (markdown table syntax with pipes, HTML <table> tags, aligned-column plain text, or any other clear table-presentation signal)?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source Section 2 has \\begin{tabular}{lc} with header row Object/Distance and four data rows. Rendered PDF shows a two-column ruled table. Probe accepts any clear table encoding."
+    },
+    {
+      "id": "tc-bold",
+      "kind": "capture",
+      "feature": "bold",
+      "mode": "correctly_used",
+      "question": "In the document, are the table column headers (such as 'Element', 'Symbol', 'Atomic Number', 'Atomic Mass', 'Object', 'Distance') visually distinguished from data cells via any clear formatting signal — for example markdown bold (**text**), HTML <strong> or <th> tags, separator-row markdown table headers, or any other encoding that marks them as headers?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source uses \\textbf{} on every header cell. Rendered PDF shows bold header rows separated by \\toprule/\\midrule. Probe accepts any clear header-distinction signal."
+    },
+    {
+      "id": "tc-num",
+      "kind": "capture",
+      "feature": "content_presence",
+      "mode": "correctly_used",
+      "question": "Does the document contain the numeric values '1.008', '4.0026', and '6.94' associated with the first three elements?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source Section 1 table data rows. Rendered PDF shows these values in the Atomic Mass column."
+    },
+    {
+      "id": "tc-math",
+      "kind": "capture",
+      "feature": "inline_math",
+      "mode": "correctly_used",
+      "question": "Does the document contain a mathematical expression equivalent to 'Z = 1' (or 'Z=1') in the body text after the first table — whether as inline LaTeX ($Z = 1$), unicode math, plain-text 'Z = 1', or any other clear math-expression encoding?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source Section 1 body text contains 'the atomic number $Z = 1$'. Rendered PDF shows italicized Z, equals sign, 1. Probe accepts any clear encoding of the equation."
+    },
+    {
+      "id": "tc-cap1",
+      "kind": "capture",
+      "feature": "caption",
+      "mode": "correctly_used",
+      "question": "In the document, is there a caption associated with the first (elements) table that contains the phrase 'first three elements' or equivalent wording (e.g., 'Atomic properties of the first three elements')?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source Section 1: \\caption{Atomic properties of the first three elements.}. Rendered PDF shows 'Table 1: Atomic properties of the first three elements.' below or above the table."
+    },
+    {
+      "id": "tc-cap2",
+      "kind": "capture",
+      "feature": "caption",
+      "mode": "correctly_used",
+      "question": "In the document, is there a caption associated with the second (distances) table that mentions 'distances' and 'solar-system objects' (or equivalent wording)?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source Section 2: \\caption{Approximate distances of selected solar-system objects.}. Rendered PDF shows this caption associated with the second table."
+    },
+    {
+      "id": "tc-ref",
+      "kind": "capture",
+      "feature": "cross_reference",
+      "mode": "correctly_used",
+      "question": "In the document, does the body text contain at least one explicit reference to a numbered table (e.g., 'Table 1', 'Table 2', or equivalent), as opposed to only describing the table's content without a label?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source uses Table~\\ref{tab:elements} and Table~\\ref{tab:distances} four times across body text. Rendered PDF shows 'Table 1' and 'Table 2' references resolved. Probe checks whether the table label ('Table N') survives in the converted body."
+    },
+    {
+      "id": "tc-x01",
+      "kind": "hallucination",
+      "feature": "content_presence",
+      "mode": "hallucinated",
+      "question": "Does the document mention 'Beryllium' (atomic number 4)?",
+      "expected_answer": "no",
+      "ground_truth_basis": "Source contains only Hydrogen, Helium, and Lithium (atomic numbers 1, 2, 3). Beryllium is the next element by atomic number — a thematic distractor not present in the source."
+    },
+    {
+      "id": "tc-x02",
+      "kind": "hallucination",
+      "feature": "caption",
+      "mode": "hallucinated",
+      "question": "In the document, is there a third table (Table 3) with its own caption?",
+      "expected_answer": "no",
+      "ground_truth_basis": "Source contains exactly two tables (Table 1: elements, Table 2: distances). Tests whether the converter or judge invents an additional table or caption."
+    }
+  ]
+}

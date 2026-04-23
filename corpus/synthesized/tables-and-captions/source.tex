@@ -1,0 +1,69 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\setlength{\parskip}{0.5em}
+
+\title{Reference Tables in Body Text}
+\author{legible-pdf synthesized corpus}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{First Three Elements}
+
+The lightest three elements of the periodic table appear at the top of the
+first row and the start of the second row. Their properties are summarized
+in Table~\ref{tab:elements}.
+
+\begin{table}[h]
+\centering
+\caption{Atomic properties of the first three elements.}
+\label{tab:elements}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Element} & \textbf{Symbol} & \textbf{Atomic Number} & \textbf{Atomic Mass (u)} \\
+\midrule
+Hydrogen & H & 1 & 1.008 \\
+Helium   & He & 2 & 4.0026 \\
+Lithium  & Li & 3 & 6.94 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+As shown in Table~\ref{tab:elements}, atomic mass increases monotonically
+across these three elements, and the symbol $\mathrm{H}$ corresponds to
+the atomic number $Z = 1$.
+
+\section{Astronomical Distances}
+
+Selected nearby objects in the solar system are listed in
+Table~\ref{tab:distances}, with distances given in astronomical units.
+
+\begin{table}[h]
+\centering
+\caption{Approximate distances of selected solar-system objects.}
+\label{tab:distances}
+\begin{tabular}{lc}
+\toprule
+\textbf{Object} & \textbf{Distance (AU)} \\
+\midrule
+Moon    & 0.0026 \\
+Mars    & 1.524 \\
+Jupiter & 5.203 \\
+Saturn  & 9.539 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The figures in Table~\ref{tab:distances} reflect mean orbital radii rather
+than instantaneous separations, which vary with orbital position.
+
+\section{Glossary}
+
+The document mentions: Hydrogen, Helium, Lithium, H, He, Li,
+atomic numbers 1, 2, 3, atomic masses 1.008, 4.0026, 6.94,
+Moon, Mars, Jupiter, Saturn, and astronomical units 0.0026, 1.524,
+5.203, 9.539. Two tables appear in the document, both with captions.
+
+\end{document}
