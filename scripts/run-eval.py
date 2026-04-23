@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Honesty-profile harness for legible-pdf.
+Honesty-profile harness for legible-pdf (v0.3 schema).
 
 For each probe in probes.json, send the converter's markdown output as context
 to an LLM along with the probe question, capture the answer N times, compute
@@ -13,11 +13,16 @@ Usage:
 Default model: claude-haiku-4-5-20251001 (fast, cheap, sufficient for yes/no probes).
 Default runs: 3 (Sprint 3 unanimous-agreement discipline).
 
-Sprint 3 scoring rule:
-- A probe scores as a match only if all N runs are unanimous AND the unanimous
-  answer matches expected.
-- Disputed probes (runs disagree) are NOT counted toward the rate but are
-  reported separately in the profile as a probe-quality signal.
+v0.3 scoring (three probe classes reported independently):
+- content      — honesty / LLM-reader-equivalence
+- readability  — rule-based structural preservation (for humans previewing markdown)
+- provenance   — rule-based positional coordinates (for LLM-analysts citing sources)
+
+A probe scores as a match only if all N runs are unanimous AND the unanimous
+answer matches expected. Disputed probes (runs disagree) are NOT counted toward
+the rate but are reported separately as a probe-quality signal.
+
+See docs/failure-mode-catalog.md v0.3 amendments for the taxonomy.
 """
 
 import argparse
@@ -30,6 +35,8 @@ from anthropic import Anthropic
 
 DEFAULT_MODEL = "claude-haiku-4-5-20251001"
 DEFAULT_RUNS = 3
+
+PROBE_CLASSES = ("content", "readability", "provenance")
 
 SYSTEM_PROMPT = (
     "You are answering yes/no questions about a document. "
@@ -78,9 +85,9 @@ def evaluate_probe(client: Anthropic, model: str, markdown: str, probe: dict, ru
 
     return {
         "id": probe["id"],
-        "kind": probe["kind"],
-        "feature": probe["feature"],
-        "mode": probe["mode"],
+        "probe_class": probe["probe_class"],
+        "feature": probe.get("feature", ""),
+        "rule": probe.get("rule", ""),
         "question": probe["question"],
         "expected": expected,
         "runs": answers,
@@ -91,8 +98,22 @@ def evaluate_probe(client: Anthropic, model: str, markdown: str, probe: dict, ru
     }
 
 
+def score_class(results: list, cls: str) -> dict:
+    """Compute per-class scoring summary."""
+    group = [r for r in results if r["probe_class"] == cls]
+    disputed = [r for r in group if r["agreement"] == "disputed"]
+    matches = sum(r["match"] for r in group)
+    rate = (matches / len(group)) if group else 0.0
+    return {
+        "n": len(group),
+        "matches": matches,
+        "rate": rate,
+        "disputed": len(disputed),
+    }
+
+
 def main() -> int:
-    ap = argparse.ArgumentParser(description="legible-pdf honesty-profile harness")
+    ap = argparse.ArgumentParser(description="legible-pdf honesty-profile harness (v0.3 schema)")
     ap.add_argument("--markdown", required=True, help="Path to converter's markdown output")
     ap.add_argument("--probes", required=True, help="Path to probes.json")
     ap.add_argument("--output", default=None, help="Path for honesty profile (default: alongside markdown)")
@@ -117,12 +138,26 @@ def main() -> int:
     probes_data = json.loads(probes_path.read_text())
     probes = probes_data["probes"]
 
+    # Sanity-check schema version
+    schema_version = probes_data.get("schema_version", "?")
+    if schema_version != "0.3":
+        print(f"WARNING: probes.json schema_version is {schema_version!r}, harness expects 0.3. "
+              f"Run will proceed but may fail if probe shape has changed.", file=sys.stderr)
+
+    # Validate every probe has a known probe_class
+    for p in probes:
+        pc = p.get("probe_class")
+        if pc not in PROBE_CLASSES:
+            print(f"ERROR: probe {p.get('id', '?')} has invalid probe_class: {pc!r}. "
+                  f"Must be one of {PROBE_CLASSES}.", file=sys.stderr)
+            return 2
+
     client = Anthropic()  # uses ANTHROPIC_API_KEY env var
 
     print(f"Running {len(probes)} probes against {markdown_path.name} "
           f"(model: {args.model}, runs/probe: {args.runs})\n")
-    print(f"  {'ID':<8} {'KIND':<14} {'FEATURE':<18} {'EXPECTED':<10} {'AGREEMENT':<11} {'ANSWER':<10} MATCH")
-    print(f"  {'-' * 8} {'-' * 14} {'-' * 18} {'-' * 10} {'-' * 11} {'-' * 10} -----")
+    print(f"  {'ID':<10} {'CLASS':<12} {'FEATURE':<18} {'RULE':<18} {'EXPECTED':<8} {'AGREEMENT':<11} {'ANSWER':<10} MATCH")
+    print(f"  {'-' * 10} {'-' * 12} {'-' * 18} {'-' * 18} {'-' * 8} {'-' * 11} {'-' * 10} -----")
 
     results = []
     for probe in probes:
@@ -134,47 +169,26 @@ def main() -> int:
         else:
             mark = "DSPT"
             answer_display = "/".join(r["runs"])
-        print(f"  {r['id']:<8} {r['kind']:<14} {r['feature']:<18} {r['expected']:<10} "
-              f"{r['agreement']:<11} {answer_display:<10} {mark}")
+        print(f"  {r['id']:<10} {r['probe_class']:<12} {r['feature']:<18} {r['rule']:<18} "
+              f"{r['expected']:<8} {r['agreement']:<11} {answer_display:<10} {mark}")
 
-    capture = [r for r in results if r["kind"] == "capture"]
-    halc = [r for r in results if r["kind"] == "hallucination"]
-    disputed = [r for r in results if r["agreement"] == "disputed"]
-
-    def rate(group):
-        if not group:
-            return 0.0
-        return sum(r["match"] for r in group) / len(group)
-
-    capture_rate = rate(capture)
-    halc_rate = rate(halc)
-    overall = rate(results)
+    scores = {cls: score_class(results, cls) for cls in PROBE_CLASSES}
+    all_disputed = [r["id"] for r in results if r["agreement"] == "disputed"]
 
     profile = {
         "corpus_item_id": probes_data.get("corpus_item_id"),
-        "schema_version": probes_data.get("schema_version"),
+        "schema_version": schema_version,
         "markdown_path": str(markdown_path),
         "probes_path": str(probes_path),
         "model": args.model,
         "runs_per_probe": args.runs,
-        "scoring_rule": "Unanimous-agreement: a probe matches only if all runs agree AND the agreed answer matches expected. Disputed probes (runs disagree) are not counted as matches and are reported as a probe-quality signal.",
-        "summary": {
-            "total_probes": len(results),
-            "matches": sum(r["match"] for r in results),
-            "disputed": len(disputed),
-            "overall_rate": overall,
-            "capture": {
-                "n": len(capture),
-                "matches": sum(r["match"] for r in capture),
-                "rate": capture_rate,
-            },
-            "hallucination": {
-                "n": len(halc),
-                "matches": sum(r["match"] for r in halc),
-                "rate": halc_rate,
-            },
-        },
-        "disputed_probes": [r["id"] for r in disputed],
+        "scoring_rule": (
+            "Unanimous-agreement: a probe matches only if all runs agree AND the agreed "
+            "answer matches expected. Three probe classes (content / readability / provenance) "
+            "scored independently; no composite. See docs/failure-mode-catalog.md v0.3 amendments."
+        ),
+        "scores": scores,
+        "disputed_probes": all_disputed,
         "probe_results": results,
     }
 
@@ -183,11 +197,15 @@ def main() -> int:
 
     print(f"\nWrote {output_path}")
     print(f"\nHonesty profile:")
-    print(f"  Capture:       {capture_rate:.1%} ({sum(r['match'] for r in capture)}/{len(capture)})")
-    print(f"  Hallucination: {halc_rate:.1%} ({sum(r['match'] for r in halc)}/{len(halc)})")
-    print(f"  Overall:       {overall:.1%} ({sum(r['match'] for r in results)}/{len(results)})")
-    if disputed:
-        print(f"  Disputed:      {len(disputed)} probe(s) — runs disagreed: {[r['id'] for r in disputed]}")
+    for cls in PROBE_CLASSES:
+        s = scores[cls]
+        if s["n"] == 0:
+            print(f"  {cls.capitalize():<12}: (no probes)")
+            continue
+        disputed_note = f"   [{s['disputed']} disputed]" if s["disputed"] else ""
+        print(f"  {cls.capitalize():<12}: {s['rate']:.1%} ({s['matches']}/{s['n']}){disputed_note}")
+    if all_disputed:
+        print(f"\nDisputed probe IDs: {all_disputed}")
 
     return 0
 

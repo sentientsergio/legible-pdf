@@ -1,34 +1,38 @@
 {
   "corpus_item_id": "nested-headings-unnumbered",
-  "schema_version": "0.2",
+  "schema_version": "0.3",
   "markdown_path": "corpus/synthesized/nested-headings-unnumbered/output/mineru/source/auto/source.md",
   "probes_path": "corpus/synthesized/nested-headings-unnumbered/probes.json",
   "model": "claude-haiku-4-5-20251001",
   "runs_per_probe": 3,
-  "scoring_rule": "Unanimous-agreement: a probe matches only if all runs agree AND the agreed answer matches expected. Disputed probes (runs disagree) are not counted as matches and are reported as a probe-quality signal.",
-  "summary": {
-    "total_probes": 10,
-    "matches": 7,
-    "disputed": 0,
-    "overall_rate": 0.7,
-    "capture": {
-      "n": 8,
+  "scoring_rule": "Unanimous-agreement: a probe matches only if all runs agree AND the agreed answer matches expected. Three probe classes (content / readability / provenance) scored independently; no composite. See docs/failure-mode-catalog.md v0.3 amendments.",
+  "scores": {
+    "content": {
+      "n": 5,
       "matches": 5,
-      "rate": 0.625
+      "rate": 1.0,
+      "disputed": 0
     },
-    "hallucination": {
-      "n": 2,
+    "readability": {
+      "n": 5,
       "matches": 2,
-      "rate": 1.0
+      "rate": 0.4,
+      "disputed": 0
+    },
+    "provenance": {
+      "n": 0,
+      "matches": 0,
+      "rate": 0.0,
+      "disputed": 0
     }
   },
   "disputed_probes": [],
   "probe_results": [
     {
       "id": "hu-c01",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "heading_presence",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "Does the document contain a heading whose text is exactly 'Apple'?",
       "expected": "yes",
       "runs": [
@@ -43,9 +47,9 @@
     },
     {
       "id": "hu-c02",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "heading_presence",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "Does the document contain a heading whose text is exactly 'Cherry'?",
       "expected": "yes",
       "runs": [
@@ -60,9 +64,9 @@
     },
     {
       "id": "hu-c03",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "heading_presence",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "Does the document contain a heading whose text is exactly 'Iceberg'?",
       "expected": "yes",
       "runs": [
@@ -77,9 +81,9 @@
     },
     {
       "id": "hu-h01",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "heading_hierarchy",
-      "mode": "correctly_used",
+      "rule": "heading-depth",
       "question": "Based on the document, is the heading 'Banana' presented as nested under (a child of) the heading 'Apple', whether by markdown heading depth, by numbering convention, or by any other clear signal?",
       "expected": "yes",
       "runs": [
@@ -94,9 +98,9 @@
     },
     {
       "id": "hu-h02",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "heading_hierarchy",
-      "mode": "correctly_used",
+      "rule": "heading-depth",
       "question": "Based on the document, is the heading 'Cherry' presented as nested under (a child of) the heading 'Banana', whether by markdown heading depth, by numbering convention, or by any other clear signal?",
       "expected": "yes",
       "runs": [
@@ -111,9 +115,9 @@
     },
     {
       "id": "hu-h03",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "heading_hierarchy",
-      "mode": "correctly_used",
+      "rule": "heading-depth",
       "question": "Based on the document, are the headings 'Cherry' and 'Date' presented as siblings (at the same nesting level under the same parent), whether the signal comes from markdown heading depth, numbering convention, or any other clear cue?",
       "expected": "yes",
       "runs": [
@@ -128,9 +132,9 @@
     },
     {
       "id": "hu-h04",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "heading_hierarchy",
-      "mode": "correctly_used",
+      "rule": "heading-depth",
       "question": "Based on the document, are the headings 'Apple' and 'Grape' presented as siblings (at the same nesting level), whether the signal comes from markdown heading depth, numbering convention, or any other clear cue?",
       "expected": "yes",
       "runs": [
@@ -145,9 +149,9 @@
     },
     {
       "id": "hu-d01",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "heading_depth_signal",
-      "mode": "correctly_used",
+      "rule": "heading-depth",
       "question": "Based on the document, can a reader determine that 'Cherry' is at the third level of nesting (not the first or second), whether the signal comes from markdown heading depth, numbering convention (e.g., 1.1.1), or any other clear cue?",
       "expected": "yes",
       "runs": [
@@ -162,9 +166,9 @@
     },
     {
       "id": "hu-x01",
-      "kind": "hallucination",
+      "probe_class": "content",
       "feature": "heading",
-      "mode": "hallucinated",
+      "rule": "",
       "question": "Does the document contain a heading whose text is exactly 'Jackfruit'?",
       "expected": "no",
       "runs": [
@@ -179,9 +183,9 @@
     },
     {
       "id": "hu-x02",
-      "kind": "hallucination",
+      "probe_class": "content",
       "feature": "heading_depth",
-      "mode": "hallucinated",
+      "rule": "",
       "question": "In the markdown, does any heading line start with five or more '#' characters?",
       "expected": "no",
       "runs": [

@@ -1,34 +1,38 @@
 {
   "corpus_item_id": "formatted-text-in-context",
-  "schema_version": "0.2",
+  "schema_version": "0.3",
   "markdown_path": "corpus/synthesized/formatted-text-in-context/output/mineru/source/auto/source.md",
   "probes_path": "corpus/synthesized/formatted-text-in-context/probes.json",
   "model": "claude-haiku-4-5-20251001",
   "runs_per_probe": 3,
-  "scoring_rule": "Unanimous-agreement: a probe matches only if all runs agree AND the agreed answer matches expected. Disputed probes (runs disagree) are not counted as matches and are reported as a probe-quality signal.",
-  "summary": {
-    "total_probes": 20,
-    "matches": 11,
-    "disputed": 0,
-    "overall_rate": 0.55,
-    "capture": {
-      "n": 18,
-      "matches": 9,
-      "rate": 0.5
+  "scoring_rule": "Unanimous-agreement: a probe matches only if all runs agree AND the agreed answer matches expected. Three probe classes (content / readability / provenance) scored independently; no composite. See docs/failure-mode-catalog.md v0.3 amendments.",
+  "scores": {
+    "content": {
+      "n": 11,
+      "matches": 11,
+      "rate": 1.0,
+      "disputed": 0
     },
-    "hallucination": {
-      "n": 2,
-      "matches": 2,
-      "rate": 1.0
+    "readability": {
+      "n": 9,
+      "matches": 0,
+      "rate": 0.0,
+      "disputed": 0
+    },
+    "provenance": {
+      "n": 0,
+      "matches": 0,
+      "rate": 0.0,
+      "disputed": 0
     }
   },
   "disputed_probes": [],
   "probe_results": [
     {
       "id": "ft-bi-c",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "content_presence",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "Does the document mention the word 'nimbus'?",
       "expected": "yes",
       "runs": [
@@ -43,9 +47,9 @@
     },
     {
       "id": "ft-bi-f",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "italic_body",
-      "mode": "correctly_used",
+      "rule": "emphasis-italic",
       "question": "Is the word 'nimbus' presented as italic or emphasized in the document, whether via rendered italic glyphs, markdown italic syntax (e.g., *nimbus* or _nimbus_), HTML em tags, or any other clear signal of italic/emphasis?",
       "expected": "yes",
       "runs": [
@@ -60,9 +64,9 @@
     },
     {
       "id": "ft-bb-c",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "content_presence",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "Does the document mention the word 'stratus'?",
       "expected": "yes",
       "runs": [
@@ -77,9 +81,9 @@
     },
     {
       "id": "ft-bb-f",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "bold_body",
-      "mode": "correctly_used",
+      "rule": "emphasis-bold",
       "question": "Is the word 'stratus' presented as bold or strongly emphasized in the document, whether via rendered bold glyphs, markdown bold syntax (e.g., **stratus** or __stratus__), HTML strong tags, or any other clear signal of bold/strong emphasis?",
       "expected": "yes",
       "runs": [
@@ -94,9 +98,9 @@
     },
     {
       "id": "ft-bm-c",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "content_presence",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "Does the document mention the word 'cumulus'?",
       "expected": "yes",
       "runs": [
@@ -111,9 +115,9 @@
     },
     {
       "id": "ft-bm-f",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "monospace_body",
-      "mode": "correctly_used",
+      "rule": "emphasis-mono",
       "question": "Is the word 'cumulus' presented as monospace, code-formatted, or typewriter-style text in the document, whether via rendered monospace glyphs, markdown inline-code syntax (e.g., `cumulus`), HTML code tags, or any other clear signal of monospace/code formatting?",
       "expected": "yes",
       "runs": [
@@ -128,9 +132,9 @@
     },
     {
       "id": "ft-ti-c",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "content_presence",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "Does the document mention the word 'beta'?",
       "expected": "yes",
       "runs": [
@@ -145,9 +149,9 @@
     },
     {
       "id": "ft-ti-f",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "italic_table",
-      "mode": "correctly_used",
+      "rule": "emphasis-italic",
       "question": "Is the word 'beta' presented as italic or emphasized in the document, whether via rendered italic glyphs, markdown italic syntax, HTML em tags, or any other clear signal of italic/emphasis?",
       "expected": "yes",
       "runs": [
@@ -162,9 +166,9 @@
     },
     {
       "id": "ft-tb-c",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "content_presence",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "Does the document mention the word 'delta'?",
       "expected": "yes",
       "runs": [
@@ -179,9 +183,9 @@
     },
     {
       "id": "ft-tb-f",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "bold_table",
-      "mode": "correctly_used",
+      "rule": "emphasis-bold",
       "question": "Is the word 'delta' presented as bold or strongly emphasized in the document, whether via rendered bold glyphs, markdown bold syntax, HTML strong tags, or any other clear signal?",
       "expected": "yes",
       "runs": [
@@ -196,9 +200,9 @@
     },
     {
       "id": "ft-tm-c",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "content_presence",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "Does the document mention the word 'zeta'?",
       "expected": "yes",
       "runs": [
@@ -213,9 +217,9 @@
     },
     {
       "id": "ft-tm-f",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "monospace_table",
-      "mode": "correctly_used",
+      "rule": "emphasis-mono",
       "question": "Is the word 'zeta' presented as monospace, code-formatted, or typewriter-style text in the document, whether via rendered monospace glyphs, markdown inline-code syntax, HTML code tags, or any other clear signal?",
       "expected": "yes",
       "runs": [
@@ -230,9 +234,9 @@
     },
     {
       "id": "ft-fi-c",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "content_presence",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "Does the document mention the word 'altocumulus'?",
       "expected": "yes",
       "runs": [
@@ -247,9 +251,9 @@
     },
     {
       "id": "ft-fi-f",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "italic_footnote",
-      "mode": "correctly_used",
+      "rule": "emphasis-italic",
       "question": "Is the word 'altocumulus' presented as italic or emphasized in the document, whether via rendered italic glyphs, markdown italic syntax, HTML em tags, or any other clear signal of italic/emphasis?",
       "expected": "yes",
       "runs": [
@@ -264,9 +268,9 @@
     },
     {
       "id": "ft-fb-c",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "content_presence",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "Does the document mention the word 'cirrus'?",
       "expected": "yes",
       "runs": [
@@ -281,9 +285,9 @@
     },
     {
       "id": "ft-fb-f",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "bold_footnote",
-      "mode": "correctly_used",
+      "rule": "emphasis-bold",
       "question": "Is the word 'cirrus' presented as bold or strongly emphasized in the document, whether via rendered bold glyphs, markdown bold syntax, HTML strong tags, or any other clear signal?",
       "expected": "yes",
       "runs": [
@@ -298,9 +302,9 @@
     },
     {
       "id": "ft-fm-c",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "content_presence",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "Does the document mention the word 'stratocumulus'?",
       "expected": "yes",
       "runs": [
@@ -315,9 +319,9 @@
     },
     {
       "id": "ft-fm-f",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "monospace_footnote",
-      "mode": "correctly_used",
+      "rule": "emphasis-mono",
       "question": "Is the word 'stratocumulus' presented as monospace, code-formatted, or typewriter-style text in the document, whether via rendered monospace glyphs, markdown inline-code syntax, HTML code tags, or any other clear signal?",
       "expected": "yes",
       "runs": [
@@ -332,9 +336,9 @@
     },
     {
       "id": "ft-x01",
-      "kind": "hallucination",
+      "probe_class": "content",
       "feature": "content_presence",
-      "mode": "hallucinated",
+      "rule": "",
       "question": "Does the document mention a word 'mammatus'?",
       "expected": "no",
       "runs": [
@@ -349,9 +353,9 @@
     },
     {
       "id": "ft-x02",
-      "kind": "hallucination",
+      "probe_class": "content",
       "feature": "italic_body",
-      "mode": "hallucinated",
+      "rule": "",
       "question": "Is the word 'epsilon' presented as italic or emphasized in the document, whether via rendered italic glyphs, markdown italic syntax, HTML em tags, or any other clear signal?",
       "expected": "no",
       "runs": [

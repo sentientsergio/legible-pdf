@@ -1,34 +1,38 @@
 {
   "corpus_item_id": "multi-column-reading-order",
-  "schema_version": "0.2",
+  "schema_version": "0.3",
   "markdown_path": "corpus/synthesized/multi-column-reading-order/output/mineru/source/auto/source.md",
   "probes_path": "corpus/synthesized/multi-column-reading-order/probes.json",
   "model": "claude-haiku-4-5-20251001",
   "runs_per_probe": 3,
-  "scoring_rule": "Unanimous-agreement: a probe matches only if all runs agree AND the agreed answer matches expected. Disputed probes (runs disagree) are not counted as matches and are reported as a probe-quality signal.",
-  "summary": {
-    "total_probes": 10,
-    "matches": 10,
-    "disputed": 0,
-    "overall_rate": 1.0,
-    "capture": {
-      "n": 8,
-      "matches": 8,
-      "rate": 1.0
+  "scoring_rule": "Unanimous-agreement: a probe matches only if all runs agree AND the agreed answer matches expected. Three probe classes (content / readability / provenance) scored independently; no composite. See docs/failure-mode-catalog.md v0.3 amendments.",
+  "scores": {
+    "content": {
+      "n": 10,
+      "matches": 10,
+      "rate": 1.0,
+      "disputed": 0
     },
-    "hallucination": {
-      "n": 2,
-      "matches": 2,
-      "rate": 1.0
+    "readability": {
+      "n": 0,
+      "matches": 0,
+      "rate": 0.0,
+      "disputed": 0
+    },
+    "provenance": {
+      "n": 0,
+      "matches": 0,
+      "rate": 0.0,
+      "disputed": 0
     }
   },
   "disputed_probes": [],
   "probe_results": [
     {
       "id": "rd-01",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "reading_order",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "In the document, does the text 'Marker 01' appear before the text 'Marker 02'?",
       "expected": "yes",
       "runs": [
@@ -43,9 +47,9 @@
     },
     {
       "id": "rd-02",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "reading_order",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "In the document, does the text 'Marker 05' appear before the text 'Marker 06'?",
       "expected": "yes",
       "runs": [
@@ -60,9 +64,9 @@
     },
     {
       "id": "rd-03",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "reading_order",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "In the document, does the text 'Marker 10' appear before the text 'Marker 11'?",
       "expected": "yes",
       "runs": [
@@ -77,9 +81,9 @@
     },
     {
       "id": "rd-04",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "reading_order",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "In the document, does the text 'Marker 15' appear before the text 'Marker 16'?",
       "expected": "yes",
       "runs": [
@@ -94,9 +98,9 @@
     },
     {
       "id": "rd-05",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "reading_order",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "In the document, does the text 'Marker 20' appear after the text 'Marker 19'?",
       "expected": "yes",
       "runs": [
@@ -111,9 +115,9 @@
     },
     {
       "id": "rd-06",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "reading_order",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "In the document, does the sentence mentioning a 'telescope' appear before the sentence mentioning a 'kettle'?",
       "expected": "yes",
       "runs": [
@@ -128,9 +132,9 @@
     },
     {
       "id": "rd-07",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "reading_order",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "In the document, does the sentence mentioning a 'compass' appear before the sentence mentioning a 'lantern'?",
       "expected": "yes",
       "runs": [
@@ -145,9 +149,9 @@
     },
     {
       "id": "rd-08",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "content_presence",
-      "mode": "correctly_used",
+      "rule": "",
       "question": "Does the document mention all twenty sequential markers, from 'Marker 01' through 'Marker 20'?",
       "expected": "yes",
       "runs": [
@@ -162,9 +166,9 @@
     },
     {
       "id": "rd-09",
-      "kind": "hallucination",
+      "probe_class": "content",
       "feature": "reading_order",
-      "mode": "hallucinated",
+      "rule": "",
       "question": "Does the document contain a 'Marker 21' or any marker numbered higher than 20?",
       "expected": "no",
       "runs": [
@@ -179,9 +183,9 @@
     },
     {
       "id": "rd-10",
-      "kind": "hallucination",
+      "probe_class": "content",
       "feature": "content_presence",
-      "mode": "hallucinated",
+      "rule": "",
       "question": "Does the document mention a microscope?",
       "expected": "no",
       "runs": [

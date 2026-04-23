@@ -361,3 +361,138 @@ These observations are MinerU-specific. Other converters (Marker, Docling, PyMuP
 ---
 
 _v0.2, 2026-04-22. Sprint 3 amendments add LLM-reader-equivalence framing, probe-design disciplines, and MinerU per-feature observations. v0.1 baseline preserved above; new findings appended rather than rewritten._
+
+---
+
+## v0.3 amendments (2026-04-23)
+
+Sprint 3 surfaced two blind spots after the probes had shipped: **provenance** (the LLM-analyst citing sources) and **readability** (the human previewing converted markdown). Both trace to a single methodological miss — the catalog was built failure-mode-first ("what converters get wrong") rather than also requirement-first ("what downstream consumers need"). v0.3 formalizes the correction as three probe classes plus a methodological lens.
+
+### 1. The three probe classes
+
+A converter has three audiences, and the catalog must test each one:
+
+| Class | Audience | What it measures | Primary question form |
+|-------|----------|------------------|-----------------------|
+| **content** | Downstream LLM-reader | Honesty. Content preserved; nothing fabricated. | *"Does X appear?"* / *"Does Y appear (when source has no Y)?"* |
+| **readability** | Human previewing / pasting into Word | Formatting signals a human needs to restore the doc without manual re-structuring. | *"Is X rendered with the expected markdown structure?"* |
+| **provenance** | LLM-analyst producing verifiable citations | Positional coordinates a human can use to verify a quote in the source PDF. | Paired: *"Is any page indicated for X?"* + *"Is X on page N?"* |
+
+All three share one discipline: rule-based, binary per probe, ground-truthable from PDF-visual inspection, LLM-reader-equivalence judged, N=3 unanimous-agreement required. **No judge-as-taste-maker anywhere in the framework.**
+
+The v0.2 amendment's "LLM-reader-equivalence is the honesty test" statement still stands — now scoped correctly. LLM-reader-equivalence defines the **content** class (the honesty test). Readability and provenance are additional scored dimensions, non-zero, reported independently. A converter that passes content but fails readability is honest-but-tedious; one that passes content but fails provenance is honest-but-uncitable. Both failures matter.
+
+**Relationship to v0.1 Taxonomy → probe types mapping.** The original three probe types (capture / hallucination / definedness) fold as follows: capture + hallucination subsume into `content`; definedness is an orthogonal property all three classes can carry (an honest converter says what it can't do, regardless of class). `readability` and `provenance` are new.
+
+### 2. Content probes
+
+Content probes test what the v0.1 + v0.2 catalog already describes. Every Layer 0 probe (text preservation, reading order) is a content probe. Every Layer 1 feature's "correctly used / hallucinated / missed" cells produce content probes (capture-polarity or fabrication-polarity). Nothing in the existing catalog changes — it is re-labeled.
+
+**Representative questions** (drawn from `corpus/lost-in-the-middle/probes.json`):
+- *"Does the document contain a section whose title is 'Models'?"* (presence, expected `yes`)
+- *"Does the document mention the OpenAI model version identifier '0613'?"* (presence, expected `yes`; MinerU fails this — footnote body silently dropped)
+- *"Does the abstract present contributions as an explicitly numbered list?"* (absence, expected `no`)
+
+### 3. Readability probes
+
+Readability probes test whether a human pasting the converted markdown into Word/Pages can work with the output without re-structuring it by hand. Each probe tests one rule. Each rule maps to a Layer 1 feature in the v0.1 catalog.
+
+**v0.3 readability rules (initial set):**
+
+| Rule | PDF source signal | Markdown expected | Violation cost |
+|------|-------------------|-------------------|----------------|
+| `heading-depth` | Heading levels H1/H2/H3 | Matching depth via `#` / `##` / `###` | Re-level every heading in the doc |
+| `list-bullets` | Bulleted list | `-` / `*` / `+` prefix per item | Re-prefix every item |
+| `list-numbers` | Numbered list | `1.` / `2.` / `3.` prefix | Re-number every item |
+| `table-structure` | Table | MD pipes (`|...|`) or HTML `<table>` | Rebuild the cell grid |
+| `code-fence` | Verbatim code block | Fenced ```` ``` ```` or indented | Re-fence, restore monospace |
+| `emphasis-bold` | Bold span | `**X**` | Re-bold each span |
+| `emphasis-italic` | Italic span | `*X*` / `_X_` | Re-italicize each span |
+| `emphasis-mono` | Monospace/typewriter span | `` `X` `` | Re-mark each span as code |
+| `blockquote` | Quoted block | `>` prefix per line | Re-prefix every line |
+| `footnote-syntax` | Footnote body | Footnote syntax or anchored form | Re-attach footnote to body reference |
+
+**Severity model (v0.3 baseline):** one probe per rule per document. Binary pass/fail per rule. Readability score = fraction of rules passed. Per-instance granularity ("fails 28 of 30 heading instances") is deferrable to a later version if the rule-level signal proves insufficient.
+
+**Relationship to existing Layer 1 probes:** Sprint 3 already authored format-preservation probes for most of these rules (heading, bulleted_list, table, italic, bold, monospace, code_block). Those probes re-classify from `capture` kind to `readability` class with no question changes. New readability probes required: `code-fence` (absent from LITM), `blockquote`, `footnote-syntax`.
+
+### 4. Provenance probes
+
+Provenance probes test whether a human reader, given an LLM-analyst's citation *("`exact quote`, page N, section M")*, can take that citation back to the source PDF and verify it. For this to work, the converter's output must preserve **positional coordinates** (page boundaries, section numbers, cross-reference targets) that a downstream LLM can cite from.
+
+Provenance probes are **paired** — same discipline as content/format pairing from v0.2:
+
+1. **Coordinate-presence probe:** does the markdown carry any indication of this coordinate? (Is any page number indicated for quote X? Is any section number indicated for heading Y?)
+2. **Coordinate-accuracy probe:** if a coordinate is indicated, is it the correct one? (Is quote X on page 5? Is heading Y numbered 5.2.3?)
+
+A converter that drops page markers fails the presence probe. A converter that fabricates wrong page markers passes presence, fails accuracy. A converter that preserves correct markers passes both.
+
+**v0.3 provenance rules (initial set):**
+
+| Rule | PDF source signal | Markdown expected | Paired probe shape |
+|------|-------------------|-------------------|---------------------|
+| `page-marker` | PDF pagination | Page delimiters in any form the LLM can read (`--- Page N ---`, HTML comments, etc.) | *"Any page indicated for X?"* + *"Is X on page N?"* |
+| `section-number` | Numbered heading ("5.2.3 Models") | Number preserved in the heading text | *"Any section number for 'Models'?"* + *"Is it '5.2.3'?"* |
+| `cross-ref-target` | "see Section 3" inline reference | Target resolvable from markdown | *"Does 'see Section 3' point to identifiable content?"* + *"Is that content the Section 3 heading and body?"* |
+
+**Scope note.** Provenance rules target the coordinates a citation of form *"`exact quote`, page N, section M"* requires the converter's output to carry. Other coordinate types — footnote numbers, paragraph/line numbers, figure/table numbers — are useful in specific document classes but not load-bearing for the general citation case; they are out of scope for v0.3 and may be added as optional rules if a document class warrants them.
+
+**MinerU observation (v0.3 preview):** current pipeline-backend output contains no page markers; section numbers are folded into heading text (provenance pass); cross-references resolve when both the inline `§2.3` tokens and the `## 2.3` target headings are preserved. Page-marker absence drives provenance score down — that finding is the point.
+
+### 5. Scoring model
+
+Three scores per converter per corpus item, reported independently. No composite.
+
+```json
+{
+  "honesty_profile": {
+    "content":     { "n": 10, "matches": 9, "rate": 0.90, "disputed": 0 },
+    "readability": { "n":  8, "matches": 2, "rate": 0.25, "disputed": 0 },
+    "provenance":  { "n":  4, "matches": 0, "rate": 0.00, "disputed": 0 }
+  }
+}
+```
+
+Each converter gets a profile like *"strong honesty, weak readability, zero provenance."* That is the finding — not a percentage gold medal.
+
+### 6. Probe schema v0.3
+
+```json
+{
+  "id": "lt-h-f",
+  "probe_class": "readability",
+  "feature": "heading",
+  "rule": "heading-depth",
+  "question": "...",
+  "expected_answer": "yes" | "no",
+  "ground_truth_basis": "..."
+}
+```
+
+`probe_class` is the new primary field (`content` | `readability` | `provenance`). The v0.2 `kind` (capture/hallucination) and `mode` (correctly_used/hallucinated) fields retire — their semantics fold into `probe_class: content` with polarity carried by `expected_answer`. Readability probes carry a `rule` pointer; provenance probes carry a `rule` pointer and come in presence/accuracy pairs.
+
+### 7. The audience-needs lens
+
+**Methodological correction.** The v0.1 catalog was built by reading SOTA research and cataloging *"what converters get wrong."* That lens is necessary but not sufficient — it misses requirements that the downstream consumer needs but that no converter happens to emit at all. Page markers are the canonical example: no converter *gets them wrong* because no converter emits them; the absence is invisible to a failure-mode-first lens. Readability is another example: an entire class of structural signals (bullets, fences, emphasis) was cataloged as format-preservation but not scored because LLM-reader-equivalence alone justified skipping them.
+
+**Rule:** the catalog is indexed by *two* lenses, not one:
+- **Failure-modes** — what converters get wrong when they try (the v0.1 construction method)
+- **Audience-needs** — what the three consumer audiences (LLM-reader, human-previewer, LLM-analyst) require the output to carry
+
+A cell appears in the catalog if either lens surfaces it. A probe class exists for each audience. v0.3 closes the audience-needs gap for the three audiences known today; future audiences (accessibility-assistive-reader? structured-data-pipeline?) may surface additional probe classes.
+
+### 8. Migration notes
+
+Existing Sprint 3 probes on `corpus/lost-in-the-middle/probes.json` and each `corpus/synthesized/<item>/probes.json` migrate by re-labeling:
+
+| Old (v0.2) | New (v0.3) |
+|------------|------------|
+| `kind: capture`, `feature: content_presence`, expected `yes` | `probe_class: content`, `expected_answer: yes` |
+| `kind: capture`, `feature: <actual>`, expected `yes` | `probe_class: readability`, `rule: <matching rule>` |
+| `kind: hallucination`, expected `no` | `probe_class: content`, `expected_answer: no` |
+
+New probes to author: provenance probes per corpus item where applicable. LITM is the strongest testbed (real pagination, sections, cross-refs, footnotes). Among synthesized items, `tables-and-captions` has cross-references, `nested-headings-deep` has section numbers — those get provenance probes too.
+
+---
+
+_v0.3, 2026-04-23. Three-probe-class taxonomy (content / readability / provenance), each rule-based and ground-truthable. Audience-needs lens codified alongside failure-modes lens. v0.1 baseline and v0.2 amendments preserved above._

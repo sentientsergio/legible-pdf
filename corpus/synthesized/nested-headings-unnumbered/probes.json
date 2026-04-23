@@ -1,94 +1,89 @@
 {
   "corpus_item_id": "nested-headings-unnumbered",
-  "schema_version": "0.2",
-  "schema_notes": "v0.2 probe shape (Sprint 3): paired content/format probes, unambiguous wording, N=3 unanimous-agreement runs. This is the unnumbered counterpart to nested-headings-deep. Same hierarchical structure but secnumdepth=-2 suppresses all numbering, leaving font size as the SOLE visual signal of hierarchy. A converter that flattens heading depth (Sprint 2 MinerU pattern) loses hierarchy entirely here because there is no numbering for the reader to recover from. Body text is neutral fruit-encyclopedia content — no self-referential hierarchy hints that could leak the structure to the LLM judge.",
+  "schema_version": "0.3",
+  "schema_notes": "v0.3 probe shape (2026-04-23): three-probe-class taxonomy (content / readability / provenance). Migrated from v0.2 by scripts/migrate_v03.py: content-presence probes and hallucination probes \u2192 probe_class=content with expected_answer carrying polarity; format-preservation probes \u2192 probe_class=readability with a rule pointer. No provenance probes added at migration time \u2014 synthesized items exercise content + readability only in Sprint 3 scope; provenance probes are LITM-focused for Sprint 3 and extend to synthesized items in later sprints as applicable. Prior v0.2 schema_notes: v0.2 probe shape (Sprint 3): paired content/format probes, unambiguous wording, N=3 unanimous-agreement runs. This is the unnumbered counterpart to nested-headings-deep. Same hierarchical structure but secnumdepth=-2 suppresses all numbering, leaving font size as the SOLE visual signal of hierarchy. A converter that flattens heading depth (Sprint 2 MinerU pattern) loses hierarchy entirely here because there is no numbering for the reader to recover from. Body text is neutral fruit-encyclopedia content \u2014 no self-referential hierarchy hints that could leak the structure to the LLM judge.",
   "probes": [
     {
       "id": "hu-c01",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "heading_presence",
-      "mode": "correctly_used",
       "question": "Does the document contain a heading whose text is exactly 'Apple'?",
       "expected_answer": "yes",
       "ground_truth_basis": "Source: \\section{Apple} renders as the largest body heading on page 1 (no number). Verified visually."
     },
     {
       "id": "hu-c02",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "heading_presence",
-      "mode": "correctly_used",
       "question": "Does the document contain a heading whose text is exactly 'Cherry'?",
       "expected_answer": "yes",
       "ground_truth_basis": "Source: \\subsubsection{Cherry} renders as a small run-in style bold heading on page 1 (no number). Verified visually."
     },
     {
       "id": "hu-c03",
-      "kind": "capture",
+      "probe_class": "content",
       "feature": "heading_presence",
-      "mode": "correctly_used",
       "question": "Does the document contain a heading whose text is exactly 'Iceberg'?",
       "expected_answer": "yes",
       "ground_truth_basis": "Source: \\subsubsection{Iceberg} renders as a small run-in style bold heading on page 2 (no number). Verified visually."
     },
     {
       "id": "hu-h01",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "heading_hierarchy",
-      "mode": "correctly_used",
+      "rule": "heading-depth",
       "question": "Based on the document, is the heading 'Banana' presented as nested under (a child of) the heading 'Apple', whether by markdown heading depth, by numbering convention, or by any other clear signal?",
       "expected_answer": "yes",
-      "ground_truth_basis": "Source: Banana is \\subsection nested under Apple's \\section. Rendered PDF shows Banana's heading visibly smaller than Apple's, immediately following the Apple section. NO numbering is present — the ONLY signal a converter can use is the visual heading-size difference, which must be encoded as markdown heading depth (### for Banana under Apple's ##) for the reader to recover hierarchy. A converter that flattens both to '##' loses this signal and should fail this probe."
+      "ground_truth_basis": "Source: Banana is \\subsection nested under Apple's \\section. Rendered PDF shows Banana's heading visibly smaller than Apple's, immediately following the Apple section. NO numbering is present \u2014 the ONLY signal a converter can use is the visual heading-size difference, which must be encoded as markdown heading depth (### for Banana under Apple's ##) for the reader to recover hierarchy. A converter that flattens both to '##' loses this signal and should fail this probe."
     },
     {
       "id": "hu-h02",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "heading_hierarchy",
-      "mode": "correctly_used",
+      "rule": "heading-depth",
       "question": "Based on the document, is the heading 'Cherry' presented as nested under (a child of) the heading 'Banana', whether by markdown heading depth, by numbering convention, or by any other clear signal?",
       "expected_answer": "yes",
-      "ground_truth_basis": "Source: Cherry is \\subsubsection nested under Banana's \\subsection. PDF shows Cherry visibly smaller than Banana. No numbering — heading depth is the only recoverable signal."
+      "ground_truth_basis": "Source: Cherry is \\subsubsection nested under Banana's \\subsection. PDF shows Cherry visibly smaller than Banana. No numbering \u2014 heading depth is the only recoverable signal."
     },
     {
       "id": "hu-h03",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "heading_hierarchy",
-      "mode": "correctly_used",
+      "rule": "heading-depth",
       "question": "Based on the document, are the headings 'Cherry' and 'Date' presented as siblings (at the same nesting level under the same parent), whether the signal comes from markdown heading depth, numbering convention, or any other clear cue?",
       "expected_answer": "yes",
       "ground_truth_basis": "Source: Both Cherry and Date are \\subsubsection under Banana. PDF shows them at same heading size with the same run-in style. No numbering."
     },
     {
       "id": "hu-h04",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "heading_hierarchy",
-      "mode": "correctly_used",
+      "rule": "heading-depth",
       "question": "Based on the document, are the headings 'Apple' and 'Grape' presented as siblings (at the same nesting level), whether the signal comes from markdown heading depth, numbering convention, or any other clear cue?",
       "expected_answer": "yes",
       "ground_truth_basis": "Source: Both Apple and Grape are \\section. PDF shows both at the same large heading size. No numbering."
     },
     {
       "id": "hu-d01",
-      "kind": "capture",
+      "probe_class": "readability",
       "feature": "heading_depth_signal",
-      "mode": "correctly_used",
+      "rule": "heading-depth",
       "question": "Based on the document, can a reader determine that 'Cherry' is at the third level of nesting (not the first or second), whether the signal comes from markdown heading depth, numbering convention (e.g., 1.1.1), or any other clear cue?",
       "expected_answer": "yes",
-      "ground_truth_basis": "Source: Cherry is \\subsubsection — third nesting level. NO numbering. The ONLY way a converter can convey this is via markdown heading depth (e.g., ### or #### Cherry). A flatten-to-## converter loses this entirely. This is the cleanest single-probe diagnostic of the unnumbered case."
+      "ground_truth_basis": "Source: Cherry is \\subsubsection \u2014 third nesting level. NO numbering. The ONLY way a converter can convey this is via markdown heading depth (e.g., ### or #### Cherry). A flatten-to-## converter loses this entirely. This is the cleanest single-probe diagnostic of the unnumbered case."
     },
     {
       "id": "hu-x01",
-      "kind": "hallucination",
+      "probe_class": "content",
       "feature": "heading",
-      "mode": "hallucinated",
       "question": "Does the document contain a heading whose text is exactly 'Jackfruit'?",
       "expected_answer": "no",
       "ground_truth_basis": "Source contains no heading with text 'Jackfruit'. The fruit names: Apple, Banana, Cherry, Date, Elderberry, Fig, Grape, Honeydew, Iceberg."
     },
     {
       "id": "hu-x02",
-      "kind": "hallucination",
+      "probe_class": "content",
       "feature": "heading_depth",
-      "mode": "hallucinated",
       "question": "In the markdown, does any heading line start with five or more '#' characters?",
       "expected_answer": "no",
       "ground_truth_basis": "Source uses only three nesting levels. Even with title-shift convention, max depth is four '#' characters; five+ would be hallucinated."
