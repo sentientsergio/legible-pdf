@@ -1,97 +1,142 @@
 {
   "corpus_item_id": "lost-in-the-middle",
-  "schema_version": "0.1",
-  "schema_notes": "v0.1 probe shape: id, kind (capture|hallucination), feature, mode (cell from failure-mode catalog), question, expected_answer (yes|no), ground_truth_basis. Probes are derived from catalog cells, not improvised. Sprint 2 v0.0 smoke set covers heading, list, table, italic, inline code, code-block features across correctly_used and hallucinated modes.",
+  "schema_version": "0.2",
+  "schema_notes": "v0.2 probe shape (Sprint 3 retrofit, 2026-04-22): paired content/format probes with 'any clear signal' wording, N=3 unanimous-agreement. Replaces v0.1 Sprint 2 smoke set. Same coverage (heading, list, table, italic, inline code, code-block features across correctly_used and hallucinated modes), now with the three Sprint 3 disciplines applied: (a) content-presence probes separated from format-preservation probes so we can distinguish 'converter dropped content' from 'converter dropped format only'; (b) format probes accept any clear preservation signal (markdown depth, numbering, bullet-prefix, HTML, etc.) per the LLM-reader-equivalence framing; (c) probe wording is unambiguous so N=3 unanimous agreement is achievable. Ground truth basis is PDF-visual (the rendered paper.pdf), not LaTeX source — confirmed in Sprint 2 that the TACL conference style file strips \\textit{} and \\texttt{} markup from rendered output.",
   "probes": [
     {
-      "id": "cap-001",
+      "id": "lt-h-c",
+      "kind": "capture",
+      "feature": "content_presence",
+      "mode": "correctly_used",
+      "question": "Does the document contain a section or subsection whose title is 'Models' (containing descriptions of language models like MPT-30B-Instruct, GPT-3.5-Turbo, Claude-1.3)?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source line 226 contains \\subsection{Models} under \\section{Multi-Document Question Answering}. Rendered PDF shows 'Models' as a numbered subsection (2.2 Models)."
+    },
+    {
+      "id": "lt-h-f",
       "kind": "capture",
       "feature": "heading",
       "mode": "correctly_used",
-      "question": "Does the document have a section titled 'Models' that is presented as a subsection (not a top-level heading), nested under a top-level section about Multi-Document Question Answering?",
+      "question": "In the document, is the 'Models' section presented as a subsection (a heading nested under a higher-level section about Multi-Document Question Answering) — whether by markdown heading depth (more `#` characters than the parent), explicit numbering (e.g., '2.2'), nested-list-style indentation, or any other clear hierarchy signal?",
       "expected_answer": "yes",
-      "ground_truth_basis": "source line 192 (\\section{Multi-Document Question Answering}) contains line 226 (\\subsection{Models})"
+      "ground_truth_basis": "Rendered PDF shows '2 Multi-Document Question Answering' as section, '2.2 Models' as subsection. The numerical prefix carries the hierarchy signal even if markdown depth does not. Probe accepts any clear nesting encoding."
     },
     {
-      "id": "hal-001",
+      "id": "lt-h-x01",
       "kind": "hallucination",
       "feature": "heading",
       "mode": "hallucinated",
       "question": "Does the document include a top-level section titled 'Methodology'?",
       "expected_answer": "no",
-      "ground_truth_basis": "no such section in source; section list confirmed by grep over \\section{} entries"
+      "ground_truth_basis": "No such section exists in the source. Section list confirmed via grep over \\section{} entries: only Multi-Document Question Answering, How Well Can Language Models Use Their Entire Input Context?, etc."
     },
     {
-      "id": "cap-002",
+      "id": "lt-bu-c",
       "kind": "capture",
-      "feature": "bullet_list",
+      "feature": "content_presence",
       "mode": "correctly_used",
-      "question": "Does the introduction of the document contain a bulleted list of exactly three items?",
-      "expected_answer": "no",
-      "ground_truth_basis": "PDF visual: introduction renders three bullet-prefixed paragraphs (•...) without typeset list block. LaTeX source uses \\begin{itemize} on line 157, but the rendered PDF does not present a visually distinct list block — three sentences each starting with the bullet character. Honest converter behavior is to preserve as inline bullet-prefixed paragraphs, not to promote to markdown list syntax. Ground truth corrected from LaTeX-source to PDF-visual after Sprint 2 methodology refinement."
+      "question": "Does the introduction of the document contain three findings about (1) encoder-decoder models being robust within training-length sequences, (2) query-aware contextualization helping the synthetic key-value task, and (3) even base language models showing the U-shaped curve?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source lines around 157 use \\begin{itemize} with three \\item entries summarizing these three findings. Rendered PDF shows three bullet-prefixed paragraphs in the introduction."
     },
     {
-      "id": "hal-002",
+      "id": "lt-bu-f",
+      "kind": "capture",
+      "feature": "bulleted_list",
+      "mode": "correctly_used",
+      "question": "In the document's introduction, are the three findings (encoder-decoder robustness, query-aware contextualization, base-model U-curve) presented together as items in a list — whether via markdown bullet syntax (- or *), bullet-character prefixes (•), nested indentation, or any other clear list-presentation signal?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source uses \\begin{itemize}. Rendered PDF presents the three findings as three bullet-prefixed paragraphs. Probe accepts any clear list encoding (including bullet-prefixed paragraphs as the LLM-reader-equivalent of a list)."
+    },
+    {
+      "id": "lt-nu-x01",
       "kind": "hallucination",
       "feature": "numbered_list",
       "mode": "hallucinated",
-      "question": "Does the abstract of the document present the paper's contributions as a numbered list?",
+      "question": "Does the abstract of the document present the paper's contributions as an explicitly numbered list (1., 2., 3., etc.)?",
       "expected_answer": "no",
-      "ground_truth_basis": "abstract (source lines 117-122) is a single paragraph of prose with no lists; conclusion was rejected as the test location because it contains inline (i)/(ii)/(iii) parenthetical enumeration that could trip a literal LLM"
+      "ground_truth_basis": "Abstract (source lines 117-122) is a single paragraph of prose with no list. Conclusion was rejected as the test location because it contains inline (i)/(ii)/(iii) parenthetical enumeration that could mislead a literal reader."
     },
     {
-      "id": "cap-003",
+      "id": "lt-t-c",
+      "kind": "capture",
+      "feature": "content_presence",
+      "mode": "correctly_used",
+      "question": "Does the document contain results comparing multiple language models (such as LongChat-13B, MPT-30B-Instruct, GPT-3.5-Turbo, Claude-1.3) on Closed-Book and Oracle accuracy, with values like 35.0%, 56.1%, 88.3%?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source line 245 has Table 1 with these six model rows and these accuracy values."
+    },
+    {
+      "id": "lt-t-f",
       "kind": "capture",
       "feature": "table",
       "mode": "correctly_used",
-      "question": "Does the document contain a table with rows for each evaluated language model and columns labeled 'Closed-Book' and 'Oracle' showing accuracy percentages?",
+      "question": "In the document, are the language model accuracies on Closed-Book and Oracle settings presented in a tabular structure (one row per model, columns for Closed-Book and Oracle) — whether via markdown table syntax with pipes, HTML <table> tags, aligned-column plain text, or any other clear table-presentation signal?",
       "expected_answer": "yes",
-      "ground_truth_basis": "Table 1 in source line 245 with 6 model rows (LongChat, MPT-30B-Instruct, GPT-3.5-Turbo, etc.) and Closed-Book / Oracle columns"
+      "ground_truth_basis": "Source line 245 contains \\begin{tabular} with header row and six data rows. Rendered PDF shows a typeset table. Probe accepts any clear table encoding."
     },
     {
-      "id": "hal-003",
+      "id": "lt-t-x01",
       "kind": "hallucination",
       "feature": "table",
       "mode": "hallucinated",
       "question": "Does the document contain a table comparing inference latency or speed across the evaluated language models?",
       "expected_answer": "no",
-      "ground_truth_basis": "paper contains accuracy tables only; no latency or speed tables in source"
+      "ground_truth_basis": "Paper contains accuracy and length-statistic tables only. No latency or speed measurements appear in any table or figure."
     },
     {
-      "id": "cap-004",
+      "id": "lt-i-c",
+      "kind": "capture",
+      "feature": "content_presence",
+      "mode": "correctly_used",
+      "question": "Does the abstract contain the phrase 'how well they use longer context' (or near-verbatim equivalent)?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source line 117 contains exactly this phrase. Rendered PDF preserves it verbatim in the abstract."
+    },
+    {
+      "id": "lt-i-f",
       "kind": "capture",
       "feature": "italic",
       "mode": "correctly_used",
-      "question": "In the abstract, is the word 'use' italicized in the phrase 'how well they use longer context'?",
+      "question": "In the abstract phrase 'how well they use longer context', is the word 'use' presented in italic — whether via markdown asterisks (*use* or _use_), HTML <em> or <i>, or any other clear italic-encoding signal?",
       "expected_answer": "no",
-      "ground_truth_basis": "PDF visual: abstract phrase renders without italic on 'use'. LaTeX source has \\textit{use} on line 117, but the rendered PDF does not show italic glyphs — likely tacl2021v1.sty overrides \\textit{} for body text, or arxiv-eprint differs from published paper.pdf. Honest converter behavior is to preserve as plain text. Ground truth corrected from LaTeX-source to PDF-visual after Sprint 2 methodology refinement."
+      "ground_truth_basis": "PDF visual: the rendered abstract does NOT show italic on 'use', despite \\textit{use} in the LaTeX source. The TACL 2021 conference style file (tacl2021v1.sty) strips \\textit{} markup from body text. Honest converter behavior is therefore to preserve as plain text — there is no italic in the visual reality to preserve."
     },
     {
-      "id": "hal-004",
+      "id": "lt-i-x01",
       "kind": "hallucination",
       "feature": "italic",
       "mode": "hallucinated",
       "question": "In the Models subsection, are the names of all evaluated language models (such as MPT-30B-Instruct, GPT-3.5-Turbo, Claude-1.3) presented in italic font?",
       "expected_answer": "no",
-      "ground_truth_basis": "model names use \\xspace macros and \\texttt{} for version IDs (line 53-62, line 233), not \\textit/\\emph"
+      "ground_truth_basis": "Model names use \\xspace macros and \\texttt{} for version IDs (source lines 53-62, 233), not \\textit/\\emph. Rendered PDF shows them in regular body font."
     },
     {
-      "id": "hal-005",
-      "kind": "hallucination",
-      "feature": "code_block",
-      "mode": "hallucinated",
-      "question": "Does the document contain a fenced code block of Python code?",
-      "expected_answer": "no",
-      "ground_truth_basis": "no \\begin{verbatim} or lstlisting environments in source; paper contains no code blocks of any language"
+      "id": "lt-c-c",
+      "kind": "capture",
+      "feature": "content_presence",
+      "mode": "correctly_used",
+      "question": "Does the document mention the OpenAI model version identifier '0613' (in any formatting), in the context of which OpenAI model versions were used?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source line 233 has 'We use the \\texttt{0613} OpenAI model versions' inside footnote 5. Rendered PDF shows '0613' in footnote 5 on page 5. Note: MinerU's pipeline backend is known to drop footnote bodies, so this probe will fail when run against MinerU output — that failure is real content loss being correctly captured."
     },
     {
-      "id": "cap-005",
+      "id": "lt-c-f",
       "kind": "capture",
       "feature": "inline_code",
       "mode": "correctly_used",
-      "question": "Is the OpenAI model version identifier '0613' formatted as inline code (rendered in monospace) in the document?",
+      "question": "If '0613' appears in the document, is it formatted as inline code (rendered in monospace) — whether via markdown backticks (`0613`), HTML <code>, or any other clear monospace encoding?",
       "expected_answer": "no",
-      "ground_truth_basis": "PDF visual: '0613' appears in footnote 5 on page 5 ('We use the 0613 OpenAI model versions') in regular body font, NOT monospace. LaTeX source line 233 has \\texttt{0613}, but the rendered PDF does not show monospace — same TACL template pattern as \\textit{} stripping. Note: this probe also exposes a probe-design issue — it cannot distinguish 'PDF shows plain text and converter preserved' from 'converter dropped content entirely.' MinerU happens to drop the footnote (real content loss) but the probe yields the same answer. Sprint 2 lesson: separate content-presence probes from format-preservation probes."
+      "ground_truth_basis": "PDF visual: '0613' appears in regular body-text font in footnote 5, NOT monospace, despite \\texttt{0613} in source. Same TACL template stripping pattern as \\textit{}. Honest converter behavior is plain text. Note: this format probe is dependent on lt-c-c — if the converter drops the footnote entirely (content failure), the format question becomes structurally unanswerable; the judge will typically still return 'no' (no monospace because no token), which technically matches but does not carry independent signal."
+    },
+    {
+      "id": "lt-cb-x01",
+      "kind": "hallucination",
+      "feature": "code_block",
+      "mode": "hallucinated",
+      "question": "Does the document contain a fenced code block of Python (or any other programming language) source code?",
+      "expected_answer": "no",
+      "ground_truth_basis": "Source contains no \\begin{verbatim} or lstlisting environments. The paper has no code blocks of any language."
     }
   ]
 }
