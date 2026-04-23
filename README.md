@@ -2,7 +2,7 @@
 
 **The legible converter is the honest converter.**
 
-`legible-pdf` is a measurement framework for asking, of any tool that turns a PDF into something readable (markdown, HTML, JSON, structured intermediate, anything): *how honestly does this preserve what a careful reader sees?* The answer comes back as concrete numbers across three axiom-layer dimensions — capture, fabrication, definedness — with no judgement-laden questions and no probability hedging. Point it at any tool ([MinerU](https://github.com/opendatalab/MinerU), [docling](https://github.com/docling-project/docling), [marker](https://github.com/datalab-to/marker), your own), get a structured honesty profile back across whichever output forms the tool produces.
+`legible-pdf` is a measurement framework for asking, of any tool that turns a PDF into something readable (markdown, HTML, JSON, structured intermediate, anything): *how honestly does this preserve what a careful reader sees?* The answer comes back as three concrete scores across three rule-based dimensions — **content** (did the information survive?), **readability** (do the formatting signals a human needs survive?), **provenance** (do the positional coordinates a citation needs survive?) — with no judgement-laden questions and no probability hedging. Point it at any tool ([MinerU](https://github.com/opendatalab/MinerU), [docling](https://github.com/docling-project/docling), [marker](https://github.com/datalab-to/marker), your own), get a structured honesty profile back across whichever output forms the tool produces.
 
 This is not a converter. It is the measurement that determines which converters — and which output forms — preserve the PDF viewing experience legibly.
 
@@ -24,23 +24,33 @@ A working definition, single-criterion:
 >
 > A dishonest converter: silently drops content; hallucinates structure that wasn't there; smooths over rough sources; misclassifies content (figure caption rendered as H3) without flagging the uncertainty.
 
-Operationalization: **LLM-reader-equivalence, without judgement.**
+Operationalization: **three audiences, three probe classes, three scores.**
 
-A successful converter generates Markdown such that, when a vision-less LLM is asked an objective, judgement-less question about the document, it returns the answer an intelligent and attentive human would have given after reading the original PDF. If the LLM is wrong, the conversion was dishonest about what the reader sees. If the LLM hallucinates or can't answer, the conversion distorted semantics.
+A converter's output has three distinct audiences, and each has different requirements that the eval measures independently:
 
-The "without judgement" qualifier is load-bearing. The eval cannot use questions whose answers depend on interpretation ("is the proposal well-argued?" "what is the main thesis?"). It uses observational questions whose ground truth a human can verify by direct inspection of the source PDF, with no room for two readers to disagree. Axiom-layer first; higher-order claims are not in scope here.
+1. **Downstream LLM reader** — does the information survive the conversion? Tested by the **content** class via LLM-reader-equivalence: a vision-less LLM, given the converted markdown, should answer observational questions the same way an attentive human reader of the source PDF would. If the LLM is wrong, the conversion was dishonest about what the reader sees.
+
+2. **Human previewing or pasting into Word/Pages** — do the formatting signals survive as markdown syntax that a renderer or office tool can auto-format? Tested by the **readability** class via rule-based markdown-syntax checks (heading depth, list bullets, code fences, emphasis markers, etc.). A converter that emits unicode `•` prefixes without markdown list syntax fails the readability rule for lists — a markdown renderer won't format them, a human paste-into-Word will need manual list-ifying.
+
+3. **LLM-analyst producing verifiable citations** — do the positional coordinates survive so a reader can take *"quote, page N, section M"* back to the source PDF and verify? Tested by the **provenance** class via rule-based checks on page markers, section numbers, and cross-reference targets.
+
+All three classes share one discipline: rule-based, binary per probe, ground-truthable from PDF-visual inspection, **no judge-as-taste-maker anywhere**. The "without judgement" qualifier is load-bearing across all three — every probe has an observable ground truth a human can verify by direct inspection of the source PDF, with no room for two readers to disagree.
 
 ## How honesty is measured
 
-Three axiom-layer probe types:
+The converter's output is scored on three probe classes, reported independently with no composite:
 
-1. **Capture probe.** *"Does X appear in this document?"* where X is observably present in the source PDF. Ground truth YES; the markdown should support a YES answer. Counting questions are a special case: *"How many code blocks does this paper contain?"* — silent dropping is caught precisely because the count comes back wrong.
+| Class | Audience | Discipline | How it's judged |
+|-------|----------|------------|-----------------|
+| **content** | Downstream LLM reader | "Any clear signal" — accept prose, numbering, adjacency, any cue the LLM can recover from | LLM N=3 unanimous-agreement |
+| **readability** | Human previewing / pasting | Strict markdown syntax — what a markdown renderer or Word paste would auto-format | Mechanical (regex/parser) for pure-syntax rules with three-valued output {yes, no, undetermined}; LLM fallback for undetermined or semantic-load rules |
+| **provenance** | LLM-analyst citing | Positional coordinates (page markers, section numbers, cross-ref targets) preserved; paired presence + accuracy probes | Mechanical for presence where syntax is unambiguous; LLM for accuracy and semantic resolution |
 
-2. **Hallucination probe.** *"Does Y appear in this document?"* where Y is plausibly-absent (something a converter might fabricate but isn't actually there). Ground truth NO; the markdown should support a NO answer. Without this mirror probe, a converter that adds plausible content gets credit for matching all the YES probes and is never caught.
+Each converter gets a profile like *"strong honesty, weak readability, mixed provenance"* — the shape is the finding, not a percentage gold medal. Fabrication is tested within each class by probes with `expected_answer: no` (does the markdown falsely claim something the source doesn't have?). Definedness remains a goal of the framework — an honest converter should positively signal what it couldn't handle rather than silently drop — and applies across all three classes: silent dropping is detected by the paired-probe discipline (content-presence + format-preservation catches silent content loss hidden behind format-only success).
 
-3. **Definedness probe.** For things present in the source PDF that the converter could not capture, did the markdown emit an explicit `undefined` marker for that location? Or did the content silently disappear? This probe distinguishes the converter that says *"equation in §4.2: conversion undefined (image-only, no alt text)"* from one that just drops the equation.
+**Mechanical vs LLM judgment is deliberate.** The framework uses deterministic pattern-matching where markdown syntax is unambiguous (heading depth, list bullets, code fences), but every mechanical check carries an explicit `undetermined` output for inputs outside its scope of competence — silent mis-answer is worse than slower LLM inference. This mirrors the framework's own `undefined` principle: the measurement tooling obeys the rule it measures converters against.
 
-All three probes are observational. None require calibration of LLM uncertainty. None ask anyone to make a judgement.
+**For the full taxonomy, rule tables, and scope of mechanical vs LLM checks, see [docs/failure-mode-catalog.md](docs/failure-mode-catalog.md).**
 
 ## Architecture intuition
 
@@ -58,7 +68,7 @@ The eval can run against the intermediate representation OR any final projection
 
 - **Not a converter.** Converters are participants in the eval, not the eval itself.
 - **Not Markdown-only.** The eval measures honesty of any PDF→{representation or projection} pipeline. Markdown is one common output; HTML, JSON, structured IR, or domain-specific formats can all be measured by the same probes.
-- **Not [OmniDocBench](https://github.com/opendatalab/OmniDocBench).** OmniDocBench measures faithfulness on a fixed corpus. `legible-pdf` measures honesty across capture, fabrication, and definedness — a different question with different probes.
+- **Not [OmniDocBench](https://github.com/opendatalab/OmniDocBench).** OmniDocBench measures faithfulness on a fixed corpus. `legible-pdf` measures honesty across content, readability, and provenance — a different question with different probes, derived from the downstream audiences the converter's output actually serves.
 - **Not a paper-quality eval.** Quality is judgement-laden. This eval works strictly at the axiom layer (what the reader observably sees), so its ground truth is incontestable.
 
 ## Prior art and influences
@@ -74,9 +84,26 @@ What we leverage and learn from:
 
 ## Status
 
-Vision phase. Methodology defined; harness not yet built; intermediate representation (`legible-ir`) named as aspiration, to be developed through eval-development battle scars rather than designed up front. First implementation work: corpus selection, probe-generation tooling, single-tool end-to-end smoke test, then expansion to comparative measurement.
+**v0.3.1 shipped (2026-04-23).** The three-probe-class taxonomy is codified in the catalog, the harness runs class-based three-track scoring with mechanical + LLM hybrid dispatch, and MinerU (pipeline backend) is fully profiled across eight corpus items — one wild PDF and seven synthesized diagnostic items.
 
-This README is the design document. It is also the publishable methodology piece. The harness, the corpus, and eventually the formalized IR follow from it.
+**MinerU v0.3.1 profile on the full corpus:**
+
+- Content: **97%** (58/60) — the converter does not fabricate; one real content fail (silent footnote drop)
+- Readability: **31%** (11/35) — italic/bold/monospace uniformly stripped, heading depth collapsed, bullet syntax absent
+- Provenance: **75%** (6/8) — section numbers preserved via heading text, cross-references resolve; page markers entirely absent
+
+*Strong honesty, weak readability, mixed provenance.* That shape is the finding.
+
+**Shipped so far:**
+- [`docs/failure-mode-catalog.md`](docs/failure-mode-catalog.md) — the taxonomy. v0.1 baseline (Layer 0 + Layer 1 × 14 markdown features × 4 modes) + v0.2 Sprint 3 amendments (probe-design disciplines, LLM-reader-equivalence framing) + v0.3 amendments (three probe classes, audience-needs lens) + v0.3.1 amendments (mechanical-check discipline, aggregation, audience-derived class-discipline boundary).
+- [`docs/sprint-3-results.md`](docs/sprint-3-results.md) — methodology narrative, per-rule findings on MinerU, per-item scores, methodology lessons.
+- [`scripts/run-eval.py`](scripts/run-eval.py) + [`scripts/rules.py`](scripts/rules.py) — single-file harness plus the mechanical rule checks.
+- [`corpus/lost-in-the-middle/`](corpus/lost-in-the-middle/) — wild PDF (arXiv:2307.03172 "Lost in the Middle"); 21 probes authored against PDF-visual ground truth.
+- [`corpus/synthesized/`](corpus/synthesized/) — 7 synthesized diagnostic items covering reading order, heading nesting (numbered and unnumbered), mixed list types, formatted text in context, tables with captions, and code blocks with images.
+
+**Next:** Sprint 4b — multi-converter comparison. Add [docling](https://github.com/docling-project/docling), [marker](https://github.com/datalab-to/marker), and [PyMuPDF4LLM](https://github.com/pymupdf/PyMuPDF4LLM) to the eval; produce per-converter three-track profiles for cross-converter comparison. The v0.3.1 hardened infrastructure makes this a straightforward application.
+
+The intermediate representation (`legible-ir`) remains aspiration, to be developed through eval-development battle scars rather than designed up front — likely as a Pandoc-AST extension with per-element provenance, confidence scores, reading-order metadata, and anchors back to PDF coordinates (see the companion essay [*What is a Legible PDF?*](https://sentientsergio.substack.com/p/what-is-a-legible-pdf) for the architectural intuition).
 
 ## Collaboration
 
