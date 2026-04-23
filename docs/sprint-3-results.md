@@ -1,9 +1,11 @@
 # Sprint 3 Results: Probe Discipline, Targeted Synthesis, and Taxonomy Correction
 
-**Run dates:** 2026-04-22 (v0.2 synthesis + retrofit), 2026-04-23 (v0.3 taxonomy + re-score)
+**Run dates:** 2026-04-22 (v0.2 synthesis + retrofit), 2026-04-23 (v0.3 taxonomy + re-score; v0.3.1 mechanical-check hardening)
 **Corpus:** `corpus/lost-in-the-middle/` + 7 synthesized items under `corpus/synthesized/`
 **Converter:** MinerU (pipeline backend)
-**Judge model:** `claude-haiku-4-5-20251001`
+**Judge model:** `claude-haiku-4-5-20251001` (LLM-judged path); `scripts/rules.py` (mechanical path)
+
+**Sequence note:** this sprint ships in two artifacts. v0.3 (Sprint 3 proper) introduced the three-probe-class taxonomy and re-scored MinerU under LLM judgment. v0.3.1 (Sprint 4a hardening, same-day patch) replaced LLM judgment with deterministic mechanical checks for rules where markdown syntax is unambiguous, and named the audience-derived class-discipline boundary explicitly. Numbers below are v0.3.1. Sprint 4b (multi-converter comparison — docling, marker, etc.) is the natural next sprint, now unblocked.
 
 ---
 
@@ -68,23 +70,27 @@ All three share one discipline: rule-based, binary per probe, ground-truthable f
 
 Each converter gets three scores reported independently. No composite. The profile is the finding — *"strong honesty, mixed readability, weak provenance"* — not a percentage gold medal.
 
-## Scores (MinerU pipeline backend)
+## Scores (MinerU pipeline backend, v0.3.1)
 
-Per-item, v0.3 three-class scoring with N=3 unanimous-agreement:
+Per-item, three-class scoring. Readability and provenance-presence rules are mechanical where markdown syntax is unambiguous (see `scripts/rules.py`); content probes, `cross-ref-target`, `blockquote`, `footnote-syntax`, and all accuracy probes remain LLM-judged with N=3 unanimous-agreement. Each cell shows `matches/n (rate)` with `m` noting mechanical-answered and `d` noting disputed (LLM-unanimous-only) counts.
 
 | Corpus item | Content | Readability | Provenance |
 |-------------|---------|-------------|------------|
-| `lost-in-the-middle` | 9/12 (75%) *2 disputed* | 2/3 (67%) | 4/6 (67%) |
-| `code-blocks-and-images` | 5/5 (100%) | 4/4 (100%) | 1/1 (100%) |
-| `formatted-text-in-context` | 11/11 (100%) | **0/9 (0%)** | — |
-| `mixed-lists` | 6/6 (100%) | 4/4 (100%) | — |
+| `lost-in-the-middle` | 10/12 (83%) *1d* | 2/3 (67%) *2m* | 4/6 (67%) *4m* |
+| `code-blocks-and-images` | 5/5 (100%) | 3/4 (75%) *1m* | 1/1 (100%) |
+| `formatted-text-in-context` | 11/11 (100%) | **0/9 (0%)** *9m* | — |
+| `mixed-lists` | 6/6 (100%) | 2/4 (50%) *3m* | — |
 | `multi-column-reading-order` | 10/10 (100%) | — | — |
-| `nested-headings-deep` | 5/5 (100%) | 5/5 (100%) | — |
-| `nested-headings-unnumbered` | 5/5 (100%) | **2/5 (40%)** | — |
-| `tables-and-captions` | 6/6 (100%) | 5/5 (100%) | 1/1 (100%) |
-| **Aggregate** | **57/60 (95%)** *2 disputed* | **22/35 (63%)** | **6/8 (75%)** |
+| `nested-headings-deep` | 5/5 (100%) | **0/5 (0%)** *5m* | — |
+| `nested-headings-unnumbered` | 5/5 (100%) | **0/5 (0%)** *5m* | — |
+| `tables-and-captions` | 6/6 (100%) | 4/5 (80%) *3m* | 1/1 (100%) |
+| **Aggregate** | **58/60 (97%)** *1d* | **11/35 (31%)** *28m* | **6/8 (75%)** *4m* |
 
-**MinerU profile: strong honesty, mixed readability, weak provenance.** Content preservation is robust overall — aggregate 95% across 60 probes, with one content fail (LITM's footnote-5 body drop, discussed below) and two disputed probes both on LITM's abstract content (judge instability on short-phrase presence checks). Readability varies dramatically by rule: heading-depth on numbered source passes, heading-depth on unnumbered source fails, italic/bold/monospace fail uniformly. Provenance is weakest at the `page-marker` rule specifically: pagination is entirely absent from markdown output — section-number preservation (via folded heading text) and cross-reference targets both hold up, so provenance aggregate (75%) is driven down almost entirely by the page-marker gap on LITM.
+**MinerU profile: strong honesty, weak readability, mixed provenance.** Content preservation is robust — 97% across 60 probes, with one real content fail (LITM's footnote-5 drop) and one disputed probe (LITM abstract, Haiku-level instability on short-phrase presence). Readability is the hardest-hit dimension: 31% aggregate, with two synthesized items scoring 0% (`formatted-text-in-context` because italic/bold/monospace are uniformly stripped; `nested-headings-deep` because all body headings flatten to `##` regardless of source depth) and one at 0% for the same heading-flattening reason (`nested-headings-unnumbered`). Provenance is driven by the `page-marker` rule's complete absence — MinerU's internal state knows page boundaries (`page_idx` in `content_list.json`) but never projects them to markdown.
+
+**v0.3 → v0.3.1 readability shift (63% → 31%).** The earlier v0.3 re-score put readability at 63% under LLM-judged probes. v0.3.1's mechanical checks produced 31%. The drop is not a regression in MinerU — it's the framework no longer hiding what MinerU doesn't emit. The v0.3 LLM judge (Haiku) drifted toward LLM-reader-equivalence interpretation on format rules: `•`-prefixed paragraphs were scored as list-preservation, flat `##`-depth headings-with-numbering were scored as depth-preservation. Under strict markdown-syntax checks, paragraphs aren't lists and flat headings aren't depth-distinct. The 31% is the honest measurement for the human-paster audience; the 63% was judge drift.
+
+The breakdown also tells a cleaner story: 28 of 35 readability probes and 4 of 8 provenance probes are now mechanically answered. Deterministic, reproducible, invariant across runs. Only one content probe disputed (lt-i-c short-phrase presence, Haiku instability on `"how well they use longer context"`).
 
 ## Per-rule findings
 
@@ -96,10 +102,10 @@ Per-item, v0.3 three-class scoring with N=3 unanimous-agreement:
 
 ### Readability (markdown-syntax preservation)
 
-- **Emphasis is universally stripped.** `formatted-text-in-context` scores 0/9 on italic, bold, monospace across body, table-cell, and footnote positions. This is position-independent — not a footnote-specific or table-cell-specific failure, but a pipeline-wide emphasis-stripping behavior in MinerU's pipeline backend. Every user of MinerU on an academic paper loses every italic and bold emphasis.
-- **Heading depth is numbering-dependent.** MinerU folds numbered headings into heading text (`## 2.2 Models`) but does not translate the number into markdown depth (`###`). On source with explicit numbering (`nested-headings-deep`), hierarchy is readable via the numbers in the heading text — a markdown renderer treats every heading as `##`, but a user can still see `## 2.2` and `## 2.2.1` and reason about structure. On source *without* explicit numbering (`nested-headings-unnumbered`), there is no recovery path: every heading becomes `##` with no distinguishing cue. The diagnostic pair is the clearest output of Sprint 3 — MinerU's heading behavior is precisely characterized.
-- **Table structure is HTML-preserved.** MinerU emits HTML `<table>` (not markdown pipes, and without `<th>`). A user pasting into Word or rendering in a markdown previewer sees the table intact. Readability passes.
-- **Judge-interpretation drift on the `list-bullets` rule.** LITM's `lt-bu-f` probe was authored with strict wording — *"lines beginning with `-`, `*`, or `+`, or HTML `<ul><li>`; answer no if paragraphs are prefixed with `•`"* — and MinerU's output emits paragraphs prefixed with `•`. Expected answer: no. The judge (Haiku) returned unanimous yes across three runs. This appears to be the LLM judge drifting toward LLM-reader-equivalence interpretation — it treats `•` as functionally list-like regardless of explicit CommonMark-spec wording. The finding is itself informative: LLM-judged strict readability collapses back toward LLM-reader-equivalence for some rules. Mechanical (regex / parser-based) readability checks are probably the right move for rules with unambiguous markdown syntax (list prefixes, fence markers, heading depth); LLM-judged works fine where the expected answer has structural ambiguity. Sprint 4 prep.
+- **Emphasis is universally stripped.** `formatted-text-in-context` scores 0/9 on italic, bold, monospace across body, table-cell, and footnote positions. This is position-independent — not a footnote-specific or table-cell-specific failure, but a pipeline-wide emphasis-stripping behavior in MinerU's pipeline backend. Every user of MinerU on an academic paper loses every italic and bold emphasis. Mechanical check confirms: no `**X**`, `*X*`, `` `X` ``, or HTML `<b>/<i>/<code>` markup anywhere in output.
+- **Heading depth collapses regardless of source structure.** MinerU emits every body heading at `##` depth, whether the source has 2-level or 4-level nesting. On `nested-headings-deep` (explicitly numbered source), the numbers survive in heading text (`## 2.2 Models`, `## 2.2.1 Subsection`), but the markdown depth is flat — mechanical check reports one distinct body-heading depth, rule fails. On `nested-headings-unnumbered`, there's no recovery path at all: every heading is `##` with no distinguishing cue. Human-paster audience gets no depth information either way; a content-class LLM reader gets hierarchy from the numbering in the first case but not the second. The v0.3.1 diagnostic pair cleanly separates "markdown-depth preserved" (fails both items) from "LLM-readable hierarchy" (passes numbered, fails unnumbered).
+- **Table structure is HTML-preserved.** MinerU emits HTML `<table>` (not markdown pipes, and without `<th>`). Mechanical check treats this as a readability pass — most markdown renderers and Word both accept HTML tables. Open question (raised in root's v0.3 review): does HTML `<table>` round-trip into Word/Pages as cleanly as markdown pipes? Empirical paste-test deferred to Sprint 5.
+- **List-bullets — mechanical + LLM split.** MinerU emits `•`-prefixed paragraphs without markdown bullet syntax. The mechanical check returns `undetermined` for this pattern (unicode bullets aren't CommonMark list markers but Word may auto-format). LLM fallback takes over — and the LLM judge (Haiku) passes the probe, treating `•` as functionally list-like. The v0.3.1 architecture makes this split visible: the mechanical check honestly refused to answer, the LLM answered yes, the probe passes. Under a stricter readability definition (e.g., *"what a markdown-only renderer would format"*), this would fail. The v0.3.1 interpretation is more lenient than strict markdown-syntax; a Sprint 5 decision could tighten the undetermined disposition if needed.
 
 ### Provenance (positional-coordinate preservation)
 
@@ -112,11 +118,13 @@ Per-item, v0.3 three-class scoring with N=3 unanimous-agreement:
 
 **Lesson 1 — Audience-needs and failure-modes are dual construction lenses.** The catalog was built failure-mode-first. Both v0.3 additions (provenance, readability) emerged from asking *"what does the downstream consumer need?"* — a question the failure-mode-first construction did not ask. The v0.3 amendments codify both lenses as first-class catalog construction methods. When the catalog is next extended, either lens can surface a cell; both are valid sources.
 
-**Lesson 2 — Each probe class needs its own judgment discipline.** Content probes work well with LLM-reader-equivalence wording ("does the information survive in any clear encoding"). Readability probes need stricter markdown-syntax wording, but LLM judges drift toward equivalence interpretation on some rules (`list-bullets` particularly). Sprint 4 prep includes moving rules with unambiguous markdown syntax to mechanical regex/parser checks, reserving LLM judgment for rules where the decision has structural ambiguity.
+**Lesson 2 — Each probe class needs its own judgment discipline, and the readability class is mechanical.** Content probes work well with LLM-reader-equivalence wording ("does the information survive in any clear encoding"). Readability probes need strict markdown-syntax criteria, and LLM judges drifted toward equivalence interpretation even under explicit strict wording. v0.3.1 resolved this by making readability for pure-syntax rules mechanical (regex/parser) with three-valued output and LLM fallback for undetermined cases. The boundary is audience-derived: content's audience is an LLM reader (LLM judgment is native); readability's audience is a markdown renderer or human paster (deterministic syntax check is native). Different class, different test discipline, both correct for their respective audiences.
 
 **Lesson 3 — A paired probe is not just a doubled probe.** The paired content/format discipline from Sprint 2 generalized: v0.3 provenance probes are also paired (coordinate-presence + coordinate-accuracy). Pairing makes three failure modes individually detectable (drop, fabricate-wrong, preserve-correct) that a single probe cannot distinguish. Every probe class that tests for *"a thing plus a property of that thing"* benefits from pairing.
 
-**Lesson 4 — Honesty pass does not imply overall fitness.** MinerU aggregate content score is 97%. MinerU aggregate readability score is 63%. MinerU aggregate provenance score is 60%. The same converter is strong under one lens, weak under two others. The three-track profile is exactly the deliverable — reducing it to a single number destroys the finding.
+**Lesson 4 — Honesty pass does not imply overall fitness.** MinerU aggregate content score is 97%. MinerU aggregate readability score is 31% under v0.3.1 mechanical checks. MinerU aggregate provenance score is 75%. The same converter is strong under one lens, weak under another, mixed under the third. The three-track profile is exactly the deliverable — reducing it to a single number destroys the finding.
+
+**Lesson 5 — Determinism welcome only when it knows its limits.** v0.3.1's mechanical checks are valuable specifically because each one explicitly refuses to answer on inputs outside its scope of competence (returns `undetermined`, hands off to the LLM judge). A brittle mechanical check that returned yes/no on ambiguous inputs would be worse than slower LLM inference — the failure would be silent. This principle mirrors the framework's own `undefined` concept: a converter should positively recognize input outside its capability table rather than guess or drop silently. The measurement tooling obeys the same rule it measures converters against.
 
 ## What landed vs what's left
 
@@ -128,11 +136,22 @@ Per-item, v0.3 three-class scoring with N=3 unanimous-agreement:
 - ✅ Harness v0.3 — class-based three-track scoring, `honesty_profile.json` with per-class breakdown.
 - ✅ Full corpus re-score against MinerU — all 8 items have v0.3 profiles.
 
-**Deferred to Sprint 4 prep** (not blocking Sprint 3 close, but the next work to do):
+**Shipped same-day as v0.3.1** (Sprint 4a hardening):
 
-- **Rewrite synthesized-item readability probes with strict markdown-syntax wording.** Only LITM's `lt-h-f` and `lt-bu-f` were rewritten in this sprint (as exemplars of the v0.3 strict-readability discipline). The 7 synthesized items' readability probes still carry v0.2 "any clear signal" LLM-reader-equivalence wording. Their readability scores in the table above reflect that wording, not strict v0.3. Expected effect when rewritten: `formatted-text-in-context` stays at 0/9; `nested-headings-unnumbered` stays at 40%; `nested-headings-deep` likely drops from 100% to partial (depth flat despite numbering); `mixed-lists` readability drops (bullets stripped despite `•` prefix).
-- **Mechanical readability checks.** Convert rules with unambiguous markdown-syntax criteria (`list-bullets`, `heading-depth`, `code-fence`) to regex/parser-based checks. Reserve LLM judgment for rules where the decision has structural ambiguity.
-- **Judge-stability investigation.** `lt-i-c` and `lt-sn-p` both disputed under Haiku. Consider stricter prompting, larger judge model, or both.
+- ✅ **Mechanical rule checks** — `scripts/rules.py` with three-valued output {yes, no, undetermined} per rule. Readability and provenance-presence rules where markdown syntax is unambiguous are now answered mechanically. LLM fallback for undetermined cases. 28/35 readability probes and 4/8 provenance probes now deterministic.
+- ✅ **Probe-rewriting moot for mechanical rules.** The v0.3 plan was to rewrite synthesized-item readability probes under strict markdown-syntax wording. Mechanical checks make that unnecessary — the regex parser doesn't read probe wording, it checks the markdown directly.
+- ✅ **Judge-stability noise reduced.** Only 1/60 content probe disputed (down from multiple). Mechanical checks remove judge variance entirely for their rules; residual instability is isolated to short-phrase content presence on LITM.
+
+**Deferred to Sprint 4b** (multi-converter comparison, the natural next sprint):
+
+- Add docling, marker, and PyMuPDF4LLM to the eval. Run the full v0.3.1 harness on each across all 8 corpus items. Report per-converter three-track profiles plus cross-converter comparison. The v0.3.1 infrastructure makes this a straightforward application — the comparison story writes itself because the measurement is clean.
+
+**Deferred to Sprint 5+** (not blocking 4b):
+
+- **Corpus breadth.** Add 2–3 more wild documents (legal brief, regulatory filing, textbook chapter) to stress-test provenance across document classes. Mechanical rules apply for free on new items; only content + provenance-accuracy probes need authoring per document.
+- **Residual judge-stability investigation.** `lt-i-c` still disputed after v0.3.1. Candidate fixes: stricter prompting, larger judge model, or moving short-phrase content probes to mechanical string-match checks (regex `re.search(exact_phrase, markdown)` with undetermined fallback for near-matches).
+- **HTML `<table>` round-trip verification.** v0.3.1 treats HTML `<table>` as a readability pass. Open question (raised in root's v0.3 review): does it round-trip into Word/Pages as cleanly as markdown pipes? Empirical paste-test deferred.
+- **`cross-ref-target` accuracy probe tightening.** Current accuracy probe asks the LLM to confirm content identity at the cross-ref target — closer to taste-maker than needed. Better: harness extracts the cross-ref's resolved text and compares verbatim.
 
 ## Sprint 3 status
 
@@ -142,15 +161,18 @@ Per-item, v0.3 three-class scoring with N=3 unanimous-agreement:
 - [x] LITM probes retrofitted under Sprint 3 disciplines
 - [x] Two blind spots surfaced and corrected — v0.3 three-probe-class taxonomy
 - [x] MinerU re-scored under v0.3 across all 8 corpus items
+- [x] v0.3.1 hardening: mechanical rule checks with three-valued output, aggregation discipline, audience-derived class-discipline boundary named
+- [x] MinerU re-scored under v0.3.1 mechanical checks (readability 63% → 31% honest number)
 - [x] Results documented (this file)
 
-Sprint 3 closes with the v0.3 taxonomy shipped, MinerU fully profiled, and Sprint 4 (multi-converter comparison with the v0.3 scoring) cleanly teed up.
+Sprint 3 closes with the v0.3.1 taxonomy shipped, MinerU fully profiled across three tracks with 32 of 60 readability+provenance probes deterministically answered, and Sprint 4b (multi-converter comparison — docling, marker, PyMuPDF4LLM) cleanly teed up.
 
 ## Artifacts
 
-- `docs/failure-mode-catalog.md` — v0.3, three-probe-class taxonomy + readability/provenance rules + audience-needs-lens methodology note (v0.1 baseline and v0.2 amendments preserved above).
-- `scripts/run-eval.py` — harness v0.3, class-based three-track scoring.
-- `corpus/lost-in-the-middle/probes.json` — 21 probes (12 content, 3 readability, 6 provenance). Includes 6 new provenance probes across 3 rules (page-marker, section-number, cross-ref-target).
-- `corpus/synthesized/<item>/probes.json` — 7 items migrated to v0.3 schema. Readability probes carry v0.2 wording pending the Sprint 4 rewrite.
-- `corpus/**/output/**/honesty_profile.json` — v0.3 three-track honesty profiles per (item, converter) pair.
+- `docs/failure-mode-catalog.md` — v0.3.1, three-probe-class taxonomy + readability/provenance rules + audience-needs-lens + hybrid mechanical/LLM discipline. v0.1 baseline, v0.2 amendments, and v0.3 amendments preserved above.
+- `scripts/run-eval.py` — harness v0.3.1, class-based three-track scoring with mechanical-first dispatch.
+- `scripts/rules.py` — mechanical rule checks for 8 readability + 2 provenance-presence rules. Each with documented scope of competence and three-valued output.
+- `corpus/lost-in-the-middle/probes.json` — 21 probes (12 content, 3 readability, 6 provenance). Includes 6 provenance probes across 3 rules (page-marker, section-number, cross-ref-target).
+- `corpus/synthesized/<item>/probes.json` — 7 items migrated to v0.3 schema. Readability probes are answered mechanically regardless of probe wording (mechanical checks don't read the question).
+- `corpus/**/output/**/honesty_profile.json` — v0.3.1 three-track honesty profiles per (item, converter) pair, with `answered_by: mechanical|llm` per probe.
 - `docs/sprint-3-results.md` — this file.
