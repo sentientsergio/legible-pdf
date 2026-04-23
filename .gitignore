@@ -59,13 +59,14 @@ CLAUDE.md
 # Corpus raw downloads (redundant with extracted source/)
 corpus/*/arxiv-eprint
 
-# MinerU intermediate artifacts (keep paper.md, honesty_profile.json, images/)
-corpus/*/output/*/paper/auto/paper_origin.pdf
-corpus/*/output/*/paper/auto/paper_layout.pdf
-corpus/*/output/*/paper/auto/paper_span.pdf
-corpus/*/output/*/paper/auto/paper_content_list*.json
-corpus/*/output/*/paper/auto/paper_middle.json
-corpus/*/output/*/paper/auto/paper_model.json
+# MinerU intermediate artifacts (keep <name>.md, honesty_profile.json, images/)
+# Wildcards because the converter names files after the input PDF stem.
+corpus/**/output/**/auto/*_origin.pdf
+corpus/**/output/**/auto/*_layout.pdf
+corpus/**/output/**/auto/*_span.pdf
+corpus/**/output/**/auto/*_content_list*.json
+corpus/**/output/**/auto/*_middle.json
+corpus/**/output/**/auto/*_model.json
 
 # LaTeX byproducts
 *.aux

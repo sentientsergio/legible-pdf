@@ -1,0 +1,176 @@
+{
+  "corpus_item_id": "formatted-text-in-context",
+  "schema_version": "0.3",
+  "schema_notes": "v0.3 probe shape (2026-04-23): three-probe-class taxonomy (content / readability / provenance). Migrated from v0.2 by scripts/migrate_v03.py: content-presence probes and hallucination probes \u2192 probe_class=content with expected_answer carrying polarity; format-preservation probes \u2192 probe_class=readability with a rule pointer. No provenance probes added at migration time \u2014 synthesized items exercise content + readability only in Sprint 3 scope; provenance probes are LITM-focused for Sprint 3 and extend to synthesized items in later sprints as applicable. Prior v0.2 schema_notes: v0.2 probe shape (Sprint 3): paired content/format probes, unambiguous wording, N=3 unanimous-agreement runs. Tests italic/bold/monospace preservation across three positions: body paragraph, table cell, footnote body. 9 (format \u00d7 position) cells, each with paired content-presence and format-preservation probe. Format probes accept ANY clear encoding (rendered glyph, markdown syntax, HTML, etc.) per the LLM-reader-equivalence principle. The pairing isolates 'content lost' from 'format lost' as separate failure modes.",
+  "probes": [
+    {
+      "id": "ft-bi-c",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "question": "Does the document mention the word 'nimbus'?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source body Section 1 contains 'nimbus' (italic) and the Glossary Section 4 also lists 'nimbus' as one of nine tokens. Verified visually."
+    },
+    {
+      "id": "ft-bi-f",
+      "probe_class": "readability",
+      "feature": "italic_body",
+      "rule": "emphasis-italic",
+      "question": "Is the word 'nimbus' presented as italic or emphasized in the document, whether via rendered italic glyphs, markdown italic syntax (e.g., *nimbus* or _nimbus_), HTML em tags, or any other clear signal of italic/emphasis?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source: Section 1 body uses \\textit{nimbus}. Rendered PDF shows nimbus in italic glyphs. Probe accepts any preserved emphasis encoding."
+    },
+    {
+      "id": "ft-bb-c",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "question": "Does the document mention the word 'stratus'?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source Section 1 (bold) and Section 4 Glossary. Verified visually."
+    },
+    {
+      "id": "ft-bb-f",
+      "probe_class": "readability",
+      "feature": "bold_body",
+      "rule": "emphasis-bold",
+      "question": "Is the word 'stratus' presented as bold or strongly emphasized in the document, whether via rendered bold glyphs, markdown bold syntax (e.g., **stratus** or __stratus__), HTML strong tags, or any other clear signal of bold/strong emphasis?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source: Section 1 body uses \\textbf{stratus}. Rendered PDF shows stratus in bold glyphs."
+    },
+    {
+      "id": "ft-bm-c",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "question": "Does the document mention the word 'cumulus'?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source Section 1 (monospace) and Section 4 Glossary. Verified visually."
+    },
+    {
+      "id": "ft-bm-f",
+      "probe_class": "readability",
+      "feature": "monospace_body",
+      "rule": "emphasis-mono",
+      "question": "Is the word 'cumulus' presented as monospace, code-formatted, or typewriter-style text in the document, whether via rendered monospace glyphs, markdown inline-code syntax (e.g., `cumulus`), HTML code tags, or any other clear signal of monospace/code formatting?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source: Section 1 body uses \\texttt{cumulus}. Rendered PDF shows cumulus in monospace font."
+    },
+    {
+      "id": "ft-ti-c",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "question": "Does the document mention the word 'beta'?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source: 'beta' appears in the table cell (Section 2) in italic, and in Glossary Section 4 plain. Verified visually."
+    },
+    {
+      "id": "ft-ti-f",
+      "probe_class": "readability",
+      "feature": "italic_table",
+      "rule": "emphasis-italic",
+      "question": "Is the word 'beta' presented as italic or emphasized in the document, whether via rendered italic glyphs, markdown italic syntax, HTML em tags, or any other clear signal of italic/emphasis?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source: Section 2 table cell uses \\textit{beta}. Rendered PDF shows beta in italic inside the second column of the table."
+    },
+    {
+      "id": "ft-tb-c",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "question": "Does the document mention the word 'delta'?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source: 'delta' in table (Section 2, bold) and Glossary (Section 4)."
+    },
+    {
+      "id": "ft-tb-f",
+      "probe_class": "readability",
+      "feature": "bold_table",
+      "rule": "emphasis-bold",
+      "question": "Is the word 'delta' presented as bold or strongly emphasized in the document, whether via rendered bold glyphs, markdown bold syntax, HTML strong tags, or any other clear signal?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source: Section 2 table cell uses \\textbf{delta}. Rendered PDF shows delta in bold."
+    },
+    {
+      "id": "ft-tm-c",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "question": "Does the document mention the word 'zeta'?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source: 'zeta' in table (Section 2, monospace) and Glossary."
+    },
+    {
+      "id": "ft-tm-f",
+      "probe_class": "readability",
+      "feature": "monospace_table",
+      "rule": "emphasis-mono",
+      "question": "Is the word 'zeta' presented as monospace, code-formatted, or typewriter-style text in the document, whether via rendered monospace glyphs, markdown inline-code syntax, HTML code tags, or any other clear signal?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source: Section 2 table cell uses \\texttt{zeta}. Rendered PDF shows zeta in monospace."
+    },
+    {
+      "id": "ft-fi-c",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "question": "Does the document mention the word 'altocumulus'?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source: 'altocumulus' in footnote (Section 3 footnote, italic) and Glossary."
+    },
+    {
+      "id": "ft-fi-f",
+      "probe_class": "readability",
+      "feature": "italic_footnote",
+      "rule": "emphasis-italic",
+      "question": "Is the word 'altocumulus' presented as italic or emphasized in the document, whether via rendered italic glyphs, markdown italic syntax, HTML em tags, or any other clear signal of italic/emphasis?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source: Section 3 footnote uses \\textit{altocumulus}. Rendered PDF shows altocumulus in italic in the footnote text at bottom of page."
+    },
+    {
+      "id": "ft-fb-c",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "question": "Does the document mention the word 'cirrus'?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source: 'cirrus' in footnote (bold) and Glossary."
+    },
+    {
+      "id": "ft-fb-f",
+      "probe_class": "readability",
+      "feature": "bold_footnote",
+      "rule": "emphasis-bold",
+      "question": "Is the word 'cirrus' presented as bold or strongly emphasized in the document, whether via rendered bold glyphs, markdown bold syntax, HTML strong tags, or any other clear signal?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source: Section 3 footnote uses \\textbf{cirrus}. Rendered PDF shows cirrus in bold in the footnote."
+    },
+    {
+      "id": "ft-fm-c",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "question": "Does the document mention the word 'stratocumulus'?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source: 'stratocumulus' in footnote (monospace) and Glossary."
+    },
+    {
+      "id": "ft-fm-f",
+      "probe_class": "readability",
+      "feature": "monospace_footnote",
+      "rule": "emphasis-mono",
+      "question": "Is the word 'stratocumulus' presented as monospace, code-formatted, or typewriter-style text in the document, whether via rendered monospace glyphs, markdown inline-code syntax, HTML code tags, or any other clear signal?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source: Section 3 footnote uses \\texttt{stratocumulus}. Rendered PDF shows stratocumulus in monospace in the footnote."
+    },
+    {
+      "id": "ft-x01",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "question": "Does the document mention a word 'mammatus'?",
+      "expected_answer": "no",
+      "ground_truth_basis": "Source contains nine tokens (nimbus, stratus, cumulus, beta, delta, zeta, altocumulus, cirrus, stratocumulus). 'Mammatus' is a real cloud subtype (thematic distractor) but is not in this document."
+    },
+    {
+      "id": "ft-x02",
+      "probe_class": "content",
+      "feature": "italic_body",
+      "question": "Is the word 'epsilon' presented as italic or emphasized in the document, whether via rendered italic glyphs, markdown italic syntax, HTML em tags, or any other clear signal?",
+      "expected_answer": "no",
+      "ground_truth_basis": "Source: 'epsilon' appears in the table cell as PLAIN text (not formatted). It is the unformatted control next to 'zeta' which IS formatted. Tests whether the converter or judge falsely attributes formatting that is not present."
+    }
+  ]
+}

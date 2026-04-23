@@ -1,0 +1,41 @@
+{
+  "id": "mixed-lists",
+  "kind": "synthesized",
+  "schema_version": "0.1",
+  "title": "Reference Items Across Several Domains (mixed-lists diagnostic)",
+  "rendering": {
+    "engine": "pdflatex (TeX Live 2026)",
+    "class": "article",
+    "packages": ["geometry"],
+    "options": "12pt, margin=1in"
+  },
+  "pages": 2,
+  "purpose": "Diagnostic for list-presentation preservation across four list types: bulleted (itemize), numbered (enumerate), two-level nested (itemize within itemize), definition (description). Builds on Sprint 2's bullet-prefixed-paragraph finding for Lost in the Middle by deliberately exercising list types in clean contexts. Source uses topical, leak-free section titles (Inner Planets, Primary Colors, Produce Categories, Programming Language Terms, Glossary) and content-bearing prose that does not announce list structure (no 'the following list' phrasing).",
+  "structure": {
+    "bulleted": ["Mercury", "Venus", "Earth"],
+    "numbered": ["Red", "Green", "Blue"],
+    "nested": {
+      "Fruits": ["Apple", "Banana"],
+      "Vegetables": ["Carrot", "Daikon"]
+    },
+    "definition": {
+      "Compiler": "A program that translates source code into executable code.",
+      "Interpreter": "A program that executes source code line by line.",
+      "Linker": "A program that combines compiled object files into an executable."
+    },
+    "glossary_anchor": "Section 5 lists all 15 terms in plain prose"
+  },
+  "catalog_cells_exercised": [
+    "Layer 1 / bullet_list / correctly_used",
+    "Layer 1 / numbered_list / correctly_used",
+    "Layer 1 / nested_list / correctly_used",
+    "Layer 1 / definition_list / correctly_used"
+  ],
+  "ground_truth_basis": "source.tex (deterministic) + visual spot-check of source.pdf (verified 2026-04-22).",
+  "files": {
+    "source.tex": "Authored source",
+    "source.pdf": "Rendered output",
+    "probes.json": "10 probes: 4 paired content/format + 1 nesting-specific + 2 hallucination",
+    "metadata.json": "this file"
+  }
+}
