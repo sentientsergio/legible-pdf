@@ -314,4 +314,50 @@ Source observations beyond `frompdf/research/pdf-to-markdown-sota.md` (paperlint
 
 ---
 
-_v0.1, 2026-04-22. Drafted from frompdf SOTA research as primary source. Will accumulate observations from prior CPPA/EI work and from eval runs._
+## Sprint 3 amendments (2026-04-22)
+
+Three substantive additions from the Sprint 3 synthesized corpus and discipline pass.
+
+### 1. LLM-reader-equivalence is the honesty test
+
+**Honesty is whether a downstream LLM reader can recover the source's information from the converted markdown.** It is *not* whether the markdown would satisfy a markdown linter. Structurally weak markdown — bullet characters stripped, code-block fences missing, blockquote `>` markers absent — is an honesty pass if the LLM reads it correctly. The methodology measures functional reading, not surface fidelity.
+
+A separate axis ("structural fidelity for downstream markdown tooling") could be defined for projects that need it: lost code-block fences impact syntax-highlighting renderers, lost `<th>` impacts CSS and screen-readers, lost code indentation breaks copy-paste-to-REPL. These are real concerns, but they are not honesty failures by this catalog. They belong to a distinct measurement axis if and when one is added.
+
+### 2. Probe-design disciplines
+
+Sprint 2 surfaced three probe-design failure modes. Sprint 3 codifies the disciplines:
+
+- **Paired content/format probes.** A combined probe ("is X presented as a heading?") cannot distinguish "the converter dropped the content" from "the converter kept the content but lost the format." Always author one content-presence probe (does the token/phrase appear?) and one format-preservation probe (is it presented with the structural cue?). Without the split, real content loss can hide behind a "no" hallucination probe that vacuously passes.
+
+- **"Any clear signal" wording.** Format probes should accept any encoding that a downstream LLM reader could recognize as the structure: markdown syntax, prefix characters (`•`, `–`, `1.`), HTML tags, depth or indentation, numerical hierarchy (`2.1`, `2.1.1`), term/definition adjacency, etc. Narrow probes (e.g., "is X at deeper markdown depth than Y") miss honest preservation via numbering or other channels and produce false negatives.
+
+- **N=3 unanimous-agreement scoring.** Each probe is run three times; a probe matches only if all three runs agree *and* the agreed answer matches expected. Disputed probes (runs disagree) are tracked separately as a probe-quality signal — they reveal probe ambiguity or judge instability rather than converter failure. Implemented in `scripts/run-eval.py`.
+
+### 3. MinerU pipeline-backend observations (per feature)
+
+Empirical findings from running MinerU (`-b pipeline`) on the Sprint 3 synthesized corpus and on Lost in the Middle:
+
+| Feature | Observation |
+|---------|-------------|
+| Title | Emitted as `# Title` h1. |
+| Headings | Section number folded into heading text (e.g., `## 2.1 Models`). Depth correctly preserved when source carries explicit numbering. **Depth collapses to flat when source uses unnumbered headings** — diagnostic pair `nested-headings-deep` (numbered) vs `nested-headings-unnumbered` (no numbering) shows clear before/after. |
+| Bulleted list (itemize) | Bullet characters stripped. Items emitted as leading-space-prefixed siblings on separate paragraphs. |
+| Numbered list (enumerate) | Cleanly preserved as `1. X` / `2. Y` / `3. Z`. |
+| Nested list | Top-level bullets stripped; sub-items emit em-dash prefix (`– X`). Indentation flat. |
+| Definition list | `\item[Term] description` becomes `Term description...` on a single line. Term-bold lost; term/definition adjacency preserved. |
+| Table | Emitted as HTML `<table>` with `<tr>`/`<td>` (not markdown pipes; no `<th>`; no header separator row). Cell content preserved verbatim. |
+| Caption | Preserved on its own line as `Table N: ...` / `Figure N: ...`, positioned above (table) or below (figure) the block. |
+| Cross-reference | `\ref{}` resolves to `Table N` / `Figure N` in body text *only if the source PDF was rendered with `.aux` preserved across two pdflatex passes*. If `.aux` is missing the references emit as `Table ??`. |
+| Image | Proper markdown `![](images/<sha256>.jpg)`. PNGs re-encoded as JPG with content-hash filename. |
+| Code block (verbatim) | Indentation destroyed; no fence markers; no monospace markup. Lines emitted as flush-left text with trailing two-space soft-break markers. |
+| Blockquote (quote) | No `>` prefix; no indentation; no italics. Structurally indistinguishable from prose; only attribution-adjacency carries the quotation signal. |
+| Italic / Bold / Monospace | **Stripped uniformly across all three positions tested (body, table cell, footnote).** Verified by `formatted-text-in-context` corpus item: 9/9 format probes failed, 9/9 content-presence probes passed. The strip is position-independent — not a footnote-specific or table-cell-specific failure. |
+| Footnotes | **Footnote bodies dropped entirely.** Lost in the Middle's footnote 5 ("We use the 0613 OpenAI model versions") is absent from MinerU's markdown. Inline footnote markers in body text are preserved but the footnote contents do not appear anywhere in the output. |
+| Inline math | `$expr$` becomes plain text (e.g., `$Z = 1$` → `Z = 1`). Value preserved, math markup lost. Numerical Unicode minus sign (U+2212) sometimes used in place of ASCII hyphen. |
+
+These observations are MinerU-specific. Other converters (Marker, Docling, PyMuPDF4LLM) are expected to differ; cross-converter measurement is a future sprint.
+
+---
+
+_v0.2, 2026-04-22. Sprint 3 amendments add LLM-reader-equivalence framing, probe-design disciplines, and MinerU per-feature observations. v0.1 baseline preserved above; new findings appended rather than rewritten._
