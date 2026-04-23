@@ -5,27 +5,32 @@
   "probes_path": "corpus/synthesized/formatted-text-in-context/probes.json",
   "model": "claude-haiku-4-5-20251001",
   "runs_per_probe": 3,
-  "scoring_rule": "Unanimous-agreement: a probe matches only if all runs agree AND the agreed answer matches expected. Three probe classes (content / readability / provenance) scored independently; no composite. See docs/failure-mode-catalog.md v0.3 amendments.",
+  "scoring_rule": "Hybrid mechanical + LLM. Mechanical rule checks (scripts/rules.py) answer probes where markdown syntax is unambiguous; LLM N=3 unanimous-agreement answers the rest, including mechanical-returned-undetermined cases. See docs/failure-mode-catalog.md v0.3 + v0.3.1 amendments for the taxonomy.",
   "scores": {
     "content": {
       "n": 11,
       "matches": 11,
       "rate": 1.0,
-      "disputed": 0
+      "disputed": 0,
+      "mechanical_answered": 0
     },
     "readability": {
       "n": 9,
       "matches": 0,
       "rate": 0.0,
-      "disputed": 0
+      "disputed": 0,
+      "mechanical_answered": 9
     },
     "provenance": {
       "n": 0,
       "matches": 0,
       "rate": 0.0,
-      "disputed": 0
+      "disputed": 0,
+      "mechanical_answered": 0
     }
   },
+  "mechanical_answered": 9,
+  "llm_answered": 11,
   "disputed_probes": [],
   "probe_results": [
     {
@@ -35,6 +40,8 @@
       "rule": "",
       "question": "Does the document mention the word 'nimbus'?",
       "expected": "yes",
+      "ground_truth_basis": "Source body Section 1 contains 'nimbus' (italic) and the Glossary Section 4 also lists 'nimbus' as one of nine tokens. Verified visually.",
+      "answered_by": "llm",
       "runs": [
         "yes",
         "yes",
@@ -42,8 +49,7 @@
       ],
       "agreement": "unanimous",
       "agreed_answer": "yes",
-      "match": true,
-      "ground_truth_basis": "Source body Section 1 contains 'nimbus' (italic) and the Glossary Section 4 also lists 'nimbus' as one of nine tokens. Verified visually."
+      "match": true
     },
     {
       "id": "ft-bi-f",
@@ -52,15 +58,15 @@
       "rule": "emphasis-italic",
       "question": "Is the word 'nimbus' presented as italic or emphasized in the document, whether via rendered italic glyphs, markdown italic syntax (e.g., *nimbus* or _nimbus_), HTML em tags, or any other clear signal of italic/emphasis?",
       "expected": "yes",
+      "ground_truth_basis": "Source: Section 1 body uses \\textit{nimbus}. Rendered PDF shows nimbus in italic glyphs. Probe accepts any preserved emphasis encoding.",
+      "answered_by": "mechanical",
       "runs": [
-        "no",
-        "no",
         "no"
       ],
-      "agreement": "unanimous",
+      "agreement": "mechanical",
       "agreed_answer": "no",
       "match": false,
-      "ground_truth_basis": "Source: Section 1 body uses \\textit{nimbus}. Rendered PDF shows nimbus in italic glyphs. Probe accepts any preserved emphasis encoding."
+      "mechanical_details": "no italic emphasis markup found"
     },
     {
       "id": "ft-bb-c",
@@ -69,6 +75,8 @@
       "rule": "",
       "question": "Does the document mention the word 'stratus'?",
       "expected": "yes",
+      "ground_truth_basis": "Source Section 1 (bold) and Section 4 Glossary. Verified visually.",
+      "answered_by": "llm",
       "runs": [
         "yes",
         "yes",
@@ -76,8 +84,7 @@
       ],
       "agreement": "unanimous",
       "agreed_answer": "yes",
-      "match": true,
-      "ground_truth_basis": "Source Section 1 (bold) and Section 4 Glossary. Verified visually."
+      "match": true
     },
     {
       "id": "ft-bb-f",
@@ -86,15 +93,15 @@
       "rule": "emphasis-bold",
       "question": "Is the word 'stratus' presented as bold or strongly emphasized in the document, whether via rendered bold glyphs, markdown bold syntax (e.g., **stratus** or __stratus__), HTML strong tags, or any other clear signal of bold/strong emphasis?",
       "expected": "yes",
+      "ground_truth_basis": "Source: Section 1 body uses \\textbf{stratus}. Rendered PDF shows stratus in bold glyphs.",
+      "answered_by": "mechanical",
       "runs": [
-        "no",
-        "no",
         "no"
       ],
-      "agreement": "unanimous",
+      "agreement": "mechanical",
       "agreed_answer": "no",
       "match": false,
-      "ground_truth_basis": "Source: Section 1 body uses \\textbf{stratus}. Rendered PDF shows stratus in bold glyphs."
+      "mechanical_details": "no bold emphasis markup found"
     },
     {
       "id": "ft-bm-c",
@@ -103,6 +110,8 @@
       "rule": "",
       "question": "Does the document mention the word 'cumulus'?",
       "expected": "yes",
+      "ground_truth_basis": "Source Section 1 (monospace) and Section 4 Glossary. Verified visually.",
+      "answered_by": "llm",
       "runs": [
         "yes",
         "yes",
@@ -110,8 +119,7 @@
       ],
       "agreement": "unanimous",
       "agreed_answer": "yes",
-      "match": true,
-      "ground_truth_basis": "Source Section 1 (monospace) and Section 4 Glossary. Verified visually."
+      "match": true
     },
     {
       "id": "ft-bm-f",
@@ -120,15 +128,15 @@
       "rule": "emphasis-mono",
       "question": "Is the word 'cumulus' presented as monospace, code-formatted, or typewriter-style text in the document, whether via rendered monospace glyphs, markdown inline-code syntax (e.g., `cumulus`), HTML code tags, or any other clear signal of monospace/code formatting?",
       "expected": "yes",
+      "ground_truth_basis": "Source: Section 1 body uses \\texttt{cumulus}. Rendered PDF shows cumulus in monospace font.",
+      "answered_by": "mechanical",
       "runs": [
-        "no",
-        "no",
         "no"
       ],
-      "agreement": "unanimous",
+      "agreement": "mechanical",
       "agreed_answer": "no",
       "match": false,
-      "ground_truth_basis": "Source: Section 1 body uses \\texttt{cumulus}. Rendered PDF shows cumulus in monospace font."
+      "mechanical_details": "no inline monospace markup found"
     },
     {
       "id": "ft-ti-c",
@@ -137,6 +145,8 @@
       "rule": "",
       "question": "Does the document mention the word 'beta'?",
       "expected": "yes",
+      "ground_truth_basis": "Source: 'beta' appears in the table cell (Section 2) in italic, and in Glossary Section 4 plain. Verified visually.",
+      "answered_by": "llm",
       "runs": [
         "yes",
         "yes",
@@ -144,8 +154,7 @@
       ],
       "agreement": "unanimous",
       "agreed_answer": "yes",
-      "match": true,
-      "ground_truth_basis": "Source: 'beta' appears in the table cell (Section 2) in italic, and in Glossary Section 4 plain. Verified visually."
+      "match": true
     },
     {
       "id": "ft-ti-f",
@@ -154,15 +163,15 @@
       "rule": "emphasis-italic",
       "question": "Is the word 'beta' presented as italic or emphasized in the document, whether via rendered italic glyphs, markdown italic syntax, HTML em tags, or any other clear signal of italic/emphasis?",
       "expected": "yes",
+      "ground_truth_basis": "Source: Section 2 table cell uses \\textit{beta}. Rendered PDF shows beta in italic inside the second column of the table.",
+      "answered_by": "mechanical",
       "runs": [
-        "no",
-        "no",
         "no"
       ],
-      "agreement": "unanimous",
+      "agreement": "mechanical",
       "agreed_answer": "no",
       "match": false,
-      "ground_truth_basis": "Source: Section 2 table cell uses \\textit{beta}. Rendered PDF shows beta in italic inside the second column of the table."
+      "mechanical_details": "no italic emphasis markup found"
     },
     {
       "id": "ft-tb-c",
@@ -171,6 +180,8 @@
       "rule": "",
       "question": "Does the document mention the word 'delta'?",
       "expected": "yes",
+      "ground_truth_basis": "Source: 'delta' in table (Section 2, bold) and Glossary (Section 4).",
+      "answered_by": "llm",
       "runs": [
         "yes",
         "yes",
@@ -178,8 +189,7 @@
       ],
       "agreement": "unanimous",
       "agreed_answer": "yes",
-      "match": true,
-      "ground_truth_basis": "Source: 'delta' in table (Section 2, bold) and Glossary (Section 4)."
+      "match": true
     },
     {
       "id": "ft-tb-f",
@@ -188,15 +198,15 @@
       "rule": "emphasis-bold",
       "question": "Is the word 'delta' presented as bold or strongly emphasized in the document, whether via rendered bold glyphs, markdown bold syntax, HTML strong tags, or any other clear signal?",
       "expected": "yes",
+      "ground_truth_basis": "Source: Section 2 table cell uses \\textbf{delta}. Rendered PDF shows delta in bold.",
+      "answered_by": "mechanical",
       "runs": [
-        "no",
-        "no",
         "no"
       ],
-      "agreement": "unanimous",
+      "agreement": "mechanical",
       "agreed_answer": "no",
       "match": false,
-      "ground_truth_basis": "Source: Section 2 table cell uses \\textbf{delta}. Rendered PDF shows delta in bold."
+      "mechanical_details": "no bold emphasis markup found"
     },
     {
       "id": "ft-tm-c",
@@ -205,6 +215,8 @@
       "rule": "",
       "question": "Does the document mention the word 'zeta'?",
       "expected": "yes",
+      "ground_truth_basis": "Source: 'zeta' in table (Section 2, monospace) and Glossary.",
+      "answered_by": "llm",
       "runs": [
         "yes",
         "yes",
@@ -212,8 +224,7 @@
       ],
       "agreement": "unanimous",
       "agreed_answer": "yes",
-      "match": true,
-      "ground_truth_basis": "Source: 'zeta' in table (Section 2, monospace) and Glossary."
+      "match": true
     },
     {
       "id": "ft-tm-f",
@@ -222,15 +233,15 @@
       "rule": "emphasis-mono",
       "question": "Is the word 'zeta' presented as monospace, code-formatted, or typewriter-style text in the document, whether via rendered monospace glyphs, markdown inline-code syntax, HTML code tags, or any other clear signal?",
       "expected": "yes",
+      "ground_truth_basis": "Source: Section 2 table cell uses \\texttt{zeta}. Rendered PDF shows zeta in monospace.",
+      "answered_by": "mechanical",
       "runs": [
-        "no",
-        "no",
         "no"
       ],
-      "agreement": "unanimous",
+      "agreement": "mechanical",
       "agreed_answer": "no",
       "match": false,
-      "ground_truth_basis": "Source: Section 2 table cell uses \\texttt{zeta}. Rendered PDF shows zeta in monospace."
+      "mechanical_details": "no inline monospace markup found"
     },
     {
       "id": "ft-fi-c",
@@ -239,6 +250,8 @@
       "rule": "",
       "question": "Does the document mention the word 'altocumulus'?",
       "expected": "yes",
+      "ground_truth_basis": "Source: 'altocumulus' in footnote (Section 3 footnote, italic) and Glossary.",
+      "answered_by": "llm",
       "runs": [
         "yes",
         "yes",
@@ -246,8 +259,7 @@
       ],
       "agreement": "unanimous",
       "agreed_answer": "yes",
-      "match": true,
-      "ground_truth_basis": "Source: 'altocumulus' in footnote (Section 3 footnote, italic) and Glossary."
+      "match": true
     },
     {
       "id": "ft-fi-f",
@@ -256,15 +268,15 @@
       "rule": "emphasis-italic",
       "question": "Is the word 'altocumulus' presented as italic or emphasized in the document, whether via rendered italic glyphs, markdown italic syntax, HTML em tags, or any other clear signal of italic/emphasis?",
       "expected": "yes",
+      "ground_truth_basis": "Source: Section 3 footnote uses \\textit{altocumulus}. Rendered PDF shows altocumulus in italic in the footnote text at bottom of page.",
+      "answered_by": "mechanical",
       "runs": [
-        "no",
-        "no",
         "no"
       ],
-      "agreement": "unanimous",
+      "agreement": "mechanical",
       "agreed_answer": "no",
       "match": false,
-      "ground_truth_basis": "Source: Section 3 footnote uses \\textit{altocumulus}. Rendered PDF shows altocumulus in italic in the footnote text at bottom of page."
+      "mechanical_details": "no italic emphasis markup found"
     },
     {
       "id": "ft-fb-c",
@@ -273,6 +285,8 @@
       "rule": "",
       "question": "Does the document mention the word 'cirrus'?",
       "expected": "yes",
+      "ground_truth_basis": "Source: 'cirrus' in footnote (bold) and Glossary.",
+      "answered_by": "llm",
       "runs": [
         "yes",
         "yes",
@@ -280,8 +294,7 @@
       ],
       "agreement": "unanimous",
       "agreed_answer": "yes",
-      "match": true,
-      "ground_truth_basis": "Source: 'cirrus' in footnote (bold) and Glossary."
+      "match": true
     },
     {
       "id": "ft-fb-f",
@@ -290,15 +303,15 @@
       "rule": "emphasis-bold",
       "question": "Is the word 'cirrus' presented as bold or strongly emphasized in the document, whether via rendered bold glyphs, markdown bold syntax, HTML strong tags, or any other clear signal?",
       "expected": "yes",
+      "ground_truth_basis": "Source: Section 3 footnote uses \\textbf{cirrus}. Rendered PDF shows cirrus in bold in the footnote.",
+      "answered_by": "mechanical",
       "runs": [
-        "no",
-        "no",
         "no"
       ],
-      "agreement": "unanimous",
+      "agreement": "mechanical",
       "agreed_answer": "no",
       "match": false,
-      "ground_truth_basis": "Source: Section 3 footnote uses \\textbf{cirrus}. Rendered PDF shows cirrus in bold in the footnote."
+      "mechanical_details": "no bold emphasis markup found"
     },
     {
       "id": "ft-fm-c",
@@ -307,6 +320,8 @@
       "rule": "",
       "question": "Does the document mention the word 'stratocumulus'?",
       "expected": "yes",
+      "ground_truth_basis": "Source: 'stratocumulus' in footnote (monospace) and Glossary.",
+      "answered_by": "llm",
       "runs": [
         "yes",
         "yes",
@@ -314,8 +329,7 @@
       ],
       "agreement": "unanimous",
       "agreed_answer": "yes",
-      "match": true,
-      "ground_truth_basis": "Source: 'stratocumulus' in footnote (monospace) and Glossary."
+      "match": true
     },
     {
       "id": "ft-fm-f",
@@ -324,15 +338,15 @@
       "rule": "emphasis-mono",
       "question": "Is the word 'stratocumulus' presented as monospace, code-formatted, or typewriter-style text in the document, whether via rendered monospace glyphs, markdown inline-code syntax, HTML code tags, or any other clear signal?",
       "expected": "yes",
+      "ground_truth_basis": "Source: Section 3 footnote uses \\texttt{stratocumulus}. Rendered PDF shows stratocumulus in monospace in the footnote.",
+      "answered_by": "mechanical",
       "runs": [
-        "no",
-        "no",
         "no"
       ],
-      "agreement": "unanimous",
+      "agreement": "mechanical",
       "agreed_answer": "no",
       "match": false,
-      "ground_truth_basis": "Source: Section 3 footnote uses \\texttt{stratocumulus}. Rendered PDF shows stratocumulus in monospace in the footnote."
+      "mechanical_details": "no inline monospace markup found"
     },
     {
       "id": "ft-x01",
@@ -341,6 +355,8 @@
       "rule": "",
       "question": "Does the document mention a word 'mammatus'?",
       "expected": "no",
+      "ground_truth_basis": "Source contains nine tokens (nimbus, stratus, cumulus, beta, delta, zeta, altocumulus, cirrus, stratocumulus). 'Mammatus' is a real cloud subtype (thematic distractor) but is not in this document.",
+      "answered_by": "llm",
       "runs": [
         "no",
         "no",
@@ -348,8 +364,7 @@
       ],
       "agreement": "unanimous",
       "agreed_answer": "no",
-      "match": true,
-      "ground_truth_basis": "Source contains nine tokens (nimbus, stratus, cumulus, beta, delta, zeta, altocumulus, cirrus, stratocumulus). 'Mammatus' is a real cloud subtype (thematic distractor) but is not in this document."
+      "match": true
     },
     {
       "id": "ft-x02",
@@ -358,6 +373,8 @@
       "rule": "",
       "question": "Is the word 'epsilon' presented as italic or emphasized in the document, whether via rendered italic glyphs, markdown italic syntax, HTML em tags, or any other clear signal?",
       "expected": "no",
+      "ground_truth_basis": "Source: 'epsilon' appears in the table cell as PLAIN text (not formatted). It is the unformatted control next to 'zeta' which IS formatted. Tests whether the converter or judge falsely attributes formatting that is not present.",
+      "answered_by": "llm",
       "runs": [
         "no",
         "no",
@@ -365,8 +382,7 @@
       ],
       "agreement": "unanimous",
       "agreed_answer": "no",
-      "match": true,
-      "ground_truth_basis": "Source: 'epsilon' appears in the table cell as PLAIN text (not formatted). It is the unformatted control next to 'zeta' which IS formatted. Tests whether the converter or judge falsely attributes formatting that is not present."
+      "match": true
     }
   ]
 }

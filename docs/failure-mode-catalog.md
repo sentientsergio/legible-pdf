@@ -496,3 +496,94 @@ New probes to author: provenance probes per corpus item where applicable. LITM i
 ---
 
 _v0.3, 2026-04-23. Three-probe-class taxonomy (content / readability / provenance), each rule-based and ground-truthable. Audience-needs lens codified alongside failure-modes lens. v0.1 baseline and v0.2 amendments preserved above._
+
+---
+
+## v0.3.1 amendments (2026-04-23, same day)
+
+v0.3 introduced the three-probe-class taxonomy but left all probes LLM-judged. Running the re-score surfaced three consequences that v0.3.1 addresses:
+
+- **Judge-interpretation drift.** Even under strict readability probe wording, the LLM judge (Haiku) drifted toward LLM-reader-equivalence interpretation on rules like `list-bullets` — it treated `•`-prefixed paragraphs as list-equivalent despite explicit CommonMark-syntax probe wording. Scoring noise, not a real pass.
+- **Per-document probe authoring cost.** Every readability probe on every corpus item needed to be authored and rewritten when the discipline tightened. For pure-syntax rules this is expensive scaffolding around what is structurally a deterministic pattern-match.
+- **Class-discipline boundary was implicit.** v0.3 didn't clearly articulate *why* readability probes use strict syntax while content probes use "any clear signal." The boundary is audience-derived and should be named explicitly.
+
+v0.3.1 adds a hybrid mechanical + LLM approach for rules where mechanical pattern-matching is honest. The principle: **determinism is welcome only when it knows its limits.**
+
+### 1. Hybrid three-valued mechanical checks
+
+Each mechanical rule check returns one of **{yes, no, undetermined}**:
+
+- **Yes / no** — rule clearly satisfied or violated; answer is deterministic and authoritative.
+- **Undetermined** — input at the edge of the rule's scope of competence (e.g., `•`-prefixed paragraphs that are neither markdown bullets nor definitely-not-a-list). The check explicitly refuses to answer.
+
+Undetermined cases escalate to the LLM judge (N=3 unanimous-agreement) using the probe question. The two paths are both first-class: mechanical handles the clear pattern-matches, LLM handles the semantic edges.
+
+The *refuse to answer* output is load-bearing. A brittle check that returns yes/no on inputs outside its competence is worse than slower LLM inference because the failure is silent. This mirrors the framework's own `undefined` concept — a converter should positively recognize input outside its capability table rather than guess or drop silently. The measurement tooling obeys the principle it measures converters against.
+
+Implementation: `scripts/rules.py` — one function per rule, each with documented scope of competence. `scripts/run-eval.py` dispatches mechanical-first, LLM-fallback-for-undetermined. Each probe result carries `answered_by: "mechanical" | "llm"` so the honesty profile is transparent about which path decided each answer.
+
+### 2. Mechanical rule scope (v0.3.1 initial set)
+
+Pure-syntax rules where markdown markup is unambiguous:
+
+| Rule | Mechanical check | Scope of competence |
+|------|------------------|---------------------|
+| `heading-depth` | Distinct ATX/HTML heading depths in body (excluding title) | yes if ≥ 2 distinct depths; no if all same; undetermined if < 2 body headings |
+| `list-bullets` | `^[-*+] ` line pattern or HTML `<ul>` | yes on match; no if absent and no unicode bullets; undetermined if `•`-prefixed paragraphs (audience-dependent) |
+| `list-numbers` | `^\d+[.)]` line pattern or HTML `<ol>` | yes on match; no if absent |
+| `table-structure` | Pipe-table rows or HTML `<table>` | yes on match; no if neither |
+| `code-fence` | Triple-backtick fences or indented 4-space blocks | yes on match; no if neither |
+| `emphasis-bold` | Paired `**X**` / `__X__` or HTML `<b>` / `<strong>` | yes on match; no if absent |
+| `emphasis-italic` | Paired `*X*` / `_X_` or HTML `<i>` / `<em>` | yes on match; no if absent |
+| `emphasis-mono` | Single-backtick `` `X` `` or HTML `<code>` | yes on match; no if absent |
+
+Provenance-presence rules:
+
+| Rule | Mechanical check | Scope of competence |
+|------|------------------|---------------------|
+| `page-marker` | Common page-boundary patterns (`--- Page N ---`, `<!-- page N -->`, `[Page N]`, `## Page N`, etc.) | yes on match; no if none found and no ambiguous numeric-only lines; undetermined if ≥ 3 numeric-only lines (could be page numbers or body content) |
+| `section-number` | Heading text matching `^#+ <numeric-prefix> ` (e.g., `## 2.2 Models`, `## A.1 Appendix`) | yes on match; no if headings present but none numbered; undetermined if no headings at all |
+
+**Rules that stay LLM-judged** (semantic load or per-target resolution required):
+- `blockquote` — quotation semantics aren't pattern-matchable.
+- `footnote-syntax` — footnote identity carries semantic load.
+- `cross-ref-target` — presence AND accuracy need contextual resolution.
+- `list-definition`, `caption-adjacency`, `image-reference` — semantic pairing/adjacency relationships.
+- All provenance-**accuracy** probes — need per-target ground truth the markdown alone doesn't carry.
+- All **content** probes — LLM-reader-equivalence IS the test for this class.
+
+### 3. Audience-derived class-discipline boundary
+
+The v0.2 "any clear signal" probe-wording discipline remains correct for the **content** class — the audience there is a downstream LLM reader, and LLM-reader-equivalence is the honesty test. A format probe authored under that discipline passes if the LLM recovers the structure from any cue, including prose context, numbering, or adjacency.
+
+The **readability** class has a different audience: a human previewing the converted markdown or pasting it into Word/Pages. That audience needs actual markdown syntax that round-trips into their tool's structures. HTML `<table>` and `<ul>` are fine; unicode `•` without list syntax is not (a markdown renderer won't format it; Word's behavior is inconsistent). Readability probes therefore require strict markdown-syntax preservation, and mechanical checks enforce that strictness deterministically.
+
+**The boundary is intentional and audience-derived.** Different class, different test discipline. Mechanical for readability isn't a regression from v0.2 "any clear signal" — it's the right test for the readability class's audience. v0.2's discipline was correct for the honesty test; v0.3.1's discipline is correct for the readability test.
+
+### 4. Consequence: the readability class is now a deterministic analyzer
+
+For pure-syntax rules, the v0.3.1 framework is closer to a **deterministic static analyzer** than to an LLM-eval framework — reproducible, cheap, invariant across runs. The rhetorical framing *"the framework asks an LLM whether it can read what was converted"* still holds for the content class (where LLM-reader-equivalence IS the test), but no longer applies to the readability class's mechanical rules. Readability for pure-syntax rules is now *"does the converter's markdown emit the specific syntax a markdown renderer requires"* — a question with a deterministic answer.
+
+This is a positive shift on cost, stability, reproducibility, and forward-compatibility: when corpus grows, mechanical readability rules apply for free, with no per-document authoring. Only content + some provenance probes need authoring per new corpus item. Real economic argument beyond judge-stability.
+
+### 5. Readability rule: note on violation cost
+
+The v0.3 readability rules table includes a "violation cost" column describing the human-cleanup friction when a rule fails (re-level headings, re-bullet items, etc.). **v0.3.1 clarification:** this column is rationale, not scoring weight. Scoring is binary per rule, per document. The cost column explains *why* each rule matters; it does not weight aggregate scores. v0.3.1 defers cost-weighted aggregates until corpus growth makes such weighting load-bearing.
+
+### 6. Aggregation across items
+
+Per-item, per-class scoring is the ground truth. For cross-item summary (converter profile):
+
+- **Unweighted mean of per-item rates, per class, per converter.** Each corpus item contributes equally to the class headline — a converter's readability is the average of its readability rates across all items where readability applies.
+- **Per-item retained for inspection.** Headline numbers never replace the per-item breakdown; they summarize it.
+- **Bias acknowledged explicitly:** small items (few probes) are weighted equally with large items (many probes). Weighting alternatives (by probe count, by rule coverage) are deferred until corpus stratification becomes meaningful; at v0.3.1 corpus size (8 items), unweighted mean is the honest default.
+
+### 7. MinerU profile under v0.3.1 mechanical checks
+
+Re-scoring MinerU with mechanical readability checks produced a substantially lower readability score than v0.3's permissive LLM-judge (**63% → 31%**). The drop is not a regression in MinerU — it's the framework no longer hiding what MinerU doesn't emit. Paragraphs prefixed with `•` don't render as lists in a markdown previewer; depth-collapsed headings don't distinguish hierarchy for a human paster. Mechanical checks call these what they are. *"MinerU is honest but its output is not readable-to-humans without manual restructuring"* — that finding is the point.
+
+See `docs/sprint-3-results.md` for the full v0.3.1 scores by item and per-rule.
+
+---
+
+_v0.3.1, 2026-04-23. Hybrid mechanical + LLM dispatch for rules where markdown syntax is unambiguous; audience-derived class-discipline boundary named; aggregation discipline defined. v0.3 amendments preserved above. Deterministic readability checks obey the "knows its limits" principle — three-valued output with LLM fallback for undetermined._
