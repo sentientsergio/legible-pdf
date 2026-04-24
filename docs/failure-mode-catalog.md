@@ -541,7 +541,7 @@ Provenance-presence rules:
 
 | Rule | Mechanical check | Scope of competence |
 |------|------------------|---------------------|
-| `page-marker` | Common page-boundary patterns (`--- Page N ---`, `<!-- page N -->`, `[Page N]`, `## Page N`, etc.) | yes on match; no if none found and no ambiguous numeric-only lines; undetermined if ≥ 3 numeric-only lines (could be page numbers or body content) |
+| `page-marker` | Specific fixed list of six patterns: `--- Page N ---`, `<!-- page N -->`, `[Page N]`, bare `Page N` line, `<page N>` custom tag, `## Page N` heading | yes on match; no if none found and no ambiguous numeric-only lines; undetermined if ≥ 3 numeric-only lines (could be page numbers or body content). Unusual forms not in the fixed list (e.g., `«Page N»`, non-English variants) return `no`; remedy is extending the pattern list, not loosening semantics |
 | `section-number` | Heading text matching `^#+ <numeric-prefix> ` (e.g., `## 2.2 Models`, `## A.1 Appendix`) | yes on match; no if headings present but none numbered; undetermined if no headings at all |
 
 **Rules that stay LLM-judged** (semantic load or per-target resolution required):
@@ -587,3 +587,81 @@ See `docs/sprint-3-results.md` for the full v0.3.1 scores by item and per-rule.
 ---
 
 _v0.3.1, 2026-04-23. Hybrid mechanical + LLM dispatch for rules where markdown syntax is unambiguous; audience-derived class-discipline boundary named; aggregation discipline defined. v0.3 amendments preserved above. Deterministic readability checks obey the "knows its limits" principle — three-valued output with LLM fallback for undetermined._
+
+---
+
+## v0.3.2 amendments (2026-04-23, same day)
+
+v0.3.1 shipped the mechanical-hybrid readability discipline. A subsequent external red-team (Vinnie Falco) and an internal self-red-team surfaced places where the v0.3/v0.3.1 framing understated real tensions. v0.3.2 names them explicitly. No rule changes, no scoring changes — framing corrections only.
+
+### 1. Framework shelf-life and judge pinning
+
+The content class is defined via LLM-reader-equivalence: a vision-less LLM, given the converted markdown, should answer observational questions the same way an attentive human reader of the source PDF would. This dimension is the honesty test for the LLM-reader audience.
+
+**Tension:** LLM capability is not fixed. A model two generations hence will recover structure from worse markdown. Without explicit discipline, the content bar drops over time — a converter failing today passes tomorrow, unchanged. Taken far enough, a sufficiently capable reader makes every conversion "honest."
+
+**Framework response, two parts:**
+
+- **Judge model pinning.** The content-class probes are evaluated by a specific, versioned judge model (currently `claude-haiku-4-5-20251001`). As judge-model capability improves, the content-class bar must be *explicitly* re-versioned — not allowed to drift silently. A future v0.X.Y will pin a new judge and rerun the corpus; the comparison across judge versions is itself informative about where drift actually occurred in practice.
+- **Readability and provenance don't drift.** Both classes are rule-based (mechanical for pure-syntax rules; paired probes with binary answers elsewhere). Improvements in LLM capability don't change whether markdown emits `-` prefixes or carries page markers. Two of three framework dimensions are drift-resistant by construction.
+
+**Honest statement:** the content class has a shelf-life tied to its pinned judge. Re-versioning the judge is a framework event that should be announced, re-scored, and archived — not papered over. The essay's *"LLM-reader-equivalence"* framing is correct for the content class specifically and should carry this pinning discipline forward.
+
+### 2. Where taste lives in the framework
+
+The v0.3/v0.3.1 catalog asserts *"no judge-as-taste-maker anywhere"* as a discipline. An external critique (Vinnie #6) noted that the v0.3 → v0.3.1 readability shift from 63% to 31% — triggered by LLM judge drift toward LLM-reader-equivalence interpretation on strict-markdown probes — argues taste *did* enter the framework, just in a different form.
+
+**The honest structure is two-level:**
+
+- **Per-probe taste — eliminated.** No single probe answer depends on an aesthetic judgment call. Mechanical checks deterministically pattern-match. LLM judges answer binary observational questions with N=3 unanimous-agreement and ground-truthable expected answers.
+- **Rule-making-layer taste — preserved.** Choosing which audience each rule serves (LLM reader vs human paster vs LLM analyst), where to scope strict vs lenient criteria, which candidate rules warrant a probe class at all — these are design decisions made by the framework authors, not mechanical consequences of some deeper objective. The v0.3 → v0.3.1 readability re-scoring was exactly this: we *decided* readability should be strict-markdown-syntax for the human-paster audience. That's a taste call at the rule-making layer.
+
+**Why this is a strength if named correctly:** the framework is accountable about where its taste lives. Per-probe answers are reproducible. Rule-making-layer choices are explicit and criticizable. Compare to alternatives that blend design-taste with measurement-taste invisibly.
+
+**v0.3.1's "audience-derived class-discipline boundary" subsection was pointing at this two-level structure implicitly.** v0.3.2 names it directly.
+
+### 3. Mechanical hybrid bounds drift, does not eliminate it
+
+v0.3.1 introduced three-valued mechanical checks with LLM fallback for `undetermined`. The catalog framing described this as the response to judge-interpretation drift observed in v0.3.
+
+**Finer framing:** the mechanical+LLM hybrid *bounds* where drift can occur to the subset of inputs that trigger `undetermined` fallback. It does not eliminate drift. The fallback LLM applies its own judgment to those undetermined cases and can drift in the same direction Haiku drifted on `list-bullets` originally (`•`-prefixed paragraphs returning `undetermined` mechanically then being called yes by the judge).
+
+**Consequence:** mechanical-hybrid reduces drift surface area but doesn't zero it out. The mechanical check's scope-of-competence — which inputs are definitively answerable by pattern — determines how much of the drift surface is eliminated. Narrower scope = more undetermined = more fallback = more drift surface preserved. This is a real tradeoff in each rule's design, not a binary solved/unsolved.
+
+### 4. Per-rule undetermined specifications: spec/implementation gap
+
+The `feedback_deterministic_knows_its_limits` principle requires every mechanical check to carry explicit `undetermined` scope. Auditing v0.3.1 surfaced a three-way inconsistency that v0.3.2 names and partially addresses:
+
+- **Code docstrings** (`scripts/rules.py`): document undetermined conditions for *every* mechanical rule. For example, `emphasis_italic` documents "asymmetric `*` or `_` characters that could be typos or artifacts of conversion"; `emphasis_mono` documents "unmatched backticks"; `table_structure` documents "aligned-column plain text that could be a table rendered without markup."
+- **Code behavior**: actually returns `undetermined` for only 4 rules — `heading-depth`, `list-bullets`, `page-marker`, `section-number`. The other 6 rules (list-numbers, table-structure, code-fence, emphasis-bold/italic/mono) return yes-on-match-or-no, never undetermined, despite the docstring-described edge cases.
+- **Catalog rule tables** (v0.3.1 §2): document undetermined triggers only for the 4 rules that behave that way. Consistent with code behavior; inconsistent with docstring aspirations.
+
+**So the real state is:** docstrings declare an aspiration, code under-delivers on the aspiration, tables describe what code actually does. The "knows its limits" principle is satisfied by the 4 rules with implemented undetermined paths; the other 6 rules' docstring-described edge cases are currently silently classified as `no` (asymmetric emphasis markers, unmatched backticks, aligned-plain-text tables all return `no` rather than `undetermined`).
+
+**Two ways to close the gap:**
+
+1. **Implement undetermined for the 6 rules.** Extend regex/parsing to detect the docstring-described edge cases and route them to LLM fallback. Respects the principle fully; increases fallback frequency.
+2. **Rescope docstrings.** Remove the undetermined-condition claims from the 6 rules' docstrings, acknowledging their current scope is yes/no-only and the silent-no on edge cases is a known simplification.
+
+**v0.3.2 disposition: option 1 is the correct long-term move** (principle-consistent), but it requires implementation work and a re-score. Pending that work: docstrings now carry a *"v0.3.2: implementation does not yet return undetermined for this case — silently classifies as no"* note per rule where the gap exists, and the catalog acknowledges the gap here. Not flattering — honest.
+
+### 5. Aggregation and corpus-choice bias
+
+v0.3.1 defined aggregation as unweighted mean of per-item rates per class per converter, with explicit acknowledgment of the small-items-equal-weighted-with-large bias. A second bias was not named:
+
+**The corpus is not a random sample.** 7 of 8 current corpus items are synthesized by us, each authored to exercise specific catalog cells. Aggregate rates therefore reflect our choices about which features to diagnostic-test, not a distribution of real-world PDFs. A converter that is strong on our synthesis choices but weak on patterns we didn't synthesize would score higher than its field performance warrants.
+
+**What the aggregate numbers mean and don't mean:**
+
+- **Do mean:** on this specific corpus, under these specific probes, with these specific rule thresholds, converter X scored rate Y for class Z. Each per-item result is directly reproducible; the aggregate is the unweighted mean over that set.
+- **Do not mean:** converter X will score rate Y on an arbitrary PDF or an arbitrary corpus. Confidence intervals are not applicable at N=8; the aggregate is a point estimate over the specific corpus, not an estimator of field performance.
+
+**Implication:** publishable comparisons across converters (Sprint 4b output) should present per-item profiles alongside aggregates, so readers can inspect where variance lives. Readers interested in statistical significance should wait for corpus growth to N large enough to stratify or resample. Currently: 8 items, 7 of which we chose deliberately.
+
+### 6. Deferred to Sprint 4b evidence
+
+One external critique (Vinnie #7) argues that provenance currently measures *ecosystem distance-to-aspiration* rather than *between-converter competition*, because no converter emits page markers. If confirmed by Sprint 4b multi-converter data (docling, marker, PyMuPDF4LLM all lack page markers, matching MinerU), the catalog will name the distinction: content and readability measure competition; provenance currently measures ecosystem state until the ecosystem's baseline shifts. If refuted (any converter emits page markers), the current competitive framing holds for that rule. Catalog amendment awaits evidence.
+
+---
+
+_v0.3.2, 2026-04-23. Framework shelf-life and judge-pinning discipline; two-level taste structure (per-probe eliminated, rule-making-layer preserved); mechanical-hybrid bounds drift not eliminates it; per-rule undetermined specifications acknowledged; corpus-choice bias in aggregation named. No rule or scoring changes. v0.1 baseline, v0.2 / v0.3 / v0.3.1 amendments preserved above._

@@ -145,6 +145,12 @@ def list_numbers(md: str) -> dict:
       no  — no numbered-list markup
       undetermined — (rare) contexts where `1.` appears in mid-prose; the
             regex anchors to line start so this is uncommon
+
+    v0.3.2 implementation note: this rule currently returns only yes/no in
+    practice. The docstring-described undetermined case (mid-prose `1.`) is
+    not actually detected or returned — the line-start anchor eliminates
+    the common manifestation. Silent-no on any unanticipated edge case is
+    a known simplification; see catalog §v0.3.2 §4.
     """
     if MD_NUMBERED_LINE_RE.search(md):
         return {"result": "yes", "details": "found markdown numbered syntax (1. / 1) line prefix)"}
@@ -172,6 +178,11 @@ def table_structure(md: str) -> dict:
     Note: v0.3.1 treats HTML <table> as a pass. Open question for a later
     sprint: does <table> round-trip into Word/Pages as cleanly as markdown
     pipes? Empirical check deferred.
+
+    v0.3.2 implementation note: this rule currently returns only yes/no in
+    practice. Aligned-column plain text is silently classified as `no`
+    rather than `undetermined` — a known gap between docstring aspiration
+    and implementation behavior. See catalog §v0.3.2 §4.
     """
     # Need at least 2 pipe-rows to suggest a real table (header + data)
     # rather than a stray pipe-delimited line
@@ -197,6 +208,11 @@ def code_fence(md: str) -> dict:
       no  — neither fences nor clear indented code blocks
       undetermined — monospace-styled content without fence markers that
             might be code-block-intended-but-unfenced
+
+    v0.3.2 implementation note: this rule currently returns only yes/no in
+    practice. Monospace-styled unfenced content is silently classified as
+    `no` rather than `undetermined` — a known gap between docstring
+    aspiration and implementation behavior. See catalog §v0.3.2 §4.
     """
     if FENCE_RE.search(md):
         return {"result": "yes", "details": "found fenced code block (```)"}
@@ -220,6 +236,11 @@ def emphasis_bold(md: str) -> dict:
       no  — no bold markup at all
       undetermined — lone `**` or `__` that don't form pairs (rare, usually
             means broken emphasis that may be converter artifact)
+
+    v0.3.2 implementation note: this rule currently returns only yes/no in
+    practice. Asymmetric or unpaired bold markers are silently classified
+    as `no` rather than `undetermined` — a known gap between docstring
+    aspiration and implementation behavior. See catalog §v0.3.2 §4.
     """
     if EMPH_BOLD_MD_RE.search(md):
         return {"result": "yes", "details": "found markdown bold (**X** or __X__)"}
@@ -244,6 +265,11 @@ def emphasis_italic(md: str) -> dict:
       undetermined — asymmetric `*` or `_` characters that could be typos or
             artifacts of conversion; mechanical matching can miss genuine
             italic in these cases
+
+    v0.3.2 implementation note: this rule currently returns only yes/no in
+    practice. Asymmetric markers are silently classified as `no` rather
+    than `undetermined` — a known gap between docstring aspiration and
+    implementation behavior. See catalog §v0.3.2 §4.
     """
     if EMPH_ITALIC_MD_RE.search(md):
         return {"result": "yes", "details": "found markdown italic (*X* or _X_)"}
@@ -267,6 +293,12 @@ def emphasis_mono(md: str) -> dict:
       no  — no monospace markup
       undetermined — unmatched backticks or fenced blocks only (fences are
             code-block-level, not inline-mono)
+
+    v0.3.2 implementation note: this rule currently returns only yes/no in
+    practice. Unmatched backticks and fenced-blocks-only cases are
+    silently classified as `no` rather than `undetermined` — a known gap
+    between docstring aspiration and implementation behavior. See catalog
+    §v0.3.2 §4.
     """
     if EMPH_MONO_MD_RE.search(md):
         return {"result": "yes", "details": "found markdown inline code (`X`)"}
@@ -296,15 +328,23 @@ def page_marker(md: str) -> dict:
     Rule: the converter should emit page-boundary signals so a downstream
     reader can associate content with its source page for citation.
 
-    Scope of competence:
-      yes — at least one recognizable page-marker pattern
-      no  — no page-marker pattern of any common form; the markdown carries
-            no page-boundary signal a downstream LLM could use
-      undetermined — rare: numeric-only lines (`5`) that could be page
-            numbers or could be body content
+    Scope of competence (deliberately narrow — extending it widens the
+    regex list rather than loosening semantics):
+      yes — markdown contains one of six specific page-marker patterns
+            listed below
+      no  — none of the six patterns match, AND no ambiguous numeric-only
+            lines are present
+      undetermined — ≥ 3 numeric-only lines present (could be page numbers,
+            could be body content — bare `5` on its own line is genuinely
+            ambiguous without additional context)
 
-    Recognized patterns: `--- Page N ---`, `<!-- page N -->`, `[Page N]`,
-    bare `Page N` line, `<page N>` custom tag, `## Page N` heading.
+    Recognized patterns (fixed list): `--- Page N ---`, `<!-- page N -->`,
+    `[Page N]`, bare `Page N` on its own line, `<page N>` custom HTML tag,
+    `## Page N` heading. A converter emitting an unusual page-marker form
+    not in this list (e.g., `«Page N»`, `Page: N`, non-English locale
+    variations) will match as `no` mechanically; the honest remedy is to
+    extend PAGE_MARKER_PATTERNS with the additional form rather than
+    loosen what "recognizable" means.
     """
     for pat in PAGE_MARKER_PATTERNS:
         if pat.search(md):
