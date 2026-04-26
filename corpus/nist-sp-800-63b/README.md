@@ -18,6 +18,5 @@ Originally Sprint 4b targeted an OpenStax textbook chapter (CC BY) for this slot
 
 - Ground truth is the rendered NIST PDF (visual). Test heading-depth preservation, table structure, code-block formatting.
 - Authenticator-type tables (multi-column, merged headers in some) — readability probes for table syntax.
-- Code/protocol blocks for HTTP/JWS/CTAP examples — readability probes for code-fence preservation.
 - Bibliography section with structured citations — provenance probes for reference preservation.
 - Cross-references to other SP-800 series and IETF RFCs — content + provenance probes.
