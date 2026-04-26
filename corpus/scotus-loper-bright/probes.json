@@ -1,0 +1,175 @@
+{
+  "corpus_item_id": "scotus-loper-bright",
+  "schema_version": "0.3",
+  "schema_notes": "v0.3 probe shape (Sprint 4b 2026-04-26): three-probe-class taxonomy (content / readability / provenance). Document is a Supreme Court slip opinion (114 pp) consisting of Syllabus + Opinion of the Court + concurring opinions (Thomas, J.; Gorsuch, J.) + dissenting opinion (Kagan, J.). Each opinion has its own pagination starting at 1; each is internally structured with Roman-numeral sections (I, II, III, IV) and lettered subsections (A, B, C). Italic markup is pervasive (case names, Latin terms id./ibid./e.g./post/ante/supra, emphasis words like 'all', 'binding', 'not'). Footnotes are dense and substantive. Probes target catalog cells at the legal-genre intersection: Roman/lettered section hierarchy, italic case names + Latin + emphasis, dense footnoting, internal cross-references (n.N footnote refs, ante/post page-range refs), slip-opinion pagination as the provenance coordinate. Ground truth = rendered PDF visual (the source.pdf). Anti-fabrication probes test that converters do not invent structure (lists, headings) absent from the source. Readability probes use mechanical rules from scripts/rules.py where markdown syntax is unambiguous (heading-depth, emphasis-italic, list-bullets, page-marker, section-number) with LLM fallback for undetermined.",
+  "probes": [
+    {
+      "id": "lb-h-c",
+      "probe_class": "content",
+      "feature": "heading",
+      "question": "Does the document contain a section labeled 'Syllabus' (the Reporter of Decisions' headnote that summarizes the case before the Opinion of the Court)?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source PDF: pages 1-8 are titled 'Syllabus' as the running header on each page. The heading 'Syllabus' appears explicitly on page 1 below the SUPREME COURT OF THE UNITED STATES title block. An honest converter preserves this top-level structural label."
+    },
+    {
+      "id": "lb-h-x01",
+      "probe_class": "content",
+      "feature": "heading",
+      "question": "Does the document contain a heading or section labeled 'Statement of Facts' or 'Procedural History'?",
+      "expected_answer": "no",
+      "ground_truth_basis": "Source PDF contains no such headings. SCOTUS opinions do not use 'Statement of Facts' / 'Procedural History' as section labels — facts are integrated into Roman-numeral section I.A or similar. Anti-fabrication test: converter must not invent legal-genre headings the source does not contain."
+    },
+    {
+      "id": "lb-h-f",
+      "probe_class": "readability",
+      "feature": "heading",
+      "rule": "heading-depth",
+      "question": "Does the document use at least two distinct markdown heading depths (e.g., some headings as `#` or `##` and others as `###` or deeper, OR HTML <h1>/<h2> at one level and <h3>/<h4> at another)? Answer 'no' if every heading uses exactly the same level (e.g., all `##`).",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source PDF: opinion structure has multiple heading levels — top-level title blocks (SUPREME COURT OF THE UNITED STATES; LOPER BRIGHT ENTERPRISES...), section labels (Syllabus, Opinion of the Court, Thomas J. concurring, etc.), Roman-numeral sections within each opinion (I, II, III, IV), and lettered subsections (A, B, C) within those. Honest readability preservation requires distinguishable markdown heading depths so a human paster can reconstruct hierarchy without manual re-leveling. Multiple distinct heading depths expected."
+    },
+    {
+      "id": "lb-fn-c",
+      "probe_class": "content",
+      "feature": "footnote",
+      "question": "Does the document contain a footnote text that begins with 'Citing an empirical study, the dissent adds that' (or near-verbatim equivalent), discussing a Chevron-related claim about agreement among judges?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source PDF page 32 of the Opinion of the Court contains footnote 8 whose body begins: 'Citing an empirical study, the dissent adds that Chevron “fosters agreement among judges.” Post, at 28. It is hardly surprising that a study might find as much...'. Honest converter preserves footnote body content. Note: converters that drop footnote bodies fail this probe."
+    },
+    {
+      "id": "lb-fn-x01",
+      "probe_class": "content",
+      "feature": "footnote",
+      "question": "Does the document contain any footnote whose body discusses asbestos litigation, mass torts, or product-liability law?",
+      "expected_answer": "no",
+      "ground_truth_basis": "Source PDF: this case is about Chevron deference and federal fishery regulations under the Magnuson-Stevens Act. No footnote in any opinion discusses asbestos, mass torts, or product liability. Anti-fabrication test."
+    },
+    {
+      "id": "lb-cn-c",
+      "probe_class": "content",
+      "feature": "case_name",
+      "question": "Does the document include the case name 'Chevron U. S. A. Inc. v. Natural Resources Defense Council, Inc.' (or near-verbatim equivalent — possibly with minor punctuation/spacing variation)?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source PDF page 1 of Opinion of the Court contains the full case citation 'Chevron U. S. A. Inc. v. Natural Resources Defense Council, Inc., 467 U. S. 837 (1984)' and similar full citations appear in the Syllabus and concurring opinions. The case being overruled is named in full at multiple points."
+    },
+    {
+      "id": "lb-i-c",
+      "probe_class": "content",
+      "feature": "italic",
+      "question": "In the Opinion of the Court, does the phrase 'decide all relevant questions of law' appear in the document (in any formatting), as a quotation from the Administrative Procedure Act?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source PDF: the phrase appears multiple times across the Opinion (e.g., page 5 quoting §706 with the word 'all' italicized; page 29 same context). Honest converter preserves the textual content; whether 'all' is rendered as italic is the paired readability question."
+    },
+    {
+      "id": "lb-i-f",
+      "probe_class": "readability",
+      "feature": "italic",
+      "rule": "emphasis-italic",
+      "question": "Does the document contain at least one italic span — whether via markdown asterisks (*X* or _X_) or HTML <i>/<em> tags?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source PDF: italic markup is pervasive across all opinions — case names (Chevron, Marbury v. Madison, Mead, etc.), Latin terms (id., ibid., e.g., post, ante, supra, et seq.), and emphasis words (all, binding, not, ignore, least). Honest readability preservation requires SOME italic markup in the markdown. A converter that strips all italic uniformly will fail this probe; this is a low-bar test that only catches converters that fully eliminate italic."
+    },
+    {
+      "id": "lb-i-x01",
+      "probe_class": "content",
+      "feature": "italic",
+      "question": "Does the document contain the word 'fundamentally' or 'undeniably' presented in italic (via *fundamentally*, _fundamentally_, <i>fundamentally</i>, or <em>fundamentally</em>)?",
+      "expected_answer": "no",
+      "ground_truth_basis": "Source PDF: the word 'fundamentally' appears in the Opinion (e.g., 'fundamentally misguided' on page 29) but in regular roman type, NOT italic. 'Undeniably' does not appear at all. Anti-fabrication test: converter must not introduce italic on words the source presents in roman."
+    },
+    {
+      "id": "lb-q-c",
+      "probe_class": "content",
+      "feature": "disposition",
+      "question": "Does the Opinion of the Court conclude with the phrase 'It is so ordered' (or near-verbatim equivalent — the conventional SCOTUS disposition closing)?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source PDF page 35 of the Opinion of the Court ends with 'It is so ordered.' set off as a separate paragraph, italicized in the source. This is the canonical SCOTUS disposition closing."
+    },
+    {
+      "id": "lb-q-x01",
+      "probe_class": "content",
+      "feature": "disposition",
+      "question": "Does the Opinion of the Court state that the judgment of the lower courts is 'affirmed' (left undisturbed)?",
+      "expected_answer": "no",
+      "ground_truth_basis": "Source PDF page 35 of the Opinion of the Court: 'their judgments are vacated, and the cases are remanded for further proceedings consistent with this opinion.' The disposition is vacate-and-remand, not affirm. The Syllabus also ends with 'vacated and remanded.' Anti-fabrication test."
+    },
+    {
+      "id": "lb-cite-c",
+      "probe_class": "content",
+      "feature": "citation",
+      "question": "Does the document reference the federal statute 5 U. S. C. §706 (or '5 U.S.C. §706' / '5 USC 706' / similar formatting variant), the Administrative Procedure Act provision central to the ruling?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source PDF: 5 U. S. C. §706 appears multiple times across the Syllabus and Opinion (e.g., Syllabus page 3 quoting '§706(2)(A), (E)'; Opinion page 5 quoting '§706'; page 29 'in “the reviewing court,” to “decide all relevant questions of law” and “interpret . . . statutory provisions.” §706'). The statute is the legal hook for the entire ruling. Honest converter preserves the citation in some readable form."
+    },
+    {
+      "id": "lb-bu-x01",
+      "probe_class": "content",
+      "feature": "bulleted_list",
+      "question": "Does the document contain a markdown bulleted list (one or more lines beginning with `- `, `* `, or `+ ` followed by content), or an HTML `<ul>` list, presenting any of the analytical points (e.g., the Chevron framework's two steps, the stare decisis factors, etc.) as a list rather than as prose?",
+      "expected_answer": "no",
+      "ground_truth_basis": "Source PDF: SCOTUS opinions are prose. The Chevron two-step, stare decisis factors, and other analytical points are presented as flowing paragraphs, not as bulleted or numbered lists. Anti-fabrication test: converter must not invent list structure where source has prose."
+    },
+    {
+      "id": "lb-cb-x01",
+      "probe_class": "content",
+      "feature": "code_block",
+      "question": "Does the document contain a fenced code block (```) of programming-language source code or any computational/data-processing code?",
+      "expected_answer": "no",
+      "ground_truth_basis": "Source PDF: the document is a legal opinion. It contains no programming-language source code, no computational code blocks, no algorithmic pseudocode. Anti-fabrication test."
+    },
+    {
+      "id": "lb-pm-p",
+      "probe_class": "provenance",
+      "feature": "page_marker",
+      "rule": "page-marker",
+      "question": "Does the document indicate page-number information that associates content with specific pages of the source slip opinion (e.g., page numbers as text markers, headers, or breaks like '--- page N ---')?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source PDF: every page after the cover bears a page-number header (e.g., page 27, 28, 29 on the Opinion of the Court; concurrences and dissent restart pagination at 1). The slip-opinion pagination is the canonical citation coordinate (e.g., 'Loper Bright, slip op. at 27'). Honest converter preserves page boundaries so a downstream reader can produce verifiable citations. Most converters today do not project page markers to markdown."
+    },
+    {
+      "id": "lb-pm-a",
+      "probe_class": "provenance",
+      "feature": "page_marker",
+      "rule": "page-marker",
+      "question": "According to any page-number information provided in the document, does the phrase 'It is so ordered' (the disposition closing of the Opinion of the Court) appear on page 35?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source PDF: the Opinion of the Court ends on slip-opinion page 35 with 'It is so ordered.' Accuracy probe — passes only when presence probe passes AND the indicated page matches. Converters that drop page markers fail both presence and accuracy; converters that fabricate wrong page numbers pass presence and fail accuracy."
+    },
+    {
+      "id": "lb-sn-p",
+      "probe_class": "provenance",
+      "feature": "section_number",
+      "rule": "section-number",
+      "question": "Does the document preserve at least one Roman-numeral section heading (e.g., a heading whose visible text begins with 'I', 'II', 'III', or 'IV')?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source PDF: each opinion (majority + concurrences + dissent) is internally structured with Roman-numeral sections. The Opinion of the Court has sections I (page 1), II (page 7), III (page 18), IV (page 29). Honest converter preserves these as section labels in heading text or as separately-readable metadata so a downstream reader can produce 'slip op. §IV' citations."
+    },
+    {
+      "id": "lb-sn-a",
+      "probe_class": "provenance",
+      "feature": "section_number",
+      "rule": "section-number",
+      "question": "If the document preserves Roman-numeral section labels in the Opinion of the Court, is section IV (the section discussing stare decisis as a basis for overruling Chevron) labeled 'IV' (and not 'V', 'III', or another roman numeral)?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source PDF page 29 of the Opinion of the Court: section heading 'IV' begins the stare decisis analysis ('The only question left is whether stare decisis...'). Accuracy probe for section-number provenance."
+    },
+    {
+      "id": "lb-cr-p",
+      "probe_class": "provenance",
+      "feature": "cross_reference",
+      "rule": "cross-ref-target",
+      "question": "Does the document contain an in-text reference to a footnote by number (e.g., 'n. 7', 'note 7', 'see n. 7', 'footnote 7', or similar form) that points to a specific footnote within the same opinion?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source PDF: the Opinion of the Court contains 'See n. 7, supra' on page 32 referring back to footnote 7 (which appears at the bottom of page 28). It also contains 'see id., at 843, n. 11' and similar 'n. N' references throughout. Honest converter preserves footnote anchors so a downstream reader can follow citations."
+    },
+    {
+      "id": "lb-cr-a",
+      "probe_class": "provenance",
+      "feature": "cross_reference",
+      "rule": "cross-ref-target",
+      "question": "If the document contains a reference to footnote 7 (n. 7) of the Opinion of the Court, does the document also contain a footnote 7 whose body begins 'See, e.g., Guedes v. Bureau of Alcohol, Tobacco, Firearms and Explosives' (or substantially similar — a multi-citation footnote about Chevron-bypassing decisions)?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source PDF page 28 of Opinion of the Court: footnote 7 begins 'See, e.g., Guedes v. Bureau of Alcohol, Tobacco, Firearms and Explosives, 45 F. 4th 306, 313–314 (CADC 2022)...' and continues as a long multi-citation footnote. Accuracy probe for cross-ref-target provenance — passes only when both the n. 7 reference AND a footnote 7 with this content are present."
+    }
+  ]
+}
