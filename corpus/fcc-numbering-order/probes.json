@@ -1,7 +1,7 @@
 {
   "corpus_item_id": "fcc-numbering-order",
   "schema_version": "0.3",
-  "schema_notes": "v0.3 probe shape (Sprint 4b 2026-04-26): three-probe-class taxonomy (content / readability / provenance). Document is an FCC Third Report and Order and Third Further Notice of Proposed Rulemaking (FCC 25-86, 34 pp) on VoIP numbering authorizations. Genre-distinct features: (1) numbered-paragraph structure — every analytical paragraph carries a sequential paragraph number (1, 2, 3, ...) which is the canonical citation coordinate (cited as 'FCC 25-86 ¶ N'); (2) three-column caption header with parenthetical separator on page 1 ('In the Matter of...' + ')' + 'WC Docket No. ...'); (3) Table of Contents with paragraph numbers as locators (rather than page numbers); (4) Roman/lettered/numbered section hierarchy (I, II, III with A, B, C subsections, and 1, 2, 3 sub-subsections); (5) actual bulleted lists in paras 13 and 20 listing certification requirements; (6) dense footnotes (89+ visible in first 15 pages) with statutory citations (47 CFR, 47 U.S.C.) and prior-FCC-order cross-references; (7) italic markup on document titles (*Second Report and Order*, *Third Further Notice*, etc.). Probes target catalog cells at the regulatory-genre intersection: numbered paragraphs, deep section hierarchy, real bulleted lists, footnote-anchor cross-references. Ground truth = rendered PDF visual (the source.pdf). Anti-fabrication probes test that converters do not invent structure absent from the source. Readability probes use mechanical rules from scripts/rules.py with LLM fallback for undetermined.",
+  "schema_notes": "v0.3 probe shape (Sprint 4b 2026-04-26, AT-pass amendment 2026-04-27): three-probe-class taxonomy (content / readability / provenance). Document is an FCC Third Report and Order and Third Further Notice of Proposed Rulemaking (FCC 25-86, 34 pp) on VoIP numbering authorizations. Genre-distinct features: (1) numbered-paragraph structure — every analytical paragraph carries a sequential paragraph number (1, 2, 3, ...) which is the canonical citation coordinate (cited as 'FCC 25-86 ¶ N'); (2) three-column caption header with parenthetical separator on page 1 ('In the Matter of...' + ')' + 'WC Docket No. ...'); (3) Table of Contents with paragraph numbers as locators (rather than page numbers); (4) Roman/lettered/numbered section hierarchy (I, II, III with A, B, C subsections, and 1, 2, 3 sub-subsections); (5) actual bulleted lists in paras 13 and 20 listing certification requirements; (6) dense footnotes (89+ visible in first 15 pages) with statutory citations (47 CFR, 47 U.S.C.) and prior-FCC-order cross-references; (7) italic markup on document titles (*Second Report and Order*, *Third Further Notice*, etc.). Probes target catalog cells at the regulatory-genre intersection: numbered paragraphs (paragraph-marker provenance, paired presence + accuracy), deep section hierarchy, real bulleted lists, footnote-anchor cross-references. Ground truth = rendered PDF visual (the source.pdf). Anti-fabrication probes test that converters do not invent structure absent from the source. Readability probes use mechanical rules from scripts/rules.py with LLM fallback for undetermined. Note: the `paragraph-marker` rule (used by fc-pn-p / fc-pn-a) has no mechanical check yet — these probes fall to LLM judgment. A mechanical paragraph-marker rule is a candidate for v0.3.3 hardening alongside tighter italic-discrimination probes.",
   "probes": [
     {
       "id": "fc-h-c",
@@ -170,7 +170,25 @@
       "rule": "cross-ref-target",
       "question": "If the document contains 'supra n.6' or 'See supra n.6' references, does the document also contain a footnote 6 whose body defines or describes 'existing authorization holders' (interconnected VoIP providers that obtained direct access numbering authorizations prior to August 8, 2024)?",
       "expected_answer": "yes",
-      "ground_truth_basis": "Source PDF page 1 footnote 6 begins 'See Second VoIP Direct Access Report and Order and Further Notice, 38 FCC Rcd at 8991-95, paras. 79-92. We use the terminology \"existing authorization holder\" to refer to interconnected VoIP providers that obtained direct access numbering authorizations prior to August 8, 2024...'. Accuracy probe — passes only when both the supra n.6 reference AND a footnote 6 with this defining content are present."
+      "ground_truth_basis": "Source PDF page 2 footnote 6 begins 'See Second VoIP Direct Access Report and Order and Further Notice, 38 FCC Rcd at 8991-95, paras. 79-92. We use the terminology \"existing authorization holder\" to refer to interconnected VoIP providers that obtained direct access numbering authorizations prior to August 8, 2024...'. The footnote-6 anchor is referenced from the body text on page 1; the footnote body itself appears at the bottom of page 2. Accuracy probe — passes only when both the supra n.6 reference AND a footnote 6 with this defining content are present."
+    },
+    {
+      "id": "fc-pn-p",
+      "probe_class": "provenance",
+      "feature": "paragraph_marker",
+      "rule": "paragraph-marker",
+      "question": "Does the document indicate paragraph-number information that associates content with specific numbered paragraphs (e.g., '13.', '¶ 13', 'paragraph 13', or similar form preceding paragraph content)?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source PDF: every analytical paragraph in the order carries a sequential paragraph number — paragraphs are numbered 1, 2, 3, ... up through 45+ (with the body text of each paragraph following its number). Paragraph numbers are the canonical citation coordinate for FCC orders ('FCC 25-86 ¶ 13' is the conventional cite form for paragraph 13). Honest converter preserves paragraph numbers so a downstream reader can produce verifiable cites. Note: no mechanical check exists for paragraph-marker yet (LLM-only); rule field is set for future mechanical-check addition."
+    },
+    {
+      "id": "fc-pn-a",
+      "probe_class": "provenance",
+      "feature": "paragraph_marker",
+      "rule": "paragraph-marker",
+      "question": "According to any paragraph-numbering information provided in the document, does paragraph 13 begin with content discussing 'Robocall-related certifications' (the section requiring authorization holders to certify compliance with rules against illegal robocalls, STIR/SHAKEN authentication, and absence of regulatory investigation)?",
+      "expected_answer": "yes",
+      "ground_truth_basis": "Source PDF page 7 paragraph 13: '13. Robocall-related certifications. We revise section 52.15(g)(3) of the Commission's rules to require existing VoIP numbering authorization holders to certify that:' followed by the three-bullet certification list. Accuracy probe — passes only when presence probe passes AND the indicated paragraph content matches."
     }
   ]
 }
