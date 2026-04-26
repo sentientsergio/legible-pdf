@@ -1,0 +1,388 @@
+{
+  "corpus_item_id": "nist-sp-800-63b",
+  "schema_version": "0.3",
+  "markdown_path": "corpus/nist-sp-800-63b/output/docling/output.md",
+  "probes_path": "corpus/nist-sp-800-63b/probes.json",
+  "model": "claude-haiku-4-5-20251001",
+  "runs_per_probe": 3,
+  "scoring_rule": "Hybrid mechanical + LLM. Mechanical rule checks (scripts/rules.py) answer probes where markdown syntax is unambiguous; LLM N=3 unanimous-agreement answers the rest, including mechanical-returned-undetermined cases. See docs/failure-mode-catalog.md v0.3 + v0.3.1 amendments for the taxonomy.",
+  "scores": {
+    "content": {
+      "n": 9,
+      "matches": 9,
+      "rate": 1.0,
+      "disputed": 0,
+      "mechanical_answered": 0
+    },
+    "readability": {
+      "n": 5,
+      "matches": 3,
+      "rate": 0.6,
+      "disputed": 0,
+      "mechanical_answered": 5
+    },
+    "provenance": {
+      "n": 6,
+      "matches": 4,
+      "rate": 0.6666666666666666,
+      "disputed": 0,
+      "mechanical_answered": 4
+    }
+  },
+  "mechanical_answered": 9,
+  "llm_answered": 11,
+  "disputed_probes": [],
+  "probe_results": [
+    {
+      "id": "ns-h-c",
+      "probe_class": "content",
+      "feature": "heading",
+      "rule": "",
+      "question": "Does the document contain a top-level section titled 'Authenticator and Verifier Requirements' (the section providing detailed normative requirements for each authenticator type)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 13 (and TOC page iv): top-level section 5 'Authenticator and Verifier Requirements' begins, marked 'This section is normative.' Honest converter preserves this top-level structural label.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "ns-h-x01",
+      "probe_class": "content",
+      "feature": "heading",
+      "rule": "",
+      "question": "Does the document contain a top-level section labeled 'Implementation Guide' or 'Cryptographic Primitives' or 'Compliance Checklist'?",
+      "expected": "no",
+      "ground_truth_basis": "Source PDF: top-level sections are 1 Purpose, 2 Introduction, 3 Definitions and Abbreviations, 4 Authenticator Assurance Levels, 5 Authenticator and Verifier Requirements, 6 Authenticator Lifecycle Management, 7 Session Management, 8 Threats and Security Considerations, 9 Privacy Considerations, 10 Usability Considerations, 11 References, plus Appendix A. None of the three queried labels appear. Anti-fabrication test.",
+      "answered_by": "llm",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true
+    },
+    {
+      "id": "ns-h-f",
+      "probe_class": "readability",
+      "feature": "heading",
+      "rule": "heading-depth",
+      "question": "Does the document use at least two distinct markdown heading depths (e.g., some headings as `#` or `##` and others as `###` or deeper, OR HTML <h1>/<h2> at one level and <h3>/<h4> at another)? Answer 'no' if every heading uses exactly the same level.",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: heading hierarchy goes three levels deep \u2014 top-level sections 1 through 11 (e.g., '5 Authenticator and Verifier Requirements'), subsections (e.g., '5.1 Requirements by Authenticator Type'), sub-subsections (e.g., '5.1.1 Memorized Secrets'), and even sub-sub-subsections (e.g., '5.1.1.1 Memorized Secret Authenticators', '5.1.1.2 Memorized Secret Verifiers'). Honest readability preservation requires distinguishable markdown heading depths so a human paster can reconstruct hierarchy.",
+      "answered_by": "mechanical",
+      "runs": [
+        "no"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "no",
+      "match": false,
+      "mechanical_details": "all 147 body headings use depth 2 (flattened)"
+    },
+    {
+      "id": "ns-tab-c",
+      "probe_class": "content",
+      "feature": "table",
+      "rule": "",
+      "question": "Does the document contain a table summarizing requirements for each Authenticator Assurance Level (AAL1, AAL2, AAL3) \u2014 with rows including 'Permitted Authenticator Types', 'FIPS 140 Verification', 'Reauthentication', 'Security Controls', 'MitM Resistance', 'Verifier-Impersonation Resistance', 'Records Retention Policy', and similar?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF pages 11-12: Table 4-1 'AAL Summary of Requirements' has the three AAL columns and rows for Permitted Authenticator Types, FIPS 140 Verification, Reauthentication, Security Controls, MitM Resistance, Verifier-Impersonation Resistance, Verifier-Compromise Resistance, Replay Resistance, Authentication Intent, Records Retention Policy, Privacy Controls. Honest converter preserves the substantive matrix content.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "ns-tab-f",
+      "probe_class": "readability",
+      "feature": "table",
+      "rule": "table-structure",
+      "question": "Does the document contain at least one table presented as markdown table syntax (with `|` pipe-separated rows and a `---` header-separator row), or as an HTML `<table>` element, or in another structurally-recognizable table form?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: at least four substantive tables appear \u2014 Table 2-1 Normative/Informative Sections (page 3), Table 4-1 AAL Summary of Requirements (pages 11-12), Table 8-1 Authenticator Threats (page 41), Table 8-2 Mitigating Authenticator Threats (page 45), plus the page-viii Errata table. Honest readability preservation requires markdown or HTML table syntax.",
+      "answered_by": "mechanical",
+      "runs": [
+        "yes"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "yes",
+      "match": true,
+      "mechanical_details": "found markdown pipe-table rows"
+    },
+    {
+      "id": "ns-bu-c",
+      "probe_class": "content",
+      "feature": "bulleted_list",
+      "rule": "",
+      "question": "In the Memorized Secret Verifiers section (\u00a75.1.1.2), does the document list four categories of values that prospective memorized secrets should be compared against: (1) passwords obtained from previous breach corpora, (2) dictionary words, (3) repetitive or sequential characters, and (4) context-specific words?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 14: the four bullets appear after 'For example, the list MAY include, but is not limited to:' \u2014 Passwords obtained from previous breach corpuses; Dictionary words; Repetitive or sequential characters (e.g. 'aaaaaa', '1234abcd'); Context-specific words, such as the name of the service, the username, and derivatives thereof. Honest converter preserves the substantive list content.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "ns-bu-f",
+      "probe_class": "readability",
+      "feature": "bulleted_list",
+      "rule": "list-bullets",
+      "question": "Does the document contain at least one markdown bulleted list (one or more lines beginning with `- `, `* `, or `+ ` followed by content) or HTML `<ul>` list?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: real bulleted lists appear pervasively \u2014 page 14 (compromised-secret categories), page 17 (out-of-band authenticator transfer modes), page 18 (verifier transfer modes), Section 5.1.1.2's certifications, plus bulleted sub-lists inside Table 4-1 cells. Bullet markers (\u2022) clearly visible in rendering; these are unambiguous lists, not prose. Honest readability preservation requires markdown list syntax.",
+      "answered_by": "mechanical",
+      "runs": [
+        "yes"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "yes",
+      "match": true,
+      "mechanical_details": "found markdown bullet syntax (- / * / + line prefix)"
+    },
+    {
+      "id": "ns-i-c",
+      "probe_class": "content",
+      "feature": "italic",
+      "rule": "",
+      "question": "Does the document, in its discussion of Memorized Secrets (\u00a75.1.1), explicitly equate 'memorized secret authenticator' with 'password' or 'PIN' (i.e., describing the authenticator as commonly referred to as a password or, if numeric, a PIN)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 13 \u00a75.1.1: 'A Memorized Secret authenticator \u2014 commonly referred to as a password or, if numeric, a PIN \u2014 is a secret value intended to be chosen and memorized by the user.' The terms 'password' and 'PIN' appear italicized in the source. Honest converter preserves the textual content; whether they are rendered italic is the paired readability question.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "ns-i-f",
+      "probe_class": "readability",
+      "feature": "italic",
+      "rule": "emphasis-italic",
+      "question": "Does the document contain at least one italic span \u2014 whether via markdown asterisks (*X* or _X_) or HTML <i>/<em> tags?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: italic markup is used heavily on technical terms (*password*, *PIN*, *something you know*, *something you have*, *Authenticator Assurance Levels*, *tokens*) and on the 'This section is informative.' / 'This section is normative.' notes under each top-level heading. Honest readability preservation requires SOME italic markup. A converter that strips all italic uniformly will fail this probe.",
+      "answered_by": "mechanical",
+      "runs": [
+        "yes"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "yes",
+      "match": true,
+      "mechanical_details": "found markdown italic (*X* or _X_)"
+    },
+    {
+      "id": "ns-i-x01",
+      "probe_class": "content",
+      "feature": "italic",
+      "rule": "",
+      "question": "Does the document present the normative requirement words 'SHALL', 'SHOULD', 'MAY' (or 'SHALL NOT', 'SHOULD NOT', 'MUST') in italic when used as normative-requirement terms?",
+      "expected": "no",
+      "ground_truth_basis": "Source PDF: the normative-requirement words SHALL, SHOULD, MAY appear in regular roman type (capitalized for emphasis but not italic). Italic is used on definitional/technical terms like password, PIN, tokens \u2014 not on normative-requirement keywords. Anti-fabrication test.",
+      "answered_by": "llm",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true
+    },
+    {
+      "id": "ns-bo-f",
+      "probe_class": "readability",
+      "feature": "bold",
+      "rule": "emphasis-bold",
+      "question": "Does the document contain at least one bold span \u2014 whether via markdown double-asterisks (**X**) or HTML <b>/<strong> tags \u2014 that is NOT a heading (i.e., bold inline within a paragraph, not bold headings)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: bold inline appears on lead-in phrases like '**Authenticator Assurance Level 1**:', '**Authenticator Assurance Level 2**:', '**Authenticator Assurance Level 3**:' (page 2-3), and table-row labels in Table 4-1 ('**Permitted Authenticator Types**', '**FIPS 140 Verification**', '**Reauthentication**'). Bold appears on author labels ('**Privacy Authors:**', '**Usability Authors:**' on page ii). Honest readability preservation requires bold markup distinct from heading syntax. Note: the mechanical check filters out heading-text bold, so this probe is robust to converters that emit headings as `## **Heading**`.",
+      "answered_by": "mechanical",
+      "runs": [
+        "no"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "no",
+      "match": false,
+      "mechanical_details": "no bold emphasis markup found"
+    },
+    {
+      "id": "ns-cite-c",
+      "probe_class": "content",
+      "feature": "citation",
+      "rule": "",
+      "question": "Does the document reference 'SP 800-53' (the NIST Special Publication on Security and Privacy Controls), as the source of Security Controls baselines (Low/Moderate/High) for each AAL?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 12 Table 4-1 row 'Security Controls': 'SP 800-53 Low Baseline (or equivalent)' / 'SP 800-53 Moderate Baseline (or equivalent)' / 'SP 800-53 High Baseline (or equivalent)'. The reference SP 800-53 is the canonical security-controls catalog. Honest converter preserves the citation.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "ns-cite-x01",
+      "probe_class": "content",
+      "feature": "citation",
+      "rule": "",
+      "question": "Does the document reference 'GDPR' (General Data Protection Regulation), 'HIPAA' (Health Insurance Portability and Accountability Act), or 'CCPA' (California Consumer Privacy Act)?",
+      "expected": "no",
+      "ground_truth_basis": "Source PDF: this is a NIST guideline on digital identity authentication for federal systems. It cites US federal frameworks (Privacy Act of 1974, E-Government Act of 2002, FISMA, OMB Circular A-130) but not GDPR, HIPAA, or CCPA \u2014 those operate in different regulatory domains (EU privacy / US healthcare / California privacy). Anti-fabrication test.",
+      "answered_by": "llm",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true
+    },
+    {
+      "id": "ns-cb-x01",
+      "probe_class": "content",
+      "feature": "code_block",
+      "rule": "",
+      "question": "Does the document contain a fenced code block (```) of programming-language source code, or a multi-line block of HTTP request/response headers presented as code?",
+      "expected": "no",
+      "ground_truth_basis": "Source PDF: this is an authentication guideline. It contains technical terms and acronyms (PBKDF2, HMAC, KMAC, etc.) inline in prose, but no fenced code blocks of source code, no multi-line HTTP request/response examples, no algorithmic pseudocode in code-block form. Anti-fabrication test.",
+      "answered_by": "llm",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true
+    },
+    {
+      "id": "ns-pm-p",
+      "probe_class": "provenance",
+      "feature": "page_marker",
+      "rule": "page-marker",
+      "question": "Does the document indicate page-number information that associates content with specific pages of the source publication (e.g., page numbers as text markers, headers, or breaks like '--- page N ---')?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: page numbers appear at the bottom of every page \u2014 Roman numerals (i, ii, iii, iv, v, vi, vii, viii) for front matter, then arabic (1, 2, 3, ..., 79) for body. Honest converter preserves page boundaries so a downstream reader can produce verifiable citations. Most converters today do not project page markers to markdown.",
+      "answered_by": "mechanical",
+      "runs": [
+        "no"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "no",
+      "match": false,
+      "mechanical_details": "no page-marker pattern of any common form"
+    },
+    {
+      "id": "ns-pm-a",
+      "probe_class": "provenance",
+      "feature": "page_marker",
+      "rule": "page-marker",
+      "question": "According to any page-number information provided in the document, does the section heading '5 Authenticator and Verifier Requirements' begin on page 13?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 13: section 5 begins with the reverse-color heading bar '5 Authenticator and Verifier Requirements'. (TOC also lists this on page 13.) Accuracy probe \u2014 passes only when presence probe passes AND the indicated page matches.",
+      "answered_by": "mechanical",
+      "runs": [
+        "no"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "no",
+      "match": false,
+      "mechanical_details": "no page-marker pattern of any common form"
+    },
+    {
+      "id": "ns-sn-p",
+      "probe_class": "provenance",
+      "feature": "section_number",
+      "rule": "section-number",
+      "question": "Does the document preserve at least one numbered section heading whose visible heading text begins with a section number (e.g., '5', '5.1', '5.1.1', '5.1.1.1', or similar \u2014 possibly followed by a period or other separator before the section title)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: section numbers are integral to every heading \u2014 examples include '4 Authenticator Assurance Levels', '4.1 Authenticator Assurance Level 1', '5.1.1 Memorized Secrets', '5.1.1.1 Memorized Secret Authenticators'. Numbers go up to four levels deep (e.g., '5.1.1.1'). Honest converter preserves section numbers in heading text or as separately-readable metadata.",
+      "answered_by": "mechanical",
+      "runs": [
+        "yes"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "yes",
+      "match": true,
+      "mechanical_details": "found heading with numeric prefix"
+    },
+    {
+      "id": "ns-sn-a",
+      "probe_class": "provenance",
+      "feature": "section_number",
+      "rule": "section-number",
+      "question": "If the document preserves numbered section headings, is the section labeled '5.1.1' titled 'Memorized Secrets' (and not 'Look-Up Secrets', 'Out-of-Band Devices', or another label)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 13: section 5.1.1 is titled 'Memorized Secrets'. (Section 5.1.2 is 'Look-Up Secrets'; section 5.1.3 is 'Out-of-Band Devices'.) Accuracy probe for section-number provenance.",
+      "answered_by": "mechanical",
+      "runs": [
+        "yes"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "yes",
+      "match": true,
+      "mechanical_details": "found heading with numeric prefix"
+    },
+    {
+      "id": "ns-cr-p",
+      "probe_class": "provenance",
+      "feature": "cross_reference",
+      "rule": "cross-ref-target",
+      "question": "Does the document contain an in-text reference to a specific section by its number \u2014 e.g., 'Section 5.2.2', 'Section 5.1.1.2', 'Section 9.4', 'see Section 5.2.10' or similar form (a section-number reference, not just a generic 'see above' or 'see below')?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: in-text section-number cross-references appear pervasively \u2014 'see Sections 4 and 5' (page 2), 'as described in Section 5.2.2' (page 14), 'see Section 5.1.3.3' (page 17), 'in Section 9.4' (page 22), and many more. Source PDF renders these as hyperlinks. Honest converter preserves these section-number references so a downstream reader can resolve them.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "ns-cr-a",
+      "probe_class": "provenance",
+      "feature": "cross_reference",
+      "rule": "cross-ref-target",
+      "question": "If the document contains an in-text reference to 'Section 5.1.3.3' (referenced multiple times in the Out-of-Band Devices section), does the document also contain a section labeled 5.1.3.3 whose heading is 'Authentication using the Public Switched Telephone Network' (the section discussing PSTN-based out-of-band authentication)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 19: section 5.1.3.3 is titled 'Authentication using the Public Switched Telephone Network'. References to 'Section 5.1.3.3' appear on pages 17 and 18 (within \u00a75.1.3.1 'Out-of-Band Authenticators' and \u00a75.1.3.2 'Out-of-Band Verifiers'). Accuracy probe \u2014 passes only when both the Section 5.1.3.3 reference AND a section labeled 5.1.3.3 with this title are present.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    }
+  ]
+}
