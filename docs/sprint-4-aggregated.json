@@ -1,0 +1,1529 @@
+{
+  "matrix": {
+    "fcc-numbering-order": {
+      "mineru": {
+        "scores": {
+          "content": {
+            "n": 11,
+            "matches": 11,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 3,
+            "matches": 1,
+            "rate": 0.3333333333333333,
+            "disputed": 1,
+            "mechanical_answered": 2
+          },
+          "provenance": {
+            "n": 8,
+            "matches": 4,
+            "rate": 0.5,
+            "disputed": 0,
+            "mechanical_answered": 4
+          }
+        },
+        "mechanical_answered": 6,
+        "llm_answered": 16,
+        "disputed": [
+          "fc-bu-f"
+        ]
+      },
+      "docling": {
+        "scores": {
+          "content": {
+            "n": 11,
+            "matches": 11,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 3,
+            "matches": 1,
+            "rate": 0.3333333333333333,
+            "disputed": 0,
+            "mechanical_answered": 3
+          },
+          "provenance": {
+            "n": 8,
+            "matches": 6,
+            "rate": 0.75,
+            "disputed": 0,
+            "mechanical_answered": 4
+          }
+        },
+        "mechanical_answered": 7,
+        "llm_answered": 15,
+        "disputed": []
+      },
+      "marker": {
+        "scores": {
+          "content": {
+            "n": 11,
+            "matches": 10,
+            "rate": 0.9090909090909091,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 3,
+            "matches": 3,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 3
+          },
+          "provenance": {
+            "n": 8,
+            "matches": 4,
+            "rate": 0.5,
+            "disputed": 0,
+            "mechanical_answered": 4
+          }
+        },
+        "mechanical_answered": 7,
+        "llm_answered": 15,
+        "disputed": []
+      },
+      "pymupdf4llm": {
+        "scores": {
+          "content": {
+            "n": 11,
+            "matches": 10,
+            "rate": 0.9090909090909091,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 3,
+            "matches": 2,
+            "rate": 0.6666666666666666,
+            "disputed": 0,
+            "mechanical_answered": 3
+          },
+          "provenance": {
+            "n": 8,
+            "matches": 5,
+            "rate": 0.625,
+            "disputed": 1,
+            "mechanical_answered": 2
+          }
+        },
+        "mechanical_answered": 5,
+        "llm_answered": 17,
+        "disputed": [
+          "fc-pm-a"
+        ]
+      }
+    },
+    "lost-in-the-middle": {
+      "mineru": {
+        "scores": {
+          "content": {
+            "n": 12,
+            "matches": 10,
+            "rate": 0.8333333333333334,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 3,
+            "matches": 2,
+            "rate": 0.6666666666666666,
+            "disputed": 0,
+            "mechanical_answered": 2
+          },
+          "provenance": {
+            "n": 6,
+            "matches": 4,
+            "rate": 0.6666666666666666,
+            "disputed": 0,
+            "mechanical_answered": 4
+          }
+        },
+        "mechanical_answered": 6,
+        "llm_answered": 15,
+        "disputed": []
+      },
+      "docling": {
+        "scores": {
+          "content": {
+            "n": 12,
+            "matches": 11,
+            "rate": 0.9166666666666666,
+            "disputed": 1,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 3,
+            "matches": 2,
+            "rate": 0.6666666666666666,
+            "disputed": 0,
+            "mechanical_answered": 3
+          },
+          "provenance": {
+            "n": 6,
+            "matches": 4,
+            "rate": 0.6666666666666666,
+            "disputed": 0,
+            "mechanical_answered": 4
+          }
+        },
+        "mechanical_answered": 7,
+        "llm_answered": 14,
+        "disputed": [
+          "lt-i-c"
+        ]
+      },
+      "marker": {
+        "scores": {
+          "content": {
+            "n": 12,
+            "matches": 11,
+            "rate": 0.9166666666666666,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 3,
+            "matches": 3,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 3
+          },
+          "provenance": {
+            "n": 6,
+            "matches": 4,
+            "rate": 0.6666666666666666,
+            "disputed": 0,
+            "mechanical_answered": 4
+          }
+        },
+        "mechanical_answered": 7,
+        "llm_answered": 14,
+        "disputed": []
+      },
+      "pymupdf4llm": {
+        "scores": {
+          "content": {
+            "n": 12,
+            "matches": 10,
+            "rate": 0.8333333333333334,
+            "disputed": 1,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 3,
+            "matches": 2,
+            "rate": 0.6666666666666666,
+            "disputed": 0,
+            "mechanical_answered": 3
+          },
+          "provenance": {
+            "n": 6,
+            "matches": 2,
+            "rate": 0.3333333333333333,
+            "disputed": 0,
+            "mechanical_answered": 4
+          }
+        },
+        "mechanical_answered": 7,
+        "llm_answered": 14,
+        "disputed": [
+          "lt-c-f"
+        ]
+      }
+    },
+    "nasa-spinoff": {
+      "mineru": {
+        "scores": {
+          "content": {
+            "n": 11,
+            "matches": 11,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 4,
+            "matches": 1,
+            "rate": 0.25,
+            "disputed": 1,
+            "mechanical_answered": 3
+          },
+          "provenance": {
+            "n": 4,
+            "matches": 2,
+            "rate": 0.5,
+            "disputed": 0,
+            "mechanical_answered": 2
+          }
+        },
+        "mechanical_answered": 5,
+        "llm_answered": 14,
+        "disputed": [
+          "nf-bu-f"
+        ]
+      },
+      "docling": {
+        "scores": {
+          "content": {
+            "n": 11,
+            "matches": 11,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 4,
+            "matches": 2,
+            "rate": 0.5,
+            "disputed": 0,
+            "mechanical_answered": 4
+          },
+          "provenance": {
+            "n": 4,
+            "matches": 4,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 4,
+        "llm_answered": 15,
+        "disputed": []
+      },
+      "marker": {
+        "scores": {
+          "content": {
+            "n": 11,
+            "matches": 10,
+            "rate": 0.9090909090909091,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 4,
+            "matches": 4,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 4
+          },
+          "provenance": {
+            "n": 4,
+            "matches": 2,
+            "rate": 0.5,
+            "disputed": 0,
+            "mechanical_answered": 2
+          }
+        },
+        "mechanical_answered": 6,
+        "llm_answered": 13,
+        "disputed": []
+      },
+      "pymupdf4llm": {
+        "scores": {
+          "content": {
+            "n": 11,
+            "matches": 11,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 4,
+            "matches": 4,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 4
+          },
+          "provenance": {
+            "n": 4,
+            "matches": 3,
+            "rate": 0.75,
+            "disputed": 1,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 4,
+        "llm_answered": 15,
+        "disputed": [
+          "nf-pm-a"
+        ]
+      }
+    },
+    "nist-sp-800-63b": {
+      "mineru": {
+        "scores": {
+          "content": {
+            "n": 9,
+            "matches": 9,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 5,
+            "matches": 4,
+            "rate": 0.8,
+            "disputed": 0,
+            "mechanical_answered": 4
+          },
+          "provenance": {
+            "n": 6,
+            "matches": 4,
+            "rate": 0.6666666666666666,
+            "disputed": 0,
+            "mechanical_answered": 4
+          }
+        },
+        "mechanical_answered": 8,
+        "llm_answered": 12,
+        "disputed": []
+      },
+      "docling": {
+        "scores": {
+          "content": {
+            "n": 9,
+            "matches": 9,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 5,
+            "matches": 3,
+            "rate": 0.6,
+            "disputed": 0,
+            "mechanical_answered": 5
+          },
+          "provenance": {
+            "n": 6,
+            "matches": 4,
+            "rate": 0.6666666666666666,
+            "disputed": 0,
+            "mechanical_answered": 4
+          }
+        },
+        "mechanical_answered": 9,
+        "llm_answered": 11,
+        "disputed": []
+      },
+      "marker": {
+        "scores": {
+          "content": {
+            "n": 9,
+            "matches": 9,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 5,
+            "matches": 5,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 5
+          },
+          "provenance": {
+            "n": 6,
+            "matches": 2,
+            "rate": 0.3333333333333333,
+            "disputed": 0,
+            "mechanical_answered": 4
+          }
+        },
+        "mechanical_answered": 9,
+        "llm_answered": 11,
+        "disputed": []
+      },
+      "pymupdf4llm": {
+        "scores": {
+          "content": {
+            "n": 9,
+            "matches": 9,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 5,
+            "matches": 4,
+            "rate": 0.8,
+            "disputed": 0,
+            "mechanical_answered": 5
+          },
+          "provenance": {
+            "n": 6,
+            "matches": 4,
+            "rate": 0.6666666666666666,
+            "disputed": 0,
+            "mechanical_answered": 2
+          }
+        },
+        "mechanical_answered": 7,
+        "llm_answered": 13,
+        "disputed": []
+      }
+    },
+    "scotus-loper-bright": {
+      "mineru": {
+        "scores": {
+          "content": {
+            "n": 12,
+            "matches": 9,
+            "rate": 0.75,
+            "disputed": 2,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 2,
+            "matches": 2,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 2
+          },
+          "provenance": {
+            "n": 6,
+            "matches": 3,
+            "rate": 0.5,
+            "disputed": 1,
+            "mechanical_answered": 4
+          }
+        },
+        "mechanical_answered": 6,
+        "llm_answered": 14,
+        "disputed": [
+          "lb-h-x01",
+          "lb-bu-x01",
+          "lb-cr-a"
+        ]
+      },
+      "docling": {
+        "scores": {
+          "content": {
+            "n": 12,
+            "matches": 10,
+            "rate": 0.8333333333333334,
+            "disputed": 1,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 2,
+            "matches": 1,
+            "rate": 0.5,
+            "disputed": 0,
+            "mechanical_answered": 2
+          },
+          "provenance": {
+            "n": 6,
+            "matches": 5,
+            "rate": 0.8333333333333334,
+            "disputed": 1,
+            "mechanical_answered": 2
+          }
+        },
+        "mechanical_answered": 4,
+        "llm_answered": 16,
+        "disputed": [
+          "lb-i-x01",
+          "lb-pm-a"
+        ]
+      },
+      "marker": {
+        "scores": {
+          "content": {
+            "n": 12,
+            "matches": 10,
+            "rate": 0.8333333333333334,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 2,
+            "matches": 2,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 2
+          },
+          "provenance": {
+            "n": 6,
+            "matches": 5,
+            "rate": 0.8333333333333334,
+            "disputed": 0,
+            "mechanical_answered": 2
+          }
+        },
+        "mechanical_answered": 4,
+        "llm_answered": 16,
+        "disputed": []
+      },
+      "pymupdf4llm": {
+        "scores": {
+          "content": {
+            "n": 12,
+            "matches": 9,
+            "rate": 0.75,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 2,
+            "matches": 1,
+            "rate": 0.5,
+            "disputed": 0,
+            "mechanical_answered": 2
+          },
+          "provenance": {
+            "n": 6,
+            "matches": 6,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 2
+          }
+        },
+        "mechanical_answered": 4,
+        "llm_answered": 16,
+        "disputed": []
+      }
+    },
+    "code-blocks-and-images": {
+      "mineru": {
+        "scores": {
+          "content": {
+            "n": 5,
+            "matches": 5,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 4,
+            "matches": 3,
+            "rate": 0.75,
+            "disputed": 0,
+            "mechanical_answered": 1
+          },
+          "provenance": {
+            "n": 1,
+            "matches": 1,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 1,
+        "llm_answered": 9,
+        "disputed": []
+      },
+      "docling": {
+        "scores": {
+          "content": {
+            "n": 5,
+            "matches": 5,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 4,
+            "matches": 4,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 1
+          },
+          "provenance": {
+            "n": 1,
+            "matches": 1,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 1,
+        "llm_answered": 9,
+        "disputed": []
+      },
+      "marker": {
+        "scores": {
+          "content": {
+            "n": 5,
+            "matches": 5,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 4,
+            "matches": 4,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 1
+          },
+          "provenance": {
+            "n": 1,
+            "matches": 1,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 1,
+        "llm_answered": 9,
+        "disputed": []
+      },
+      "pymupdf4llm": {
+        "scores": {
+          "content": {
+            "n": 5,
+            "matches": 5,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 4,
+            "matches": 3,
+            "rate": 0.75,
+            "disputed": 0,
+            "mechanical_answered": 1
+          },
+          "provenance": {
+            "n": 1,
+            "matches": 1,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 1,
+        "llm_answered": 9,
+        "disputed": []
+      }
+    },
+    "formatted-text-in-context": {
+      "mineru": {
+        "scores": {
+          "content": {
+            "n": 11,
+            "matches": 11,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 9,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 9
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 9,
+        "llm_answered": 11,
+        "disputed": []
+      },
+      "docling": {
+        "scores": {
+          "content": {
+            "n": 11,
+            "matches": 11,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 9,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 9
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 9,
+        "llm_answered": 11,
+        "disputed": []
+      },
+      "marker": {
+        "scores": {
+          "content": {
+            "n": 11,
+            "matches": 11,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 9,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 9
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 9,
+        "llm_answered": 11,
+        "disputed": []
+      },
+      "pymupdf4llm": {
+        "scores": {
+          "content": {
+            "n": 11,
+            "matches": 11,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 9,
+            "matches": 9,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 9
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 9,
+        "llm_answered": 11,
+        "disputed": []
+      }
+    },
+    "mixed-lists": {
+      "mineru": {
+        "scores": {
+          "content": {
+            "n": 6,
+            "matches": 6,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 4,
+            "matches": 2,
+            "rate": 0.5,
+            "disputed": 0,
+            "mechanical_answered": 3
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 3,
+        "llm_answered": 7,
+        "disputed": []
+      },
+      "docling": {
+        "scores": {
+          "content": {
+            "n": 6,
+            "matches": 6,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 4,
+            "matches": 4,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 3
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 3,
+        "llm_answered": 7,
+        "disputed": []
+      },
+      "marker": {
+        "scores": {
+          "content": {
+            "n": 6,
+            "matches": 6,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 4,
+            "matches": 3,
+            "rate": 0.75,
+            "disputed": 0,
+            "mechanical_answered": 3
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 3,
+        "llm_answered": 7,
+        "disputed": []
+      },
+      "pymupdf4llm": {
+        "scores": {
+          "content": {
+            "n": 6,
+            "matches": 6,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 4,
+            "matches": 4,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 3
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 3,
+        "llm_answered": 7,
+        "disputed": []
+      }
+    },
+    "multi-column-reading-order": {
+      "mineru": {
+        "scores": {
+          "content": {
+            "n": 10,
+            "matches": 10,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 0,
+        "llm_answered": 10,
+        "disputed": []
+      },
+      "docling": {
+        "scores": {
+          "content": {
+            "n": 10,
+            "matches": 10,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 0,
+        "llm_answered": 10,
+        "disputed": []
+      },
+      "marker": {
+        "scores": {
+          "content": {
+            "n": 10,
+            "matches": 10,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 0,
+        "llm_answered": 10,
+        "disputed": []
+      },
+      "pymupdf4llm": {
+        "scores": {
+          "content": {
+            "n": 10,
+            "matches": 10,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 0,
+        "llm_answered": 10,
+        "disputed": []
+      }
+    },
+    "nested-headings-deep": {
+      "mineru": {
+        "scores": {
+          "content": {
+            "n": 5,
+            "matches": 5,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 5,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 5
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 5,
+        "llm_answered": 5,
+        "disputed": []
+      },
+      "docling": {
+        "scores": {
+          "content": {
+            "n": 5,
+            "matches": 5,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 5,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 5
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 5,
+        "llm_answered": 5,
+        "disputed": []
+      },
+      "marker": {
+        "scores": {
+          "content": {
+            "n": 5,
+            "matches": 5,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 5,
+            "matches": 5,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 5
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 5,
+        "llm_answered": 5,
+        "disputed": []
+      },
+      "pymupdf4llm": {
+        "scores": {
+          "content": {
+            "n": 5,
+            "matches": 5,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 5,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 5
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 5,
+        "llm_answered": 5,
+        "disputed": []
+      }
+    },
+    "nested-headings-unnumbered": {
+      "mineru": {
+        "scores": {
+          "content": {
+            "n": 5,
+            "matches": 5,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 5,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 5
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 5,
+        "llm_answered": 5,
+        "disputed": []
+      },
+      "docling": {
+        "scores": {
+          "content": {
+            "n": 5,
+            "matches": 5,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 5,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 5
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 5,
+        "llm_answered": 5,
+        "disputed": []
+      },
+      "marker": {
+        "scores": {
+          "content": {
+            "n": 5,
+            "matches": 5,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 5,
+            "matches": 5,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 5
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 5,
+        "llm_answered": 5,
+        "disputed": []
+      },
+      "pymupdf4llm": {
+        "scores": {
+          "content": {
+            "n": 5,
+            "matches": 5,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 5,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 5
+          },
+          "provenance": {
+            "n": 0,
+            "matches": 0,
+            "rate": 0.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 5,
+        "llm_answered": 5,
+        "disputed": []
+      }
+    },
+    "tables-and-captions": {
+      "mineru": {
+        "scores": {
+          "content": {
+            "n": 6,
+            "matches": 6,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 5,
+            "matches": 4,
+            "rate": 0.8,
+            "disputed": 0,
+            "mechanical_answered": 3
+          },
+          "provenance": {
+            "n": 1,
+            "matches": 1,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 3,
+        "llm_answered": 9,
+        "disputed": []
+      },
+      "docling": {
+        "scores": {
+          "content": {
+            "n": 6,
+            "matches": 6,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 5,
+            "matches": 4,
+            "rate": 0.8,
+            "disputed": 0,
+            "mechanical_answered": 3
+          },
+          "provenance": {
+            "n": 1,
+            "matches": 1,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 3,
+        "llm_answered": 9,
+        "disputed": []
+      },
+      "marker": {
+        "scores": {
+          "content": {
+            "n": 6,
+            "matches": 6,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 5,
+            "matches": 4,
+            "rate": 0.8,
+            "disputed": 0,
+            "mechanical_answered": 3
+          },
+          "provenance": {
+            "n": 1,
+            "matches": 1,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 3,
+        "llm_answered": 9,
+        "disputed": []
+      },
+      "pymupdf4llm": {
+        "scores": {
+          "content": {
+            "n": 6,
+            "matches": 6,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          },
+          "readability": {
+            "n": 5,
+            "matches": 5,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 3
+          },
+          "provenance": {
+            "n": 1,
+            "matches": 1,
+            "rate": 1.0,
+            "disputed": 0,
+            "mechanical_answered": 0
+          }
+        },
+        "mechanical_answered": 3,
+        "llm_answered": 9,
+        "disputed": []
+      }
+    }
+  },
+  "aggregate": {
+    "mineru": {
+      "content": {
+        "items_with_class": 12,
+        "n_total": 103,
+        "matches_total": 98,
+        "rate_unweighted_mean": 0.9652777777777778,
+        "rate_weighted": 0.9514563106796117,
+        "mechanical_answered_total": 0,
+        "disputed_total": 2
+      },
+      "readability": {
+        "items_with_class": 11,
+        "n_total": 49,
+        "matches_total": 19,
+        "rate_unweighted_mean": 0.4636363636363636,
+        "rate_weighted": 0.3877551020408163,
+        "mechanical_answered_total": 39,
+        "disputed_total": 2
+      },
+      "provenance": {
+        "items_with_class": 7,
+        "n_total": 32,
+        "matches_total": 19,
+        "rate_unweighted_mean": 0.6904761904761905,
+        "rate_weighted": 0.59375,
+        "mechanical_answered_total": 18,
+        "disputed_total": 1
+      }
+    },
+    "docling": {
+      "content": {
+        "items_with_class": 12,
+        "n_total": 103,
+        "matches_total": 100,
+        "rate_unweighted_mean": 0.9791666666666666,
+        "rate_weighted": 0.970873786407767,
+        "mechanical_answered_total": 0,
+        "disputed_total": 2
+      },
+      "readability": {
+        "items_with_class": 11,
+        "n_total": 49,
+        "matches_total": 21,
+        "rate_unweighted_mean": 0.49090909090909096,
+        "rate_weighted": 0.42857142857142855,
+        "mechanical_answered_total": 43,
+        "disputed_total": 0
+      },
+      "provenance": {
+        "items_with_class": 7,
+        "n_total": 32,
+        "matches_total": 25,
+        "rate_unweighted_mean": 0.8452380952380952,
+        "rate_weighted": 0.78125,
+        "mechanical_answered_total": 14,
+        "disputed_total": 1
+      }
+    },
+    "marker": {
+      "content": {
+        "items_with_class": 12,
+        "n_total": 103,
+        "matches_total": 98,
+        "rate_unweighted_mean": 0.9640151515151515,
+        "rate_weighted": 0.9514563106796117,
+        "mechanical_answered_total": 0,
+        "disputed_total": 0
+      },
+      "readability": {
+        "items_with_class": 11,
+        "n_total": 49,
+        "matches_total": 38,
+        "rate_unweighted_mean": 0.8681818181818183,
+        "rate_weighted": 0.7755102040816326,
+        "mechanical_answered_total": 43,
+        "disputed_total": 0
+      },
+      "provenance": {
+        "items_with_class": 7,
+        "n_total": 32,
+        "matches_total": 19,
+        "rate_unweighted_mean": 0.6904761904761905,
+        "rate_weighted": 0.59375,
+        "mechanical_answered_total": 16,
+        "disputed_total": 0
+      }
+    },
+    "pymupdf4llm": {
+      "content": {
+        "items_with_class": 12,
+        "n_total": 103,
+        "matches_total": 97,
+        "rate_unweighted_mean": 0.9577020202020202,
+        "rate_weighted": 0.941747572815534,
+        "mechanical_answered_total": 0,
+        "disputed_total": 1
+      },
+      "readability": {
+        "items_with_class": 11,
+        "n_total": 49,
+        "matches_total": 34,
+        "rate_unweighted_mean": 0.6712121212121211,
+        "rate_weighted": 0.6938775510204082,
+        "mechanical_answered_total": 43,
+        "disputed_total": 0
+      },
+      "provenance": {
+        "items_with_class": 7,
+        "n_total": 32,
+        "matches_total": 22,
+        "rate_unweighted_mean": 0.7678571428571429,
+        "rate_weighted": 0.6875,
+        "mechanical_answered_total": 10,
+        "disputed_total": 2
+      }
+    }
+  },
+  "items": [
+    "fcc-numbering-order",
+    "lost-in-the-middle",
+    "nasa-spinoff",
+    "nist-sp-800-63b",
+    "scotus-loper-bright",
+    "code-blocks-and-images",
+    "formatted-text-in-context",
+    "mixed-lists",
+    "multi-column-reading-order",
+    "nested-headings-deep",
+    "nested-headings-unnumbered",
+    "tables-and-captions"
+  ],
+  "converters": [
+    "mineru",
+    "docling",
+    "marker",
+    "pymupdf4llm"
+  ]
+}

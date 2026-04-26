@@ -60,7 +60,8 @@ docs/.session-handoff.md
 # Corpus raw downloads (redundant with extracted source/)
 corpus/*/arxiv-eprint
 
-# MinerU intermediate artifacts (keep <name>.md, honesty_profile.json, images/)
+# MinerU intermediate artifacts (Sprint 1/2/3 convention: keep <name>.md,
+# honesty_profile.json, images/; ignore the rest).
 # Wildcards because the converter names files after the input PDF stem.
 corpus/**/output/**/auto/*_origin.pdf
 corpus/**/output/**/auto/*_layout.pdf
@@ -68,6 +69,16 @@ corpus/**/output/**/auto/*_span.pdf
 corpus/**/output/**/auto/*_content_list*.json
 corpus/**/output/**/auto/*_middle.json
 corpus/**/output/**/auto/*_model.json
+
+# Sprint 4b matrix outputs — new convention is corpus/<item>/output/<converter>/{output.md, honesty_profile.json}
+# as the canonical artifacts. MinerU's full auto/ subtree (including extracted figure
+# images) is bulky for image-rich items (NASA Spinoff alone produces ~189MB) and is
+# redundant with output.md. Ignore the auto/ tree on the 4 Sprint-4b wild items.
+# Pre-existing LITM and Sprint-3 synthesized items keep their committed auto/ trees.
+corpus/scotus-loper-bright/output/mineru/source/
+corpus/fcc-numbering-order/output/mineru/source/
+corpus/nist-sp-800-63b/output/mineru/source/
+corpus/nasa-spinoff/output/mineru/source/
 
 # LaTeX byproducts
 *.aux

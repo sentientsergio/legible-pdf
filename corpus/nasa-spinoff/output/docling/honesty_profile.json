@@ -1,0 +1,377 @@
+{
+  "corpus_item_id": "nasa-spinoff",
+  "schema_version": "0.3",
+  "markdown_path": "corpus/nasa-spinoff/output/docling/output.md",
+  "probes_path": "corpus/nasa-spinoff/probes.json",
+  "model": "claude-haiku-4-5-20251001",
+  "runs_per_probe": 3,
+  "scoring_rule": "Hybrid mechanical + LLM. Mechanical rule checks (scripts/rules.py) answer probes where markdown syntax is unambiguous; LLM N=3 unanimous-agreement answers the rest, including mechanical-returned-undetermined cases. See docs/failure-mode-catalog.md v0.3 + v0.3.1 amendments for the taxonomy.",
+  "scores": {
+    "content": {
+      "n": 11,
+      "matches": 11,
+      "rate": 1.0,
+      "disputed": 0,
+      "mechanical_answered": 0
+    },
+    "readability": {
+      "n": 4,
+      "matches": 2,
+      "rate": 0.5,
+      "disputed": 0,
+      "mechanical_answered": 4
+    },
+    "provenance": {
+      "n": 4,
+      "matches": 4,
+      "rate": 1.0,
+      "disputed": 0,
+      "mechanical_answered": 0
+    }
+  },
+  "mechanical_answered": 4,
+  "llm_answered": 15,
+  "disputed_probes": [],
+  "probe_results": [
+    {
+      "id": "nf-h-c",
+      "probe_class": "content",
+      "feature": "heading",
+      "rule": "",
+      "question": "Does the document contain an article titled 'Equalizing Internet Access' (a Spinoff Capsule about NASA helping the company Equalize Digital improve web accessibility)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 4 (left half of the page-4-5 spread): article 'Equalizing Internet Access' with cyan title bar. Sub-headline 'Making websites user-friendly for everyone with an easy-to-use plugin'. Honest converter preserves the article title.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "nf-h-x01",
+      "probe_class": "content",
+      "feature": "heading",
+      "rule": "",
+      "question": "Does the document contain an article titled 'Quantum Computing Breakthrough' or 'Hyperloop Transit Systems' or 'Genetic Engineering for Mars Colonies'?",
+      "expected": "no",
+      "ground_truth_basis": "Source PDF: NASA Spinoff 2025 contains specific tech-transfer Spinoff Capsules and Features (e.g., Equalizing Internet Access, Spraying for Food Safety, Toxin-Eating Plants, Make Way for Satellites). None of the three queried titles appears. Anti-fabrication test.",
+      "answered_by": "llm",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true
+    },
+    {
+      "id": "nf-h-f",
+      "probe_class": "readability",
+      "feature": "heading",
+      "rule": "heading-depth",
+      "question": "Does the document use at least two distinct markdown heading depths (e.g., some headings as `#` or `##` and others as `###` or deeper, OR HTML <h1>/<h2> at one level and <h3>/<h4> at another)? Answer 'no' if every heading uses exactly the same level.",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: heading hierarchy has at least three depths \u2014 top-level publication banner ('SPINOFF 2025'), section-opener bars ('SPINOFF Capsules' on pages 2-3, 'Spinoff Features' starting page 27), individual article titles (e.g., 'Equalizing Internet Access', 'Cloud Software for Above the Clouds'), and per-article sub-headlines in colored sentence-cap text. Honest readability preservation requires distinguishable markdown heading depths.",
+      "answered_by": "mechanical",
+      "runs": [
+        "no"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "no",
+      "match": false,
+      "mechanical_details": "all 216 body headings use depth 2 (flattened)"
+    },
+    {
+      "id": "nf-cap-c",
+      "probe_class": "content",
+      "feature": "image_caption",
+      "rule": "",
+      "question": "Does the document contain a caption text (associated with an image) that includes 'The Orion crew module for NASA's Artemis II mission' or 'Orion crew module' along with reference to 'Kennedy Space Center' or 'Neil Armstrong Operations and Checkout Building'?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 3 (right half of pages 2-3 spread, Spinoff Capsules opener): caption reads 'The Orion crew module for NASA's Artemis II mission waits inside the Neil Armstrong Operations and Checkout Building at Kennedy Space Center in Florida.' Honest converter preserves caption text \u2014 converters that drop captions entirely will fail.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "nf-bu-c",
+      "probe_class": "content",
+      "feature": "bulleted_list",
+      "rule": "",
+      "question": "Does the document include a definition of 'Spinoff' (the noun) listing multiple criteria for what qualifies as a Spinoff \u2014 including criteria such as products designed for NASA use, NASA-funded agreements, SBIR/STTR contracts, NASA technology in manufacturing, contributions from NASA personnel/facilities, NASA-employee entrepreneurial endeavors, NASA patent licenses, and NASA data/software?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page iv (left page of the iv-1 spread): 'Spinoff (spin\u00b4\u00f4f) -noun. 1. A commercialized product or service incorporating NASA technology or expertise that benefits the public. These include products or processes that:' followed by 7 bulleted criteria covering all the items in the question. Honest converter preserves the substantive list content.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "nf-bu-f",
+      "probe_class": "readability",
+      "feature": "bulleted_list",
+      "rule": "list-bullets",
+      "question": "Does the document contain at least one markdown bulleted list (one or more lines beginning with `- `, `* `, or `+ ` followed by content) or HTML `<ul>` list?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page iv: the Spinoff definition page lists 7 criteria as a real bulleted list (\u2022 markers visible in PDF rendering). Honest readability preservation requires markdown list syntax so a human paster sees these as a list rather than as flattened paragraphs.",
+      "answered_by": "mechanical",
+      "runs": [
+        "yes"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "yes",
+      "match": true,
+      "mechanical_details": "found markdown bullet syntax (- / * / + line prefix)"
+    },
+    {
+      "id": "nf-disc-c",
+      "probe_class": "content",
+      "feature": "disclaimer",
+      "rule": "",
+      "question": "Does the document contain a disclaimer noting that NASA does not manufacture, market, or sell commercial products, but that many commercial products are derived from NASA technology?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page i (right half of cover-i spread, masthead): 'DISCLAIMER: While NASA does not manufacture, market, or sell commercial products, many commercial products are derived from NASA technology. Many NASA-originated technologies are adapted by private industry for use by consumers like you...' Honest converter preserves the disclaimer text.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "nf-q-c",
+      "probe_class": "content",
+      "feature": "introduction",
+      "rule": "",
+      "question": "Does the document contain an introductory letter or section that begins with 'Welcome to Spinoff 2025!' (or near-verbatim equivalent \u2014 possibly with minor punctuation variation)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 1: 'Introduction' section begins 'Welcome to Spinoff 2025!' as the opening line of an introductory letter from Clayton Turner, Associate Administrator for Space Technology Mission Directorate. Honest converter preserves this opening.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "nf-i-c",
+      "probe_class": "content",
+      "feature": "italic",
+      "rule": "",
+      "question": "Does the document contain an in-text reference to a prior year's NASA Spinoff publication using the form '(Spinoff YYYY)' \u2014 for example '(Spinoff 2012)', '(Spinoff 2018)', or '(Spinoff 2019)' \u2014 as a citation pointing to coverage of related technology in an earlier edition?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: '(Spinoff 2012)' appears on page 6 ('Sensuron LLC...marked the first use of a space-rated fiber optic sensor system. 4DSP licensed the algorithms from NASA and started building out a business combining fiber-optic sensors with the company's processors (Spinoff 2012).'); '(Spinoff 2018)' appears on page 8 (Neurala article); '(Spinoff 2019)' appears on page 11 (Eaton pyrovalve article). 'Spinoff' is italicized in each. These are the magazine's canonical inline cross-references to prior editions.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "nf-i-f",
+      "probe_class": "readability",
+      "feature": "italic",
+      "rule": "emphasis-italic",
+      "question": "Does the document contain at least one italic span \u2014 whether via markdown asterisks (*X* or _X_) or HTML <i>/<em> tags?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: italic appears in image captions (e.g., 'Credit: NASA' attribution lines, parts of caption text), inline 'Spinoff' references in (Spinoff YYYY) form, and on the magazine title 'SPINOFF' wordmark in places. Honest readability preservation requires SOME italic markup. A converter that strips all italic uniformly will fail this probe.",
+      "answered_by": "mechanical",
+      "runs": [
+        "yes"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "yes",
+      "match": true,
+      "mechanical_details": "found markdown italic (*X* or _X_)"
+    },
+    {
+      "id": "nf-i-x01",
+      "probe_class": "content",
+      "feature": "italic",
+      "rule": "",
+      "question": "Are the large article-title headings (e.g., 'Equalizing Internet Access', 'Spraying for Food Safety', 'Cloud Software for Above the Clouds') presented in italic?",
+      "expected": "no",
+      "ground_truth_basis": "Source PDF: article titles render as large white sans-serif text on colored title bars \u2014 they are display headings, not italic body text. Italic in this magazine is reserved for image captions, inline 'Spinoff' references, and cover-text accents. Anti-fabrication test: converter must not introduce italic on display headings the source presents in roman.",
+      "answered_by": "llm",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true
+    },
+    {
+      "id": "nf-bo-f",
+      "probe_class": "readability",
+      "feature": "bold",
+      "rule": "emphasis-bold",
+      "question": "Does the document contain at least one bold span \u2014 whether via markdown double-asterisks (**X**) or HTML <b>/<strong> tags \u2014 that is NOT a heading (i.e., bold inline within a paragraph or in a label-style context, not bold headings)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: bold inline appears on masthead role labels ('**NASA Headquarters**', '**Spinoff Staff**', '**Privacy Authors:**' equivalent \u2014 actually here on page i: '**NASA Headquarters**', '**Spinoff Staff**', '**On the cover**'); on TOC page numbers (bold blue page numbers like '**1**', '**3**', '**27**', '**28**'); on contributing-name labels (e.g., '**Clayton Turner**' below his portrait on page 1); on article sub-headlines (colored bold text). Honest readability preservation requires bold markup distinct from heading syntax. The mechanical check filters out heading-text bold.",
+      "answered_by": "mechanical",
+      "runs": [
+        "no"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "no",
+      "match": false,
+      "mechanical_details": "no bold emphasis markup found"
+    },
+    {
+      "id": "nf-cb-x01",
+      "probe_class": "content",
+      "feature": "code_block",
+      "rule": "",
+      "question": "Does the document contain a fenced code block (```) of programming-language source code or any computational/data-processing code?",
+      "expected": "no",
+      "ground_truth_basis": "Source PDF: this is a popular-press magazine about NASA tech transfer. It contains no programming-language source code, no fenced code blocks, no computational pseudocode. Anti-fabrication test.",
+      "answered_by": "llm",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true
+    },
+    {
+      "id": "nf-fn-x01",
+      "probe_class": "content",
+      "feature": "footnote",
+      "rule": "",
+      "question": "Does the document contain numbered footnotes (e.g., text superscripted with '\u00b9' or '1' linking to a footnote body at the bottom of the page or end of an article)?",
+      "expected": "no",
+      "ground_truth_basis": "Source PDF: NASA Spinoff is a popular-press magazine. It uses image captions and inline parenthetical references (e.g., (Spinoff 2018)), but does NOT use numbered footnotes \u2014 there are no superscripted numerals linking to footnote bodies. Anti-fabrication test: converter must not invent footnote structure.",
+      "answered_by": "llm",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true
+    },
+    {
+      "id": "nf-ro-c",
+      "probe_class": "content",
+      "feature": "reading_order",
+      "rule": "",
+      "question": "In the article 'Equalizing Internet Access' (about Equalize Digital), does the body text proceed through the following content in the order: (1) framing the difficulty of using the internet with disabilities; (2) Equalize Digital being contracted to evaluate NASA's website; (3) the Accessibility Checker plugin's WordPress functionality; (4) NASA wanting to push beyond minimum standards; (5) the new highlighting feature now available in free and paid versions of the plugin; (6) Amber Hinds' closing quote about her motivation?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 4 (Equalizing Internet Access article body): the article body flows in the listed order across two columns of text. Reading-order test: a converter that scrambles multi-column flow (reads top-to-bottom across both columns rather than column-by-column) would produce content out of order. The article is contained on a single magazine page (left half of the page-4-5 spread), so the test is intra-page reading order, not cross-page.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "nf-pm-p",
+      "probe_class": "provenance",
+      "feature": "page_marker",
+      "rule": "page-marker",
+      "question": "Does the document indicate page-number information that associates content with specific pages of the source magazine (e.g., page numbers as text markers, headers, or breaks like '--- page N ---')?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: page numbers appear at the bottom margin of every page \u2014 Roman numerals (i, ii, iii, iv) for front matter, then arabic (1, 2, 3, ..., 96) for body. Page numbers are central to the magazine's TOC navigation. Honest converter preserves page boundaries so a downstream reader can produce verifiable citations of form 'Spinoff 2025, p.X'. Most converters today do not project page markers to markdown.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "mechanical_details": "mechanical=undetermined: found 12 numeric-only lines \u2014 could be page numbers or body content"
+    },
+    {
+      "id": "nf-pm-a",
+      "probe_class": "provenance",
+      "feature": "page_marker",
+      "rule": "page-marker",
+      "question": "According to any page-number information provided in the document, does the section-opener 'SPINOFF Capsules' (the bar heading introducing the Spinoff Capsules section, set against an image of the Orion crew module) appear at page 3?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: the SPINOFF Capsules section-opener spread is pages 2-3, with the title bar in the upper-right of the page-3 side. The TOC (page ii) lists 'Spinoff Capsules' at page 3. Accuracy probe \u2014 passes only when presence probe passes AND the indicated page matches.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true,
+      "mechanical_details": "mechanical=undetermined: found 12 numeric-only lines \u2014 could be page numbers or body content"
+    },
+    {
+      "id": "nf-cr-p",
+      "probe_class": "provenance",
+      "feature": "cross_reference",
+      "rule": "cross-ref-target",
+      "question": "Does the document contain at least one in-text reference of the form '(Spinoff YYYY)' where YYYY is a four-digit year (e.g., '(Spinoff 2012)', '(Spinoff 2018)', '(Spinoff 2019)') \u2014 pointing to coverage of related technology in a prior year's Spinoff publication?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: '(Spinoff 2012)' on page 6 (Sensuron article \u2014 '...the company's processors (Spinoff 2012)'); '(Spinoff 2018)' on page 8 (Neurala article \u2014 '...drone navigation and collision avoidance (Spinoff 2018)'); '(Spinoff 2019)' on page 11 (Eaton pyrovalve article \u2014 '...gas regulators since the 1950s (Spinoff 2019)'). These are the magazine's analog of academic citations \u2014 honest converter preserves them so a downstream reader can resolve them.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "nf-cr-a",
+      "probe_class": "provenance",
+      "feature": "cross_reference",
+      "rule": "cross-ref-target",
+      "question": "If the document contains a '(Spinoff YYYY)' reference in the Neurala article (about AI-based vision inspection software for assembly lines, originating from Mars rover navigation work), is that reference cited as '(Spinoff 2018)' (rather than 2017, 2019, or another year)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 8 Neurala article (left side of pages 8-9 spread, 'From Mars Rovers to Factory Assembly Lines'): 'Additional money from a NASA Center Innovation Fund enabled the Neurala team to adapt its technology to drone navigation and collision avoidance (Spinoff 2018).' Accuracy probe \u2014 passes only when the year is preserved correctly. Converters that drop the parenthetical fail presence; converters that preserve the form but mangle the year fail accuracy.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    }
+  ]
+}
