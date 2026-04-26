@@ -55,6 +55,7 @@ results/
 
 # Agent infrastructure (per-clone, not project policy)
 CLAUDE.md
+docs/.session-handoff.md
 
 # Corpus raw downloads (redundant with extracted source/)
 corpus/*/arxiv-eprint
