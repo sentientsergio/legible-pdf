@@ -43,10 +43,16 @@ Each item gets `source.pdf` + `README.md` capturing provenance, license, retriev
 | `nist-sp-800-63b` | 20 | 9 | 5 | 6 |
 | `nasa-spinoff` | 19 | 11 | 4 | 4 |
 | `lost-in-the-middle` | 21 | 12 | 3 | 6 |
-| 7 synthesized items | 39 | 33 | 22 | 2 |
-| **total per converter** | **141** | **88** | **49** | **32** |
+| `code-blocks-and-images` (synth) | 10 | 5 | 4 | 1 |
+| `formatted-text-in-context` (synth) | 20 | 11 | 9 | 0 |
+| `mixed-lists` (synth) | 10 | 6 | 4 | 0 |
+| `multi-column-reading-order` (synth) | 10 | 10 | 0 | 0 |
+| `nested-headings-deep` (synth) | 10 | 5 | 5 | 0 |
+| `nested-headings-unnumbered` (synth) | 10 | 5 | 5 | 0 |
+| `tables-and-captions` (synth) | 12 | 6 | 5 | 1 |
+| **total per converter** | **184** | **103** | **49** | **32** |
 
-(Note: the per-converter sum differs from the per-item sums on individual classes because `lost-in-the-middle` and several synthesized items count probes that `scripts/run-eval.py` distributes across class buckets; aggregate counts are taken from each `honesty_profile.json`.)
+Per-item probes.json files sum to 184 across 12 items; aggregate counts in each `honesty_profile.json` match exactly (verified during AT). Sprint-3 carried per-class denominator imbalance into Sprint 4b: 184 probes × 4 converters = 736 cells scored, with the matrix-output table headers accordingly displaying `n=103` for content, `n=49` for readability, `n=32` for provenance per converter.
 
 **Three new converters installed and harnessed** (`6055061`):
 
@@ -118,7 +124,7 @@ The three-track profile is the deliverable shape — reducing it to a single num
 
 **Reading.** Readability is where converter behavior diverges most. Three patterns:
 
-- **Marker preserves heading depth where others flatten.** The synthesized diagnostic pair `nested-headings-deep` and `nested-headings-unnumbered` was authored to expose the v0.3.1 finding that MinerU collapses every body heading to `##`. Marker is the only converter that preserves multi-level heading depth (5/5 on both items). MinerU, docling, and PyMuPDF4LLM all score 0/5. Marker's surya layout model is doing real work here.
+- **Marker preserves heading depth where others flatten.** The synthesized diagnostic pair `nested-headings-deep` and `nested-headings-unnumbered` was authored to expose the v0.3.1 finding that MinerU collapses every body heading to `##`. Marker is the only converter that preserves multi-level heading depth (5/5 on both items). MinerU, docling, and PyMuPDF4LLM all score 0/5. Marker's surya layout model is doing real work here. *Caveat surfaced during AT spot-checks:* marker preserves *multiple* depths but the depth assignment is internally inconsistent within a single document (e.g., `1.1` rendered as `###` while `1.2` in the same doc renders as `##`). The 5/5 score is correct against the `heading-depth` rule, which tests for "more than one distinct depth"; the lead is "preserves multiple depths" rather than "preserves correct depths." A stricter rule would catch the inconsistency.
 - **PyMuPDF4LLM preserves emphasis where others strip.** `formatted-text-in-context` (italic/bold/monospace × 3 positions) inverts the picture: PyMuPDF4LLM scores 9/9, all three model-based converters score 0/9. PyMuPDF4LLM relies on PyMuPDF's font-style detection, which is mechanically reliable; the model-based converters appear to either filter emphasis as noise or fail to project it into markdown. This is a striking inversion — the simplest converter (no models) wins on the inline-emphasis probe.
 - **Marker dominates `nasa-spinoff` readability** (4/4) where MinerU and docling fall (1/4 and 2/4 respectively). Magazine layouts with colored title bars, multi-column flow, and image-caption pairing are exactly the kind of layout-rich content marker's models were trained for.
 
@@ -157,7 +163,7 @@ The three-track profile is the deliverable shape — reducing it to a single num
 
 4. **MinerU (Sprint 3 baseline) re-scores against the larger corpus at 97/46/69.** Compared to its Sprint 3 single-item-aggregate of 97/31/75, content is unchanged, readability is up (the new corpus items have readability probes MinerU passes; the synthesized formatted-text + heading-depth items remain 0/9 and 0/5 as in Sprint 3), and provenance is slightly down (the new wild items expose MinerU's page-marker absence consistently). MinerU does not lead on any axis.
 
-**Genre interactions surface real differences.** Marker's readability advantage holds across 4 of 5 wild items but does *not* extend to formatted-text-in-context (where it scores 0/9 alongside the other model-based converters). PyMuPDF4LLM's text-layer reliability holds for the citation-rich legal genre (SCOTUS provenance 6/6) but breaks down on the magazine layout (NASA Spinoff readability 4/4 — but actually that's perfect; the genre interactions are subtler than a one-line summary captures). The matrix supports per-genre converter selection, not a one-size-fits-all "best converter" verdict.
+**Genre interactions surface real differences.** Marker's readability advantage holds across 4 of 5 wild items but does *not* extend to `formatted-text-in-context` (where it scores 0/9 alongside the other model-based converters) — Surya's layout model captures heading hierarchy but not inline emphasis. PyMuPDF4LLM's text-layer reliability shows in two places where most converters underperform: the citation-rich legal genre (SCOTUS provenance 6/6 — only converter at 100%) and magazine readability (NASA Spinoff 4/4, tied with marker for best). It falls behind on the heading-depth diagnostics (0/5 on both `nested-headings-deep` and `nested-headings-unnumbered`) where the layout signal isn't in the text layer at all. The matrix supports per-genre converter selection, not a one-size-fits-all "best converter" verdict.
 
 **On the corpus-choice bias caveat (catalog v0.3.2 §5).** The aggregate numbers (97/46/69 for MinerU, etc.) are point estimates over this specific 12-item corpus, not statistical estimators of converter field performance. 7 of 12 items are our own synthesis choices, selected to exercise specific catalog cells. Converters strong on our synthesis and weak on patterns we didn't synthesize would outperform their field behavior here. Per-item profiles (the tables above) are the ground truth; the aggregate summarizes this specific set.
 
