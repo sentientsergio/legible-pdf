@@ -1,0 +1,426 @@
+{
+  "corpus_item_id": "fcc-numbering-order",
+  "schema_version": "0.3",
+  "markdown_path": "corpus/fcc-numbering-order/output/marker/output.md",
+  "probes_path": "corpus/fcc-numbering-order/probes.json",
+  "model": "claude-haiku-4-5-20251001",
+  "runs_per_probe": 3,
+  "scoring_rule": "Hybrid mechanical + LLM. Mechanical rule checks (scripts/rules.py) answer probes where markdown syntax is unambiguous; LLM N=3 unanimous-agreement answers the rest, including mechanical-returned-undetermined cases. See docs/failure-mode-catalog.md v0.3 + v0.3.1 amendments for the taxonomy.",
+  "scores": {
+    "content": {
+      "n": 11,
+      "matches": 10,
+      "rate": 0.9090909090909091,
+      "disputed": 0,
+      "mechanical_answered": 0
+    },
+    "readability": {
+      "n": 3,
+      "matches": 3,
+      "rate": 1.0,
+      "disputed": 0,
+      "mechanical_answered": 3
+    },
+    "provenance": {
+      "n": 8,
+      "matches": 4,
+      "rate": 0.5,
+      "disputed": 0,
+      "mechanical_answered": 4
+    }
+  },
+  "mechanical_answered": 7,
+  "llm_answered": 15,
+  "disputed_probes": [],
+  "probe_results": [
+    {
+      "id": "fc-h-c",
+      "probe_class": "content",
+      "feature": "heading",
+      "rule": "",
+      "question": "Does the document contain a section titled 'TABLE OF CONTENTS' (the document's structural map listing major section headings and their paragraph numbers)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 1 contains 'TABLE OF CONTENTS' as a centered heading followed by a structured TOC listing sections I-VI plus appendices A-C with their starting paragraph numbers.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "fc-h-x01",
+      "probe_class": "content",
+      "feature": "heading",
+      "rule": "",
+      "question": "Does the document contain a heading or section labeled 'EXECUTIVE SUMMARY' or 'FINDINGS OF FACT'?",
+      "expected": "no",
+      "ground_truth_basis": "Source PDF: FCC orders do not use 'Executive Summary' or 'Findings of Fact' as section labels. Top-level sections are I. INTRODUCTION, II. BACKGROUND, III. DISCUSSION, IV. FURTHER NOTICE OF PROPOSED RULEMAKING, V. PROCEDURAL MATTERS, VI. ORDERING CLAUSES. Anti-fabrication test.",
+      "answered_by": "llm",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true
+    },
+    {
+      "id": "fc-h-f",
+      "probe_class": "readability",
+      "feature": "heading",
+      "rule": "heading-depth",
+      "question": "Does the document use at least two distinct markdown heading depths (e.g., some headings as `#` or `##` and others as `###` or deeper, OR HTML <h1>/<h2> at one level and <h3>/<h4> at another)? Answer 'no' if every heading uses exactly the same level.",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: section hierarchy has at least three depths \u2014 Roman top level (I. INTRODUCTION, II. BACKGROUND, III. DISCUSSION, IV-VI), lettered subsection (III.A, III.B, III.C), arabic sub-subsection (III.A.1, III.A.2, III.A.3). Honest readability preservation requires distinguishable markdown heading depths so a human paster can reconstruct the regulatory hierarchy without manual re-leveling.",
+      "answered_by": "mechanical",
+      "runs": [
+        "yes"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "yes",
+      "match": true,
+      "mechanical_details": "body headings use 2 distinct depths: [1, 2]"
+    },
+    {
+      "id": "fc-bu-c",
+      "probe_class": "content",
+      "feature": "bulleted_list",
+      "rule": "",
+      "question": "In the document's discussion of certifications for VoIP numbering authorization holders (around paragraph 13), are there three certification requirements: (1) the authorization holder will not use the numbers to knowingly transmit illegal robocalls, (2) the authorization holder has complied with STIR/SHAKEN caller ID authentication requirements, and (3) the authorization holder and key personnel are not under regulatory investigation?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 7-8 paragraph 13 ('Robocall-related certifications') contains three bulleted certifications matching this description. Honest converter preserves the substantive list content.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "fc-bu-f",
+      "probe_class": "readability",
+      "feature": "bulleted_list",
+      "rule": "list-bullets",
+      "question": "Does the document contain at least one markdown bulleted list (one or more lines beginning with `- `, `* `, or `+ ` followed by content) or HTML `<ul>` list?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: paragraphs 13 (page 7-8) and 20 (page 11-12) contain real bulleted lists \u2014 three robocall-related certifications in para 13, three further certifications (911 compliance, Access Stimulation rules, FCC Forms 477/499) in para 20. PDF rendering shows unambiguous bullet markers (\u2022) preceding each list item, set off as a list (not prose). Honest readability preservation requires markdown list syntax so a human paster sees these as a list rather than as flattened paragraphs.",
+      "answered_by": "mechanical",
+      "runs": [
+        "yes"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "yes",
+      "match": true,
+      "mechanical_details": "found markdown bullet syntax (- / * / + line prefix)"
+    },
+    {
+      "id": "fc-fn-c",
+      "probe_class": "content",
+      "feature": "footnote",
+      "rule": "",
+      "question": "Does the document contain a footnote referencing the FCC's 'Covered List' of equipment/services posing national-security risks under Section 2 of the Secure Networks Act of 2019?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 3 footnote 8 begins '47 CFR \u00a7 1.50002; FCC, List of Equipment and Services Covered by Section 2 of the Secure Networks Act, (July 23, 2025)' and discusses the Covered List. Honest converter preserves footnote bodies.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "fc-fn-x01",
+      "probe_class": "content",
+      "feature": "footnote",
+      "rule": "",
+      "question": "Does the document contain a footnote discussing ITU radio regulations, spectrum auctions, or satellite frequency coordination?",
+      "expected": "no",
+      "ground_truth_basis": "Source PDF: this order is about VoIP numbering authorization and robocall mitigation. No footnote discusses radio regulations, spectrum auctions, or satellite frequency. Anti-fabrication test.",
+      "answered_by": "llm",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true
+    },
+    {
+      "id": "fc-cite-c",
+      "probe_class": "content",
+      "feature": "citation",
+      "rule": "",
+      "question": "Does the document reference '47 CFR \u00a7 52.15(g)(3)' (or a recognizable variant like '47 C.F.R. 52.15(g)(3)' / '47 CFR 52.15(g)(3)'), the Code of Federal Regulations section being amended?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: '47 CFR \u00a7 52.15(g)(3)' appears multiple times in the discussion (e.g., page 6 paragraph 10, page 8 paragraph 13, footnote 38). It is the central CFR section being modified by this order.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "fc-cite-x01",
+      "probe_class": "content",
+      "feature": "citation",
+      "rule": "",
+      "question": "Does the document reference '29 U.S.C. \u00a7 1132' or any provision of the Employee Retirement Income Security Act (ERISA)?",
+      "expected": "no",
+      "ground_truth_basis": "Source PDF: this is a communications/telecommunications regulatory order. ERISA (29 U.S.C. \u00a7 1132) is labor/benefits law, irrelevant to FCC jurisdiction. No such citation appears. Anti-fabrication test.",
+      "answered_by": "llm",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true
+    },
+    {
+      "id": "fc-i-c",
+      "probe_class": "content",
+      "feature": "italic",
+      "rule": "",
+      "question": "Does the document refer to a prior FCC document called 'Second Report and Order' (referencing the 2023 order on VoIP numbering authorization)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: 'Second Report and Order' (italicized) appears multiple times across the introduction and background sections (e.g., page 2 paragraph 2, page 5 paragraph 7-8, throughout). It is the predecessor order whose requirements are being extended to existing authorization holders.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "fc-i-f",
+      "probe_class": "readability",
+      "feature": "italic",
+      "rule": "emphasis-italic",
+      "question": "Does the document contain at least one italic span \u2014 whether via markdown asterisks (*X* or _X_) or HTML <i>/<em> tags?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: italic markup is used heavily on document titles (*Second Report and Order*, *Third Report and Order*, *Third Further Notice*, *First VoIP Direct Access Report and Order*, etc.) and Latin terms (*Id.*, *See*, *e.g.*, *supra*, *infra*). Honest readability preservation requires SOME italic markup. A converter that strips all italic uniformly will fail this probe.",
+      "answered_by": "mechanical",
+      "runs": [
+        "yes"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "yes",
+      "match": true,
+      "mechanical_details": "found markdown italic (*X* or _X_)"
+    },
+    {
+      "id": "fc-i-x01",
+      "probe_class": "content",
+      "feature": "italic",
+      "rule": "",
+      "question": "Does the document present statutory section numbers (e.g., '47 CFR \u00a7 52.15(g)(3)' or '47 U.S.C. \u00a7 251(e)(1)') in italic?",
+      "expected": "no",
+      "ground_truth_basis": "Source PDF: statutory citations are presented in regular roman type, not italic. Italic is reserved for document titles, case names, and Latin terms. Anti-fabrication test: converter must not introduce italic on statutory citations the source presents in roman.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": false
+    },
+    {
+      "id": "fc-disp-c",
+      "probe_class": "content",
+      "feature": "disposition",
+      "rule": "",
+      "question": "Does the document identify itself as a 'Third Report and Order and Third Further Notice of Proposed Rulemaking' (or near-verbatim equivalent \u2014 possibly with minor punctuation variation) on its cover/caption?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 1 contains the centered title 'THIRD REPORT AND ORDER AND THIRD FURTHER NOTICE OF PROPOSED RULEMAKING' as the document's formal designation. Honest converter preserves this caption text.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "fc-cb-x01",
+      "probe_class": "content",
+      "feature": "code_block",
+      "rule": "",
+      "question": "Does the document contain a fenced code block (```) of programming-language source code or any computational/data-processing code?",
+      "expected": "no",
+      "ground_truth_basis": "Source PDF: this is a regulatory order. It contains no programming-language source code, no computational code blocks, no algorithmic pseudocode. Anti-fabrication test.",
+      "answered_by": "llm",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true
+    },
+    {
+      "id": "fc-pm-p",
+      "probe_class": "provenance",
+      "feature": "page_marker",
+      "rule": "page-marker",
+      "question": "Does the document indicate page-number information that associates content with specific pages of the source order (e.g., page numbers as text markers, headers, or breaks like '--- page N ---')?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: every page bears a centered page number at the bottom (1, 2, 3, ..., 34). FCC orders are often cited by paragraph number (FCC 25-86 \u00b6 N) but pagination is also a coordinate. Honest converter preserves page boundaries so a downstream reader can produce verifiable citations. Most converters today do not project page markers to markdown.",
+      "answered_by": "mechanical",
+      "runs": [
+        "no"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "no",
+      "match": false,
+      "mechanical_details": "no page-marker pattern of any common form"
+    },
+    {
+      "id": "fc-pm-a",
+      "probe_class": "provenance",
+      "feature": "page_marker",
+      "rule": "page-marker",
+      "question": "According to any page-number information provided in the document, does the section heading 'II. BACKGROUND' begin on page 3?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 3: section II. BACKGROUND begins (paragraph 5 'While achievements in technology...'). Accuracy probe \u2014 passes only when presence probe passes AND the indicated page matches.",
+      "answered_by": "mechanical",
+      "runs": [
+        "no"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "no",
+      "match": false,
+      "mechanical_details": "no page-marker pattern of any common form"
+    },
+    {
+      "id": "fc-sn-p",
+      "probe_class": "provenance",
+      "feature": "section_number",
+      "rule": "section-number",
+      "question": "Does the document preserve at least one Roman-numeral section heading (e.g., a heading whose visible text begins with 'I.', 'II.', 'III.', or similar)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: top-level sections are numbered I. INTRODUCTION, II. BACKGROUND, III. DISCUSSION, IV. FURTHER NOTICE OF PROPOSED RULEMAKING, V. PROCEDURAL MATTERS, VI. ORDERING CLAUSES. The Roman section number is an integral part of each heading. Honest converter preserves section numbers in heading text.",
+      "answered_by": "mechanical",
+      "runs": [
+        "no"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "no",
+      "match": false,
+      "mechanical_details": "no heading carries a numeric prefix"
+    },
+    {
+      "id": "fc-sn-a",
+      "probe_class": "provenance",
+      "feature": "section_number",
+      "rule": "section-number",
+      "question": "If the document preserves Roman-numeral section labels, is section II titled 'BACKGROUND' (and not 'INTRODUCTION', 'DISCUSSION', or another label)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 3: section II is titled 'BACKGROUND'. (Section I is INTRODUCTION; section III is DISCUSSION.) Accuracy probe for section-number provenance.",
+      "answered_by": "mechanical",
+      "runs": [
+        "no"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "no",
+      "match": false,
+      "mechanical_details": "no heading carries a numeric prefix"
+    },
+    {
+      "id": "fc-cr-p",
+      "probe_class": "provenance",
+      "feature": "cross_reference",
+      "rule": "cross-ref-target",
+      "question": "Does the document contain an in-text reference to a footnote by number using 'supra n.N' or 'see supra n.N' or similar form (e.g., 'See supra n.6', 'supra n.42'), pointing to a specific footnote within the same document?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: 'See supra n.6' (or similar) appears on page 7 (footnote 38) and page 11 (footnote 58) referring back to footnote 6, plus 'See supra n.42' on page 11. Honest converter preserves these footnote-anchor references so a downstream reader can resolve cross-references.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "fc-cr-a",
+      "probe_class": "provenance",
+      "feature": "cross_reference",
+      "rule": "cross-ref-target",
+      "question": "If the document contains 'supra n.6' or 'See supra n.6' references, does the document also contain a footnote 6 whose body defines or describes 'existing authorization holders' (interconnected VoIP providers that obtained direct access numbering authorizations prior to August 8, 2024)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 2 footnote 6 begins 'See Second VoIP Direct Access Report and Order and Further Notice, 38 FCC Rcd at 8991-95, paras. 79-92. We use the terminology \"existing authorization holder\" to refer to interconnected VoIP providers that obtained direct access numbering authorizations prior to August 8, 2024...'. The footnote-6 anchor is referenced from the body text on page 1; the footnote body itself appears at the bottom of page 2. Accuracy probe \u2014 passes only when both the supra n.6 reference AND a footnote 6 with this defining content are present.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "fc-pn-p",
+      "probe_class": "provenance",
+      "feature": "paragraph_marker",
+      "rule": "paragraph-marker",
+      "question": "Does the document indicate paragraph-number information that associates content with specific numbered paragraphs (e.g., '13.', '\u00b6 13', 'paragraph 13', or similar form preceding paragraph content)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF: every analytical paragraph in the order carries a sequential paragraph number \u2014 paragraphs are numbered 1, 2, 3, ... up through 45+ (with the body text of each paragraph following its number). Paragraph numbers are the canonical citation coordinate for FCC orders ('FCC 25-86 \u00b6 13' is the conventional cite form for paragraph 13). Honest converter preserves paragraph numbers so a downstream reader can produce verifiable cites. Note: no mechanical check exists for paragraph-marker yet (LLM-only); rule field is set for future mechanical-check addition.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "fc-pn-a",
+      "probe_class": "provenance",
+      "feature": "paragraph_marker",
+      "rule": "paragraph-marker",
+      "question": "According to any paragraph-numbering information provided in the document, does paragraph 13 begin with content discussing 'Robocall-related certifications' (the section requiring authorization holders to certify compliance with rules against illegal robocalls, STIR/SHAKEN authentication, and absence of regulatory investigation)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source PDF page 7 paragraph 13: '13. Robocall-related certifications. We revise section 52.15(g)(3) of the Commission's rules to require existing VoIP numbering authorization holders to certify that:' followed by the three-bullet certification list. Accuracy probe \u2014 passes only when presence probe passes AND the indicated paragraph content matches.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    }
+  ]
+}

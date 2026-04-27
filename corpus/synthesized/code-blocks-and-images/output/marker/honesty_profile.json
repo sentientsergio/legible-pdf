@@ -1,0 +1,216 @@
+{
+  "corpus_item_id": "code-blocks-and-images",
+  "schema_version": "0.3",
+  "markdown_path": "corpus/synthesized/code-blocks-and-images/output/marker/output.md",
+  "probes_path": "corpus/synthesized/code-blocks-and-images/probes.json",
+  "model": "claude-haiku-4-5-20251001",
+  "runs_per_probe": 3,
+  "scoring_rule": "Hybrid mechanical + LLM. Mechanical rule checks (scripts/rules.py) answer probes where markdown syntax is unambiguous; LLM N=3 unanimous-agreement answers the rest, including mechanical-returned-undetermined cases. See docs/failure-mode-catalog.md v0.3 + v0.3.1 amendments for the taxonomy.",
+  "scores": {
+    "content": {
+      "n": 5,
+      "matches": 5,
+      "rate": 1.0,
+      "disputed": 0,
+      "mechanical_answered": 0
+    },
+    "readability": {
+      "n": 4,
+      "matches": 4,
+      "rate": 1.0,
+      "disputed": 0,
+      "mechanical_answered": 1
+    },
+    "provenance": {
+      "n": 1,
+      "matches": 1,
+      "rate": 1.0,
+      "disputed": 0,
+      "mechanical_answered": 0
+    }
+  },
+  "mechanical_answered": 1,
+  "llm_answered": 9,
+  "disputed_probes": [],
+  "probe_results": [
+    {
+      "id": "cb-code-c",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "rule": "",
+      "question": "Does the document mention a function named 'binary_search' (or 'binary search'), and does it contain the Python keyword 'def' or 'return' in proximity to that name?",
+      "expected": "yes",
+      "ground_truth_basis": "Source Section 1 verbatim block defines `def binary_search(arr, target)` with multiple `return` statements. Section 4 Glossary names the function.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "cb-code-f",
+      "probe_class": "readability",
+      "feature": "code_block",
+      "rule": "code-fence",
+      "question": "In the document, is the binary_search function presented as a code block \u2014 whether via fenced markdown (```), indented four-space markdown code, monospace/preformatted markup, distinct visual separation from the surrounding prose, or any other clear signal that this is source code rather than narrative text?",
+      "expected": "yes",
+      "ground_truth_basis": "Source Section 1 uses \\begin{verbatim}...\\end{verbatim}. Rendered PDF shows monospaced text in a distinct block. Probe accepts any clear code-block encoding.",
+      "answered_by": "mechanical",
+      "runs": [
+        "yes"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "yes",
+      "match": true,
+      "mechanical_details": "found fenced code block (```)"
+    },
+    {
+      "id": "cb-quote-c",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "rule": "",
+      "question": "Does the document contain the phrase 'Premature optimization is the root of all evil' (or a near-verbatim wording) attributed to Donald Knuth?",
+      "expected": "yes",
+      "ground_truth_basis": "Source Section 2 quote block. Section 4 Glossary mentions Knuth and 'premature optimization'.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "cb-quote-f",
+      "probe_class": "readability",
+      "feature": "blockquote",
+      "rule": "blockquote",
+      "question": "In the document, is the Knuth quotation presented as a quotation \u2014 whether via markdown blockquote syntax (>), indentation, italics, surrounding quotation marks, attribution adjacency (e.g., 'comes from Knuth' immediately before the quote), or any other clear signal that the text is a quotation rather than the author's own prose?",
+      "expected": "yes",
+      "ground_truth_basis": "Source Section 2 uses \\begin{quote}...\\end{quote}. Rendered PDF shows the passage indented from the surrounding paragraphs. Probe accepts any clear quotation signal.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "cb-img-p",
+      "probe_class": "readability",
+      "feature": "image",
+      "rule": "image-reference",
+      "question": "Does the document contain at least one image \u2014 whether via markdown image syntax (![alt](path)), HTML <img> tag, embedded image reference with a path, or any other clear image-embedding signal?",
+      "expected": "yes",
+      "ground_truth_basis": "Source Section 3 uses \\includegraphics{chart.png}. Rendered PDF shows the bar-chart PNG. Probe accepts any clear image-embedding encoding.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "cb-img-cap",
+      "probe_class": "readability",
+      "feature": "caption",
+      "rule": "caption-adjacency",
+      "question": "In the document, is there a caption associated with the figure that contains the phrase 'bar chart' or 'five vertical bars' (or equivalent wording about the chart)?",
+      "expected": "yes",
+      "ground_truth_basis": "Source Section 3: \\caption{A sample bar chart with five vertical bars.}. Rendered PDF shows 'Figure 1: A sample bar chart with five vertical bars.' below the image.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "cb-img-ref",
+      "probe_class": "provenance",
+      "feature": "cross_reference",
+      "rule": "cross-ref-target",
+      "question": "In the document, does the body text contain at least one explicit reference to a numbered figure (e.g., 'Figure 1', 'Fig. 1', or equivalent), as opposed to only describing the figure without a label?",
+      "expected": "yes",
+      "ground_truth_basis": "Source uses Figure~\\ref{fig:chart} twice in body text. Rendered PDF shows 'Figure 1' references resolved. Probe checks whether the figure label survives in the converted body.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "cb-py-num",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "rule": "",
+      "question": "Does the document mention that binary_search returns -1 (negative one) when no match is found?",
+      "expected": "yes",
+      "ground_truth_basis": "Source Section 1 body text says 'or $-1$ when no match is found' and the verbatim block ends with 'return -1'. Section 4 Glossary repeats the -1 return value.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "cb-x01",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "rule": "",
+      "question": "Does the document mention Bjarne Stroustrup or any other programmer's name besides Donald Knuth?",
+      "expected": "no",
+      "ground_truth_basis": "Source mentions only Donald Knuth by name. Stroustrup is a thematic distractor (also a famous programming author). No other programmer names appear.",
+      "answered_by": "llm",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true
+    },
+    {
+      "id": "cb-x02",
+      "probe_class": "content",
+      "feature": "code_block",
+      "rule": "",
+      "question": "In the document, does the Quotation section (about Donald Knuth) contain a code block with executable source code?",
+      "expected": "no",
+      "ground_truth_basis": "Source has code only in Section 1 (Source Code). Section 2 (Quotation) contains only prose and the Knuth quote \u2014 no code. Tests whether the converter or judge invents a code block in the wrong section.",
+      "answered_by": "llm",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true
+    }
+  ]
+}
