@@ -79,6 +79,10 @@ corpus/scotus-loper-bright/output/mineru/source/
 corpus/fcc-numbering-order/output/mineru/source/
 corpus/nist-sp-800-63b/output/mineru/source/
 corpus/nasa-spinoff/output/mineru/source/
+# Synthesized items whose auto/ trees were never tracked in Sprint 3 stay untracked.
+corpus/synthesized/code-blocks-and-images/output/mineru/source/
+corpus/synthesized/mixed-lists/output/mineru/source/
+corpus/synthesized/tables-and-captions/output/mineru/source/
 
 # LaTeX byproducts
 *.aux
