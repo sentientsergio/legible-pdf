@@ -1,0 +1,214 @@
+{
+  "corpus_item_id": "mixed-lists",
+  "schema_version": "0.3",
+  "markdown_path": "corpus/synthesized/mixed-lists/output/pymupdf4llm/output.md",
+  "probes_path": "corpus/synthesized/mixed-lists/probes.json",
+  "model": "claude-haiku-4-5-20251001",
+  "runs_per_probe": 3,
+  "scoring_rule": "Hybrid mechanical + LLM. Mechanical rule checks (scripts/rules.py) answer probes where markdown syntax is unambiguous; LLM N=3 unanimous-agreement answers the rest, including mechanical-returned-undetermined cases. See docs/failure-mode-catalog.md v0.3 + v0.3.1 amendments for the taxonomy.",
+  "scores": {
+    "content": {
+      "n": 6,
+      "matches": 6,
+      "rate": 1.0,
+      "disputed": 0,
+      "mechanical_answered": 0
+    },
+    "readability": {
+      "n": 4,
+      "matches": 4,
+      "rate": 1.0,
+      "disputed": 0,
+      "mechanical_answered": 3
+    },
+    "provenance": {
+      "n": 0,
+      "matches": 0,
+      "rate": 0.0,
+      "disputed": 0,
+      "mechanical_answered": 0
+    }
+  },
+  "mechanical_answered": 3,
+  "llm_answered": 7,
+  "disputed_probes": [],
+  "probe_results": [
+    {
+      "id": "ml-bu-c",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "rule": "",
+      "question": "Does the document mention all three of: Mercury, Venus, and Earth?",
+      "expected": "yes",
+      "ground_truth_basis": "Source Section 1 contains a bulleted list of these three planets, and Section 5 Glossary lists them. Verified visually.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "ml-bu-f",
+      "probe_class": "readability",
+      "feature": "bulleted_list",
+      "rule": "list-bullets",
+      "question": "In the document, are 'Mercury', 'Venus', and 'Earth' presented together as items in a bulleted (unordered) list, whether via markdown bullet syntax (- or *), bullet-character prefixes (\u2022), nested indentation, or any other clear list-presentation signal?",
+      "expected": "yes",
+      "ground_truth_basis": "Source: Section 1 \\begin{itemize} with three \\item entries. Rendered PDF shows three bullet-prefixed indented items. Probe accepts any clear list encoding.",
+      "answered_by": "mechanical",
+      "runs": [
+        "yes"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "yes",
+      "match": true,
+      "mechanical_details": "found markdown bullet syntax (- / * / + line prefix)"
+    },
+    {
+      "id": "ml-nu-c",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "rule": "",
+      "question": "Does the document mention all three of: Red, Green, and Blue?",
+      "expected": "yes",
+      "ground_truth_basis": "Source Section 2 numbered list and Section 5 Glossary.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "ml-nu-f",
+      "probe_class": "readability",
+      "feature": "numbered_list",
+      "rule": "list-numbers",
+      "question": "In the document, are 'Red', 'Green', and 'Blue' presented together as items in a numbered (ordered) list, whether via markdown ordered-list syntax (1. 2. 3.), explicit numerical prefixes, or any other clear ordered-list-presentation signal?",
+      "expected": "yes",
+      "ground_truth_basis": "Source: Section 2 \\begin{enumerate} with three \\item entries. Rendered PDF shows '1. Red', '2. Green', '3. Blue' as indented numbered items.",
+      "answered_by": "mechanical",
+      "runs": [
+        "yes"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "yes",
+      "match": true,
+      "mechanical_details": "found markdown numbered syntax (1. / 1) line prefix)"
+    },
+    {
+      "id": "ml-ne-c",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "rule": "",
+      "question": "Does the document mention all of: Fruits, Apple, Banana, Vegetables, Carrot, and Daikon?",
+      "expected": "yes",
+      "ground_truth_basis": "Source Section 3 nested list and Section 5 Glossary.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "ml-ne-f",
+      "probe_class": "readability",
+      "feature": "nested_list",
+      "rule": "list-bullets",
+      "question": "In the document, are 'Apple' and 'Banana' presented as nested sub-items under the parent item 'Fruits', whether via markdown nested-list syntax (indented bullets), nested HTML lists, hierarchical indentation, or any other clear signal of nesting under a parent list item?",
+      "expected": "yes",
+      "ground_truth_basis": "Source Section 3 has Fruits with a nested itemize containing Apple and Banana, and Vegetables with a nested itemize containing Carrot and Daikon. Rendered PDF shows two-level indentation with Apple/Banana sub-items below Fruits, and Carrot/Daikon sub-items below Vegetables.",
+      "answered_by": "mechanical",
+      "runs": [
+        "yes"
+      ],
+      "agreement": "mechanical",
+      "agreed_answer": "yes",
+      "match": true,
+      "mechanical_details": "found markdown bullet syntax (- / * / + line prefix)"
+    },
+    {
+      "id": "ml-de-c",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "rule": "",
+      "question": "Does the document mention all three of: Compiler, Interpreter, and Linker?",
+      "expected": "yes",
+      "ground_truth_basis": "Source Section 4 definition list and Section 5 Glossary.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "ml-de-f",
+      "probe_class": "readability",
+      "feature": "definition_list",
+      "rule": "list-definition",
+      "question": "In the document, are 'Compiler', 'Interpreter', and 'Linker' each paired with a description (definition), whether via markdown definition-list syntax, run-in bold-term-followed-by-definition formatting, HTML dl tags, or any other clear signal that pairs each term with its description?",
+      "expected": "yes",
+      "ground_truth_basis": "Source Section 4 \\begin{description} with three \\item[term] description entries. Rendered PDF shows each term in bold immediately followed by its definition on the same line.",
+      "answered_by": "llm",
+      "runs": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "yes",
+      "match": true
+    },
+    {
+      "id": "ml-x01",
+      "probe_class": "content",
+      "feature": "content_presence",
+      "rule": "",
+      "question": "Does the document mention 'Saturn'?",
+      "expected": "no",
+      "ground_truth_basis": "Source contains Mercury, Venus, Earth as the only planets mentioned. Saturn is a thematic distractor not present in the source.",
+      "answered_by": "llm",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true
+    },
+    {
+      "id": "ml-x02",
+      "probe_class": "content",
+      "feature": "numbered_list",
+      "rule": "",
+      "question": "In the document, is 'Apple' presented as a numerically ordered list item (e.g., '1. Apple') with explicit positional numbering?",
+      "expected": "no",
+      "ground_truth_basis": "Source: Apple appears as a sub-bullet under Fruits in the nested itemize (Section 3). It is not in any enumerate/numbered list. Tests whether the converter or judge falsely infers numbering where none exists.",
+      "answered_by": "llm",
+      "runs": [
+        "no",
+        "no",
+        "no"
+      ],
+      "agreement": "unanimous",
+      "agreed_answer": "no",
+      "match": true
+    }
+  ]
+}
