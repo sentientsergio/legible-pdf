@@ -1,6 +1,6 @@
 # Probe-authoring discipline (v0.3.x)
 
-Working notes on the disciplines that produce a probe set worth scoring against. Surfaced during Sprint 4b's authoring of 81 probes across 4 wild corpus items, refined under Claire's AT red-team. Companion to `docs/failure-mode-catalog.md` (which catalogs *what* to probe) and `corpus/lost-in-the-middle/probes.json` (which is the reference exemplar of probe shape).
+Working notes on the disciplines that produce a probe set worth scoring against. Surfaced during Sprint 4b's authoring of 81 probes across 4 wild corpus items, refined under an independent AT red-team. Companion to `docs/failure-mode-catalog.md` (which catalogs *what* to probe) and `corpus/lost-in-the-middle/probes.json` (which is the reference exemplar of probe shape).
 
 This file is for the *how*: practices and checks that make probe authoring more reliable.
 
@@ -109,6 +109,6 @@ A probe set that follows the disciplines in this file is *more likely* to produc
 
 ## Origin
 
-Drafted Sprint 4b 2026-04-27 after Claire's AT red-team surfaced the falsification-scan and anchor-vs-body precision patterns as worth promoting beyond mesh-message ephemera. Documenting them here so the next probe author benefits from the lessons without re-deriving them.
+Drafted Sprint 4b 2026-04-27 after the AT red-team surfaced the falsification-scan and anchor-vs-body precision patterns as worth promoting beyond mesh-message ephemera. Documenting them here so the next probe author benefits from the lessons without re-deriving them.
 
 Discipline 5 (mechanical-rule scope of competence) is preserved here from `feedback_deterministic_knows_its_limits` — it predates Sprint 4b but applies directly to probe-authoring decisions about whether to add or defer mechanical rules during sprint work.

@@ -2,6 +2,16 @@
 
 **The legible converter is the honest converter.**
 
+> **Correction (September 2026).** The Sprint 4 results called marker the clear readability winner,
+> +38 percentage points over the next-best converter. That claim is withdrawn. It came from two flaws
+> in my own scoring: the heading-depth rule rewarded *inconsistent* heading levels instead of checking
+> them against the source's real nesting, and six mechanical rules silently failed converters on
+> cases they couldn't score instead of sending those cases to review. With both fixed, marker's lead
+> disappears, and in every corrected run so far the simplest, model-free converter (PyMuPDF4LLM)
+> scores highest on readability. The corrected re-score is going through independent verification and
+> will be published when it's certified. Until then, treat the Sprint 4 readability numbers as
+> superseded. Content scores were essentially unaffected.
+
 `legible-pdf` is a measurement framework for asking, of any tool that turns a PDF into something readable (markdown, HTML, JSON, structured intermediate, anything): *how honestly does this preserve what a careful reader sees?* The answer comes back as three concrete scores across three rule-based dimensions — **content** (did the information survive?), **readability** (do the formatting signals a human needs survive?), **provenance** (do the positional coordinates a citation needs survive?) — with no judgement-laden questions and no probability hedging. Point it at any tool ([MinerU](https://github.com/opendatalab/MinerU), [docling](https://github.com/docling-project/docling), [marker](https://github.com/datalab-to/marker), your own), get a structured honesty profile back across whichever output forms the tool produces.
 
 This is not a converter. It is the measurement that determines which converters — and which output forms — preserve the PDF viewing experience legibly.

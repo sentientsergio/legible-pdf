@@ -1,11 +1,15 @@
 # Sprint 4 Results: Multi-Converter Comparison
 
+> **Superseded in part (September 2026).** The readability ranking below, including "marker is the clear
+> readability winner, +38 pp", was an artifact of two scoring flaws and is withdrawn. See the Correction
+> at the top of the README. This document is kept as the historical Sprint 4 record.
+
 **Run dates:** 2026-04-26 → 2026-04-27 (Sprint 4b — corpus expansion + 4-converter matrix)
 **Corpus:** 12 items — 5 wild + 7 synthesized (`corpus/`)
 **Converters:** MinerU (pipeline backend), docling, marker, PyMuPDF4LLM
 **Judge model:** `claude-haiku-4-5-20251001` (LLM-judged path); `scripts/rules.py` (mechanical path)
-**Probe set:** 141 probes total (81 new wild-item probes from Sprint 4b authoring + 60 existing across LITM and 7 synthesized items)
-**Matrix:** 4 converters × 12 items × ~141 probes ≈ 1,500+ scored cells, with mechanical-first dispatch + N=3 unanimous LLM fallback
+**Probe set:** 184 probes total (81 new wild-item probes from Sprint 4b authoring + 103 existing across LITM and 7 synthesized items)
+**Matrix:** 184 probes across 12 items × 4 converters = 736 scored cells, with mechanical-first dispatch + N=3 unanimous LLM fallback
 
 ---
 
@@ -34,7 +38,7 @@ The sprint shipped under "integrity of effort, not effort itself" discipline (`f
 
 Each item gets `source.pdf` + `README.md` capturing provenance, license, retrieval URL+date, and probe-authoring guidance for the genre. The originally-planned OpenStax CC-BY textbook was substituted with NIST SP 800-63B (OpenStax CDN serves 403 to direct fetches; reproducible retrieval was awkward). NIST is structurally equivalent for the failure-mode lens.
 
-**Eighty-one probes** authored for the 4 wild items + AT-pass amendments (`e52c1a2` → `0bf7ee3`). Combined with existing 60 probes, the matrix scores against **141 total probes** per converter:
+**Eighty-one probes** authored for the 4 wild items + AT-pass amendments (`e52c1a2` → `87ebfe4`). Combined with the existing 103 probes, the matrix scores against **184 total probes** per converter:
 
 | Item | Total | Content | Readability | Provenance |
 |------|-------|---------|-------------|------------|
@@ -79,7 +83,7 @@ Per-converter aggregate rates, computed as **unweighted mean of per-item rates p
 
 Counts in parentheses are total matches across all per-item probes (weighted denominator). Percentages are unweighted means. Per Sprint 3 aggregation discipline, per-item profiles are ground truth; aggregates summarize this specific 12-item corpus.
 
-**No converter dominates all three tracks.** Marker is a clear readability winner (+38 pp over the next-best), docling leads provenance (+8 pp over second place), and content is essentially tied across all four (96-98% — within a couple of probes per converter on the same N).
+**No converter dominates all three tracks.** Marker is a clear readability winner (+38 pp over the next-best) *[withdrawn — see README Correction]*, docling leads provenance (+8 pp over second place), and content is essentially tied across all four (96-98% — within a couple of probes per converter on the same N).
 
 The three-track profile is the deliverable shape — reducing it to a single number destroys the finding (per Sprint 3 methodology, `feedback_audience_needs_lens`, v0.3.2 §2 framework taste).
 
@@ -155,7 +159,7 @@ The three-track profile is the deliverable shape — reducing it to a single num
 
 **Findings against the three-audience framing** (content for LLM-readers; readability for human-pasters; provenance for LLM-analysts producing verifiable citations):
 
-1. **Marker is the clear readability winner** for users who paste markdown into Word/Pages and need format preservation. +38 pp over the next-best converter on readability is the single largest gap in the matrix. The trade-off: marker is also the slowest converter (avg ~2-5min per wild item; NASA Spinoff alone took 11 min).
+1. *[Withdrawn — see README Correction.]* **Marker is the clear readability winner** for users who paste markdown into Word/Pages and need format preservation. +38 pp over the next-best converter on readability is the single largest gap in the matrix. The trade-off: marker is also the slowest converter (avg ~2-5min per wild item; NASA Spinoff alone took 11 min).
 
 2. **Docling is the clear provenance winner** for LLM-analyst use cases (legal/regulatory citations, scientific cross-references). +8 pp over second place, with strongest performance on the citation-rich genres (FCC, NASA Spinoff). Docling is also fast (5-30s per item).
 
@@ -171,7 +175,7 @@ The three-track profile is the deliverable shape — reducing it to a single num
 
 ## Methodology discoveries
 
-Two probe-authoring disciplines surfaced during Sprint 4b's AT loop with Claire and the fixes I made in response. Promoted to first-class methodology in `docs/probe-authoring-discipline.md`:
+Two probe-authoring disciplines surfaced during Sprint 4b's red-team review and the fixes I made in response. Promoted to first-class methodology in `docs/probe-authoring-discipline.md`:
 
 1. **Falsify before commit** — for any anti-fabrication probe (`expected_answer: "no"`), run a deterministic `pdftotext + grep` scan for indicators of the feature *before* committing the probe. Caught a stale README guidance line during the AT pass for NIST. Generalizes: anti-fab probes carry the strongest authoring risk because a missed instance silently flips the verdict on every converter.
 
@@ -185,7 +189,7 @@ The `docs/probe-authoring-discipline.md` file consolidates these with three pre-
 
 These are findings the matrix raised that are worth flagging for the next sprint:
 
-1. **Italic-readability low-bar formulation** (carried over from AT pass — Claire flagged, deferred to v0.3.3). The current `lb-i-f` / `fc-i-f` / `ns-i-f` / `nf-i-f` ask "any italic span?" — caught only catastrophic stripping. Result: all four converters trivially pass on the wild items, but `formatted-text-in-context` (which has stricter per-position probes) showed PyMuPDF4LLM as 9/9 and the rest as 0/9. The wild-item readability scores would be more discriminating with LITM-shaped specific-phrase italic probes.
+1. **Italic-readability low-bar formulation** (carried over from AT pass — flagged in red-team review, deferred to v0.3.3). The current `lb-i-f` / `fc-i-f` / `ns-i-f` / `nf-i-f` ask "any italic span?" — caught only catastrophic stripping. Result: all four converters trivially pass on the wild items, but `formatted-text-in-context` (which has stricter per-position probes) showed PyMuPDF4LLM as 9/9 and the rest as 0/9. The wild-item readability scores would be more discriminating with LITM-shaped specific-phrase italic probes.
 
 2. **Mechanical paragraph-marker rule deferred** (Sprint 4b authoring decision). FCC's `fc-pn-p` / `fc-pn-a` are LLM-judged for now. The mechanical rule needs careful scope-of-competence design to avoid `^\d+\.\s` collision with markdown numbered-list syntax. v0.3.3 hardening branch is the right home.
 
@@ -203,7 +207,7 @@ These are findings the matrix raised that are worth flagging for the next sprint
 
 - ✅ Transmigration plumbing — auto-memory entries, `docs/.session-handoff.md`, CLAUDE.md session-continuity section.
 - ✅ 4 wild corpus items with per-item README + source PDF.
-- ✅ 81 probes across the 4 wild items, AT-passed under Claire's red-team review.
+- ✅ 81 probes across the 4 wild items, AT-passed under independent red-team review.
 - ✅ 3 new converters installed + smoke-tested + harnessed.
 - ✅ Matrix orchestrator (`scripts/run_converter.py`, `scripts/run_matrix.py`, `scripts/aggregate_matrix.py`).
 - ✅ Full 4 × 12 matrix run completed (48 cells, 0 failures).
@@ -228,16 +232,16 @@ These are findings the matrix raised that are worth flagging for the next sprint
 ## Sprint 4 status
 
 - [x] Probe authoring for 4 wild items under v0.3.1 class discipline (81 probes)
-- [x] AT pass on probe authoring (Claire red-team, fixes-back, sign-off)
+- [x] AT pass on probe authoring (independent red-team, fixes-back, sign-off)
 - [x] 3 new converters installed and harnessed
 - [x] Matrix orchestrator scripts (single-command full run, resumable)
 - [x] Full 4 × 12 matrix run completed (48 cells, 0 failures)
 - [x] Per-converter three-track profiles + cross-converter comparison
 - [x] Methodology discoveries promoted to `docs/probe-authoring-discipline.md`
 - [x] Sprint results doc finalized (this file)
-- [ ] AT pass on results — pending Claire red-team
+- [ ] AT pass on results — pending red-team review
 
-Sprint 4b closes when Claire's AT pass on results signs off. Substack-feed summary work, if Sergio judges it due, happens in the between-sprint pause after sprint close — not as a forced gate (`feedback_sprint_cadence`).
+Sprint 4b closes when the red-team AT pass on results signs off. Substack-feed summary work, if Sergio judges it due, happens in the between-sprint pause after sprint close — not as a forced gate (`feedback_sprint_cadence`).
 
 ---
 
