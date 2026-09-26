@@ -27,7 +27,7 @@ The sprint shipped under "integrity of effort, not effort itself" discipline (`f
 
 ## What was built
 
-**Four wild corpus items** (`66bb939`):
+**Four wild corpus items** (`a15844e`):
 
 | Slot | Document | Pages | License |
 |------|----------|-------|---------|
@@ -38,7 +38,7 @@ The sprint shipped under "integrity of effort, not effort itself" discipline (`f
 
 Each item gets `source.pdf` + `README.md` capturing provenance, license, retrieval URL+date, and probe-authoring guidance for the genre. The originally-planned OpenStax CC-BY textbook was substituted with NIST SP 800-63B (OpenStax CDN serves 403 to direct fetches; reproducible retrieval was awkward). NIST is structurally equivalent for the failure-mode lens.
 
-**Eighty-one probes** authored for the 4 wild items + AT-pass amendments (`e52c1a2` → `87ebfe4`). Combined with the existing 103 probes, the matrix scores against **184 total probes** per converter:
+**Eighty-one probes** authored for the 4 wild items + AT-pass amendments (`d6159fa` → `bf15edc`). Combined with the existing 103 probes, the matrix scores against **184 total probes** per converter:
 
 | Item | Total | Content | Readability | Provenance |
 |------|-------|---------|-------------|------------|
@@ -58,7 +58,7 @@ Each item gets `source.pdf` + `README.md` capturing provenance, license, retriev
 
 Per-item probes.json files sum to 184 across 12 items; aggregate counts in each `honesty_profile.json` match exactly (verified during AT). Sprint-3 carried per-class denominator imbalance into Sprint 4b: 184 probes × 4 converters = 736 cells scored, with the matrix-output table headers accordingly displaying `n=103` for content, `n=49` for readability, `n=32` for provenance per converter.
 
-**Three new converters installed and harnessed** (`6055061`):
+**Three new converters installed and harnessed** (`8524934`):
 
 - **docling** — IBM's PDF-to-markdown converter with layout analysis
 - **marker** — Vik Paruchuri's marker-pdf with surya OCR + table recognition
@@ -203,7 +203,7 @@ These are findings the matrix raised that are worth flagging for the next sprint
 
 ## What landed vs what's left
 
-**Landed on `feature/sprint-4b-multi-converter`** (commits `1c9d365` through `63c8fa0` plus matrix-output commits):
+**Landed on `feature/sprint-4b-multi-converter`** (commits `1562156` through `f1c9a36` plus matrix-output commits):
 
 - ✅ Transmigration plumbing — auto-memory entries, `docs/.session-handoff.md`, CLAUDE.md session-continuity section.
 - ✅ 4 wild corpus items with per-item README + source PDF.
